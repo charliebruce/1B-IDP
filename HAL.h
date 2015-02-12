@@ -4,6 +4,8 @@
  *  Created on: 12 Feb 2015
  *      Author: Charlie
  *
+ *	Hardware Abstraction Layer for 1B IDP robot.
+ *
  *	This code is responsible for interfacing with the hardware.
  */
 
@@ -22,6 +24,15 @@ enum LED {
 	LED_BLUE,
 };
 
+enum SENSOR {
+	SENSOR_0 = 0,
+};
+
+struct SENSOR_DATA {
+	int r;
+	int g;
+	int b;
+};
 
 class HAL {
 
@@ -44,6 +55,9 @@ public:
 
 	//Toggle the state of the given LED
 	void ledToggle(LED l);
+
+	//Read the raw data from the colour sensor (or is it just a simple LDR?)
+	SENSOR_DATA sensorRead(SENSOR s);
 
 
 private:
