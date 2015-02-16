@@ -12,6 +12,9 @@
  *	If a MULTI egg is detected, the lit pattern will be "011"
  *	If the type cannot be determined, the pattern "100" will be displayed.
  *
+ *
+ *	This pattern will remain lit until the egg has been deposited.
+ *
  *	The first LED in the pattern will be on the left of the robot when viewed
  *	from above, with the claw pointing forwards. "1" represents an "On" LED.
  */
@@ -20,7 +23,13 @@
 
 #include "Log.h"
 
-void signalEggType(EGGTYPE e, HAL h) {
+void stopSignalling(/*HAL h*/) {
+	h.ledSet(LED_LEFT, false);
+	h.ledSet(LED_MIDD, false);
+	h.ledSet(LED_RGHT, false);
+}
+
+void signalEggType(EGGTYPE e/*, HAL h*/) {
 
 	DEBUG("Signalling egg type " << e);
 

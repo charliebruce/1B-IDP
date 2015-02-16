@@ -73,6 +73,9 @@ void MissionController::RunMission(void) {
 		eggsRemaining[e]--;
 		eggsPlaced++; //This is technically redundant - it should always be equal to (5 - totalEggsRemaining())...
 
+		//Stop displaying the LED pattern now that we've deposited the egg.
+		stopSignalling();
+
 	}
 
 	INFO("[MC] Mission complete.");
