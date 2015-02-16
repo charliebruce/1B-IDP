@@ -35,6 +35,7 @@ public:
 
 private:
 
+	int totalEggsRemaining(void) {int t = 0; for(int i = 0; i<NUM_EGGTYPES;i++) {t+=eggsRemaining[i];} return t;}
 	int eggsRemaining[NUM_EGGTYPES];
 	int eggsPlaced;
 };

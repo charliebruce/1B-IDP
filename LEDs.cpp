@@ -5,6 +5,9 @@
  *      Author: Charlie
  *
  *	Signal the type of the egg to the judge using the LEDs on the robot.
+ *
+ *	Specification:
+ *	TODO THIS
  */
 
 #include "LEDs.h"
@@ -12,7 +15,7 @@
 
 void signalEggType(EGGTYPE e) {
 
-	//TODO implement these 4 cases
+	//TODO implement these 4 cases based on agreed specification
 
 	switch (e) {
 	case EGG_WHITE:

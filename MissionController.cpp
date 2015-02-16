@@ -33,7 +33,7 @@ void MissionController::RunMission(void) {
 	INFO("[MC] Starting mission.");
 
 	//While the game is still active
-
+	while (totalEggsRemaining() > 0)
 	{
 		//Navigate to the nearest occupied egg collection point
 
@@ -41,22 +41,25 @@ void MissionController::RunMission(void) {
 
 		//Mark the current collection point as unoccupied
 
-		//Identify it
+		//Identify the egg using the sensor(s)
 		EGGTYPE e = EGG_WHITE; //TODO identify the type
 
 		//Sanity check the type of egg
-		if(e == EGG_INDETERMINATE) {
-			ERR("We were unable to identify a type of egg.");
-
-			//TODO what course of action should be taken?
-		}
-
 		if(eggsRemaining[e] <= 0) {
 
-			ERR("We must have mis-identified an egg! Identified as " +
-					e + " but there are none left in play.");
+			ERR("We must have mis-identified an egg! Identified as " <<
+					e << " but there are none left in play.");
 
 			//TODO what course of action should be taken?
+
+			//If there is only one egg remaining, it is logical to assume that it is this egg
+			if(totalEggsRemaining() == 1) {
+
+			}
+			//If there are multiple eggs in play, we should re-scan until a sensible answer is received.
+			else {
+
+			}
 		}
 
 		//Signal the type using the LEDs
@@ -68,7 +71,11 @@ void MissionController::RunMission(void) {
 
 		//Update the total number of eggs remaining
 		eggsRemaining[e]--;
+		eggsPlaced++; //This is technically redundant - it should always be equal to (5 - totalEggsRemaining())...
+
 	}
 
 	INFO("[MC] Mission complete.");
 }
+
+
