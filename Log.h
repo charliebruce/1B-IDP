@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#define LL_TRACE 5
 #define LL_DEBUG 4
 #define LL_INFO 3
 #define LL_WARN 2
@@ -30,6 +31,12 @@
 #define LOGLEVEL LL_DEBUG
 #endif
 
+
+#if (LOGLEVEL >= LL_TRACE)
+#define TRACE(x) std::cout << x << std::endl;
+#else
+#define TRACE(x)
+#endif
 
 #if (LOGLEVEL >= LL_DEBUG)
 #define DEBUG(x) std::cout << x << std::endl;

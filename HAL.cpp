@@ -10,6 +10,6 @@
 #include "Log.h"
 
 void HAL::resetRobot(void) {
-	DEBUG("[HAL] Resetting.")
+	DEBUG("[HAL] Resetting robot.")
 	//TODO implement
 }
