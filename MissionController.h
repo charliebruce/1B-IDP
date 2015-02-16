@@ -28,7 +28,7 @@ class MissionController {
 
 public:
 	MissionController(void);
-	~MissionController();
+	~MissionController(void);
 
 	void RunMission(void);
 

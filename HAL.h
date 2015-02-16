@@ -18,16 +18,19 @@ enum MOTOR {
 	MOTOR_RIGHT,
 	MOTOR_GRIP,
 	MOTOR_LIFT,
+	NUM_MOTORS
 };
 
 enum LED {
-	LED_RED = 0,
-	LED_GREEN,
-	LED_BLUE,
+	LED_LEFT = 0,
+	LED_MIDD,
+	LED_RGHT,
+	NUM_LEDS
 };
 
 enum SENSOR {
 	SENSOR_0 = 0,
+	NUM_SENSORS
 };
 
 struct SENSOR_DATA {
