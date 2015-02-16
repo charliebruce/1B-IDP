@@ -17,15 +17,7 @@
 #define OBJECTRECOGNITION_H_
 
 #include "HAL.h"
-
-//The indeterminate case should hopefully never be used but exists for completeness - in this situation
-//the logical behaviour would be to either deposit in the nearest bin, or put back/discard the egg.
-enum EGGTYPE {
-	EGG_WHITE,
-	EGG_BROWN,
-	EGG_MULTI,
-	EGG_INDETERMINATE
-};
+#include "Common.h"
 
 //Return the best guess at the egg type for the given sensor data
 EGGTYPE identify(SENSOR_DATA s);

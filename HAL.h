@@ -16,6 +16,8 @@
 enum MOTOR {
 	MOTOR_LEFT = 0,
 	MOTOR_RIGHT,
+	MOTOR_GRIP,
+	MOTOR_LIFT,
 };
 
 enum LED {

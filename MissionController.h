@@ -13,7 +13,7 @@
  *	Sanity checks that could be implemented:
  *	Check position/navigation logic regularly
  *	Dead reckoning should not allow motion outside of arena boundaries
- *
+ *	We should not detect more than a certain number of eggs of a specific colour (see below):
  *	There are 5 eggs:
  *	2 white
  *	2 brown
@@ -27,13 +27,15 @@
 class MissionController {
 
 public:
-	MissionController();
+	MissionController(void);
 	~MissionController();
 
 
 
 private:
 
+	int eggsRemaining[NUM_EGGTYPES];
+	int eggsPlaced;
 };
 
 
