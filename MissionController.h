@@ -30,6 +30,7 @@ public:
 	MissionController(void);
 	~MissionController();
 
+	void RunMission(void);
 
 
 private:
