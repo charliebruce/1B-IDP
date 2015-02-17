@@ -69,6 +69,8 @@ public:
 
 private:
 
+	void handleErrors(void);
+
 };
 
 
