@@ -71,10 +71,12 @@ public:
 	SENSOR_DATA sensorRead(SENSOR s);
 
 
+
+	void networkTest(void);
+
 private:
 
 	void handleErrors(void);
-	void networkTest(void);
 
 };
 

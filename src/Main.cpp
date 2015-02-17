@@ -5,6 +5,7 @@
  *      Author: Charlie
  */
 
+#include "Common.h"
 #include "HAL.h"
 
 int main(void) {
