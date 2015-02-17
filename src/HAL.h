@@ -12,8 +12,12 @@
 #ifndef HAL_H_
 #define HAL_H_
 
+//CUED libraries
 #include <robot_link.h>
 #include <robot_instr.h>
+#include <stopwatch.h>
+
+
 
 enum MOTOR {
 	MOTOR_LEFT = 0,
@@ -70,6 +74,7 @@ public:
 private:
 
 	void handleErrors(void);
+	void networkTest(void);
 
 };
 

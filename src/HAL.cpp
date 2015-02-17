@@ -44,6 +44,39 @@ void HAL::handleErrors(void) {
 
 	}
 
+}
+
+
+
+void HAL::networkTest(void) {
+	//Perform latency tests and reliability. Uses CUED's "stopwatch" code.
+
+	stopwatch sw;
+	int successes = 0;
+	int linkerr = 0;
+	int miscerr = 0;
+
+	sw.start();
+
+	for(int i = 0; i<100; i++)
+	{
+		int val = rlink.request(TEST_INSTRUCTION);
+
+		if(val == REQUEST_ERROR) {
+			linkerr++;
+		}
+		else if (val == TEST_INSTRUCTION_RESULT) {
+			successes++;
+		}
+		else {
+			miscerr++;
+		}
+
+	}
+
+	int time = sw.stop();
+	INFO("[HAL] Network reliability and network test results follow (100 repeats):")
+	INFO("[HAL] Time = " << time << ", successes = "<<successes<<", linkerr = "<<linkerr<<", miscerr = "<<miscerr);
 
 
 
