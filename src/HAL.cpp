@@ -11,7 +11,7 @@
 
 robot_link rlink;
 
-void HAL::HAL(int robot) {
+HAL::HAL(int robot) {
 
 	INFO("[HAL] Intialising.");
 
@@ -21,6 +21,12 @@ void HAL::HAL(int robot) {
 	}
 
 
+
+}
+
+HAL::~HAL(void) {
+
+	TRACE("[HAL] Destructor.");
 
 }
 

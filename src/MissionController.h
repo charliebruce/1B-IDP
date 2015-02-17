@@ -26,6 +26,7 @@
 
 
 #include "Common.h"
+#include "LEDs.h"
 
 
 class MissionController {

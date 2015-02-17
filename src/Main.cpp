@@ -5,6 +5,8 @@
  *      Author: Charlie
  */
 
+#include "HAL.h"
+
 int main(void) {
 
 	//Week 1: Initial testing.
