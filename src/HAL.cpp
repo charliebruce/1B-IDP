@@ -60,7 +60,8 @@ void HAL::ledSet(LED led, bool on) {
 
 void HAL::ledTest(void) {
 
-	  rlink.command(WRITE_PORT_3, 0b10101010);
+	//Set address pins to (0,0,0,0)
+	rlink.command(WRITE_PORT_0, 0b10101010);
 
 }
 
