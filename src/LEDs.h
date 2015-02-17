@@ -13,8 +13,8 @@
 #include "HAL.h"
 #include "Common.h"
 
-void stopSignalling(void);
-void signalEggType(EGGTYPE e);
+void stopSignalling(HAL h);
+void signalEggType(EGGTYPE e, HAL h);
 
 
 #endif /* LEDS_H_ */

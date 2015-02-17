@@ -32,6 +32,8 @@ void MissionController::RunMission(void) {
 
 	INFO("[MC] Starting mission.");
 
+	HAL hal(ROBOT_NUM);
+
 	//While the game is still active
 	while (totalEggsRemaining() > 0)
 	{
@@ -68,7 +70,7 @@ void MissionController::RunMission(void) {
 		INFO("[MC] Acting as if this is a " << e);
 
 		//Signal the type using the LEDs
-		signalEggType(e);
+		signalEggType(e, hal);
 
 		//Navigate to the correct dropoff point
 
@@ -81,7 +83,7 @@ void MissionController::RunMission(void) {
 		eggsPlaced++; //This is technically redundant - it should always be equal to (5 - totalEggsRemaining())...
 
 		//Stop displaying the LED pattern now that we've deposited the egg.
-		stopSignalling();
+		stopSignalling(hal);
 
 	}
 
