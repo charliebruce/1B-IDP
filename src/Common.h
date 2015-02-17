@@ -23,5 +23,8 @@ enum EGGTYPE {
 	NUM_EGGTYPES
 };
 
+//TODO define this
+static const int ROBOT_NUM = 123;
+
 
 #endif /* COMMON_H_ */
