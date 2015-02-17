@@ -47,6 +47,10 @@ void HAL::handleErrors(void) {
 }
 
 
+void HAL::ledSet(LED led, bool on) {
+	//TODO implement this
+	INFO("[HAL] LED setting not yet implemented.");
+}
 
 void HAL::networkTest(void) {
 	//Perform latency tests and reliability. Uses CUED's "stopwatch" code.

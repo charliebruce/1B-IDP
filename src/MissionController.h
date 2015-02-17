@@ -24,7 +24,12 @@
 #ifndef MISSIONCONTROLLER_H_
 #define MISSIONCONTROLLER_H_
 
+
+#include "Common.h"
+
+
 class MissionController {
+
 
 public:
 	MissionController(void);

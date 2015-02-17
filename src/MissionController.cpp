@@ -9,7 +9,7 @@
 
 #include "Log.h"
 
-void MissionController::MissionController(void) {
+MissionController::MissionController(void) {
 
 	TRACE("[MC] Constructor.");
 
