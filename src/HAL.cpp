@@ -10,6 +10,7 @@
 #include "Log.h"
 
 robot_link rlink;
+int port0;
 
 HAL::HAL(int robot) {
 
@@ -20,9 +21,11 @@ HAL::HAL(int robot) {
 		rlink.print_errs();
 	}
 
-
+	//We start with the GPIOs all off
+	port0 = 0;
 
 }
+
 
 HAL::~HAL(void) {
 
@@ -39,7 +42,6 @@ void HAL::resetRobot(void) {
 }
 
 
-
 //Handle link errors
 void HAL::handleErrors(void) {
 
@@ -54,18 +56,64 @@ void HAL::handleErrors(void) {
 
 
 void HAL::ledSet(LED led, bool on) {
-	//TODO implement this
-	INFO("[HAL] LED setting not yet implemented.");
+
+	//TODO ensure that pin numbering matches physical hardware
+	DEBUG("[HAL] LED: "<<led<<" set to "<<on);
+
+	int mask = 0;
+	switch(led) {
+	case LED_LEFT:
+		//Left LED is on pin 0
+		mask = (1 << 0);
+		break;
+	case LED_MIDD:
+		//Middle LED is on pin 1
+		mask = (1 << 1);
+		break;
+	case LED_RGHT:
+		//Middle LED is on pin 2
+		mask = (1 << 2);
+		break;
+	}
+
+	//TODO ensure that this is correct (is the LED wired such that a written 1 is ON or OFF?).
+	if(on) {
+		port0 |= mask;
+	} else {
+		port0 &= ~mask;
+	}
+
+	rlink.command(WRITE_PORT_0, port0);
+
+	handleErrors();
+
 }
+
 
 void HAL::ledTest(void) {
 
-	//Set address pins to (0,0,0,0)
-	rlink.command(WRITE_PORT_0, 0b10101010);
+	INFO("[HAL] LED Test: Setting all LEDs on.");
+	ledSet(LED_LEFT, true);
+	ledSet(LED_MIDD, true);
+	ledSet(LED_RGHT, true);
+
+	//Wait for approximately 3 seconds in a platform-independent way.
+	stopwatch sw;
+	sw.start();
+	while(sw.read() < 3000)
+		;
+	sw.stop();
+
+	INFO("[HAL] LED Test: Setting all LEDs off again.");
+	ledSet(LED_LEFT, false);
+	ledSet(LED_MIDD, false);
+	ledSet(LED_RGHT, false);
 
 }
 
+
 void HAL::networkTest(void) {
+
 	//Perform latency tests and reliability. Uses CUED's "stopwatch" code.
 
 	stopwatch sw;
