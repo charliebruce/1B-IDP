@@ -14,6 +14,8 @@ int main(void) {
 	HAL hal(ROBOT_NUM);
 	hal.networkTest();
 
+	hal.ledTest();
+
 
 }
 

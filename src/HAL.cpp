@@ -58,6 +58,12 @@ void HAL::ledSet(LED led, bool on) {
 	INFO("[HAL] LED setting not yet implemented.");
 }
 
+void HAL::ledTest(void) {
+
+	  rlink.command(WRITE_PORT_3, 0b10101010);
+
+}
+
 void HAL::networkTest(void) {
 	//Perform latency tests and reliability. Uses CUED's "stopwatch" code.
 

@@ -73,6 +73,7 @@ public:
 
 
 	void networkTest(void);
+	void ledTest(void);
 
 private:
 
