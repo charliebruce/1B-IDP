@@ -9,9 +9,9 @@
 
 #include "Log.h"
 
-HAL hal;
+HAL* hal;
 
-MissionController::MissionController(HAL h) {
+MissionController::MissionController(HAL* h) {
 
 	hal = h;
 

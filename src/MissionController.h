@@ -34,7 +34,7 @@ class MissionController {
 
 
 public:
-	MissionController(HAL h);
+	MissionController(HAL* h);
 	~MissionController(void);
 
 	void RunMission(void);
