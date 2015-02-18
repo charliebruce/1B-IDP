@@ -21,7 +21,7 @@ int main(void) {
 
 	hal.ledTest();
 
-	MissionController mc;
+	MissionController mc(hal);
 
 	INFO("[MAIN] Test of eggs remaining: "<<mc.totalEggsRemaining());
 
