@@ -1,4 +1,8 @@
 # Automatically generated Makefile
+# TODO: Improve with the following:
+# -> Recipe method (not naming files)
+# -> Make for both targets
+# -> Optimisation level
 Main :  MissionController.o Main.o LEDs.o HAL.o
 	 g++ -L/export/teach/1BRobot -o Main  MissionController.o  Main.o  LEDs.o  HAL.o  -lrobot
 
@@ -10,3 +14,6 @@ LEDs.o: LEDs.cpp LEDs.h Log.h
 	 g++ -ansi -Wall -g -I/export/teach/1BRobot -c LEDs.cpp
 HAL.o: HAL.cpp HAL.h Log.h
 	 g++ -ansi -Wall -g -I/export/teach/1BRobot -c HAL.cpp
+	 
+clean: 
+	-rm -f *.o

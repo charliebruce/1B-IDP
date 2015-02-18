@@ -10,6 +10,8 @@
 #include "Log.h"
 
 robot_link rlink;
+
+//State of the pins connected to port0
 int port0;
 
 HAL::HAL(int robot) {
@@ -122,8 +124,8 @@ void HAL::networkTest(void) {
 	int miscerr = 0;
 
 	sw.start();
-
-	for(int i = 0; i<100; i++)
+	static const int N = 100;
+	for(int i = 0; i<N; i++)
 	{
 		int val = rlink.request(TEST_INSTRUCTION);
 
@@ -140,7 +142,7 @@ void HAL::networkTest(void) {
 	}
 
 	int time = sw.stop();
-	INFO("[HAL] Network reliability and network test results follow (100 repeats):")
+	INFO("[HAL] Network reliability and network test results follow ("<<N<<" repeats):");
 	INFO("[HAL] Time = " << time << ", successes = "<<successes<<", linkerr = "<<linkerr<<", miscerr = "<<miscerr);
 
 
