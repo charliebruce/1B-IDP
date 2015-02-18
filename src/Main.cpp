@@ -23,7 +23,7 @@ int main(void) {
 
 	MissionController mc(hal);
 
-	INFO("[MAIN] Test of eggs remaining: "<<mc.totalEggsRemaining());
+	mc.RunMission();
 
 
 }
