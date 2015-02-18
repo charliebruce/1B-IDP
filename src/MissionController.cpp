@@ -9,7 +9,11 @@
 
 #include "Log.h"
 
-MissionController::MissionController(void) {
+HAL hal;
+
+MissionController::MissionController(HAL h) {
+
+	hal = h;
 
 	TRACE("[MC] Constructor.");
 
@@ -31,8 +35,6 @@ MissionController::MissionController(void) {
 void MissionController::RunMission(void) {
 
 	INFO("[MC] Starting mission.");
-
-	HAL hal(ROBOT_NUM);
 
 	//While the game is still active
 	while (totalEggsRemaining() > 0)

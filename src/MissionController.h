@@ -27,13 +27,14 @@
 
 #include "Common.h"
 #include "LEDs.h"
+#include "HAL.h"
 
 
 class MissionController {
 
 
 public:
-	MissionController(void);
+	MissionController(HAL h);
 	~MissionController(void);
 
 	void RunMission(void);

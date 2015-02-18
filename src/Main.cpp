@@ -7,6 +7,10 @@
 
 #include "Common.h"
 #include "HAL.h"
+#include "MissionController.h"
+
+#include "Log.h"
+
 
 int main(void) {
 
@@ -16,6 +20,10 @@ int main(void) {
 	hal.networkTest();
 
 	hal.ledTest();
+
+	MissionController mc;
+
+	INFO("[MAIN] Test of eggs remaining: "<<mc.totalEggsRemaining());
 
 
 }
