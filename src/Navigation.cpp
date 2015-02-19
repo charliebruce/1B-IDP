@@ -23,6 +23,22 @@ Navigation::~Navigation() {
 
 }
 
+void Navigation::travelToCP(COLLECTION_POINT cp) {
+	//TODO this
+	travelToNode(NODE_0);
+}
+
+void Navigation::travelToDP(DROPOFF_POINT dp) {
+	//TODO this
+	travelToNode(NODE_0);
+}
+
+//Internal use only
+void Navigation::travelToNode(NODE n) {
+
+}
+
+//Find the nearest location from which we can collect an egg, given our current location
 COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
 	//TODO Implement this
 	return CP_0;

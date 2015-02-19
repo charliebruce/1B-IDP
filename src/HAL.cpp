@@ -23,8 +23,8 @@ HAL::HAL(int robot) {
 		rlink.print_errs();
 	}
 
-	//We start with the GPIOs all off
-	port0 = 0;
+	resetRobot();
+
 
 }
 
@@ -37,10 +37,21 @@ HAL::~HAL(void) {
 
 
 void HAL::resetRobot(void) {
+
 	INFO("[HAL] Resetting robot.");
 
-	WARN("[HAL] Reset not yet implemented.");
-	//TODO implement
+	//We start with the GPIOs all off
+	port0 = 0;
+	rlink.command(WRITE_PORT_0, port0);
+	handleErrors();
+
+	//Motors all off
+	//TODO complete this
+	//handleErrors();
+
+	//Motor ramp settings
+	//TODO complete this
+	//handleErrors();
 }
 
 
@@ -50,8 +61,8 @@ void HAL::handleErrors(void) {
 	if(rlink.any_errs()) {
 		WARN("[HAL] Handling errors not yet implemented.");
 
-		//TODO implement error catching
-
+		//TODO implement error catching and handling
+		rlink.print_errs();
 	}
 
 }
@@ -78,7 +89,7 @@ void HAL::ledSet(LED led, bool on) {
 		break;
 	}
 
-	//TODO ensure that this is correct (is the LED wired such that a written 1 is ON or OFF?).
+	//If the hardware is wired such that HIGH is OFF then reverse this.
 	if(on) {
 		port0 |= mask;
 	} else {
@@ -99,6 +110,8 @@ void HAL::ledTest(void) {
 	ledSet(LED_MIDD, true);
 	ledSet(LED_RGHT, true);
 
+	handleErrors();
+
 	//Wait for approximately 3 seconds in a platform-independent way.
 	stopwatch sw;
 	sw.start();
@@ -111,8 +124,20 @@ void HAL::ledTest(void) {
 	ledSet(LED_MIDD, false);
 	ledSet(LED_RGHT, false);
 
+	handleErrors();
+
 }
 
+void HAL::motorTest(void) {
+	//TODO experiment with ramp
+    rlink.command (RAMP_TIME, 120);
+
+    //Test all motors by driving forward indefinitely.
+	rlink.command(MOTOR_1_GO, 127);
+	rlink.command(MOTOR_2_GO, 127);
+	rlink.command(MOTOR_3_GO, 127);
+	rlink.command(MOTOR_4_GO, 127);
+}
 
 void HAL::networkTest(void) {
 

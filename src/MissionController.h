@@ -45,6 +45,7 @@ private:
 
 	int totalEggsRemaining(void) {int t = 0; for(int i = 0; i<NUM_EGGTYPES;i++) {t+=eggsRemaining[i];} return t;}
 	int eggsRemaining[NUM_EGGTYPES];
+	DROPOFF_POINT dropoffForEgg[NUM_EGGTYPES];
 	int eggsPlaced;
 };
 

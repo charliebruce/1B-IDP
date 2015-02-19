@@ -21,6 +21,8 @@ int main(void) {
 
 	hal.ledTest();
 
+	hal.motorTest();
+
 	MissionController mc(&hal);
 
 	mc.RunMission();

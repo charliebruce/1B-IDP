@@ -74,6 +74,7 @@ public:
 
 	void networkTest(void);
 	void ledTest(void);
+	void motorTest(void);
 
 private:
 

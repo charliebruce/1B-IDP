@@ -1,9 +1,6 @@
 # Automatically generated Makefile
-# TODO: Improve with the following:
-# -> Recipe method (not naming files)
-# -> Make for both targets
+# TODO:
 # -> Optimisation level
-
 
 CC=g++
 CC_ARM=arm-linux-gnueabi-g++

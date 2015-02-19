@@ -14,8 +14,7 @@
 #ifndef LINEFOLLOWING_H_
 #define LINEFOLLOWING_H_
 
-
-
+void followLineToNext(int estimatedDistance);
 
 
 
