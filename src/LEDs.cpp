@@ -61,6 +61,10 @@ void signalEggType(EGGTYPE e, HAL* h) {
 		h->ledSet(LED_MIDD, false);
 		h->ledSet(LED_RGHT, false);
 		break;
+
+	case NUM_EGGTYPES:
+	default:
+		WARN("[LED] incorrect use of signalEggType (eggtype not correct).");
 	}
 
 }

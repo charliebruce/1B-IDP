@@ -87,6 +87,10 @@ void HAL::ledSet(LED led, bool on) {
 		//Middle LED is on pin 2
 		mask = (1 << 2);
 		break;
+	case NUM_LEDS:
+	default:
+		WARN("[HAL] Incorrect use of ledSet function (wrong LED specified).");
+		return;
 	}
 
 	//If the hardware is wired such that HIGH is OFF then reverse this.
