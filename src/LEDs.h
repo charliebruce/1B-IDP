@@ -13,7 +13,7 @@
 #include "HAL.h"
 #include "Common.h"
 
-void stopSignalling(HAL h);
+void stopSignalling(HAL* h);
 void signalEggType(EGGTYPE e, HAL h);
 
 

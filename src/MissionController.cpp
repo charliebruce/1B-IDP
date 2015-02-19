@@ -9,7 +9,7 @@
 
 #include "Log.h"
 
-HAL hal;
+HAL* hal;
 
 MissionController::MissionController(HAL* h) {
 

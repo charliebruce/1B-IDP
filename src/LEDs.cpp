@@ -23,43 +23,43 @@
 
 #include "Log.h"
 
-void stopSignalling(HAL& h) {
-	h.ledSet(LED_LEFT, false);
-	h.ledSet(LED_MIDD, false);
-	h.ledSet(LED_RGHT, false);
+void stopSignalling(HAL* h) {
+	h->ledSet(LED_LEFT, false);
+	h->ledSet(LED_MIDD, false);
+	h->ledSet(LED_RGHT, false);
 }
 
-void signalEggType(EGGTYPE e, HAL& h) {
+void signalEggType(EGGTYPE e, HAL* h) {
 
 	DEBUG("[LED] Signalling egg type: " << e);
 
 	switch (e) {
 	case EGG_WHITE:
 		TRACE("[LED] Lighting LEDs for White egg.");
-		h.ledSet(LED_LEFT, false);
-		h.ledSet(LED_MIDD, false);
-		h.ledSet(LED_RGHT, true);
+		h->ledSet(LED_LEFT, false);
+		h->ledSet(LED_MIDD, false);
+		h->ledSet(LED_RGHT, true);
 		break;
 
 	case EGG_BROWN:
 		TRACE("[LED] Lighting LEDs for Brown egg.");
-		h.ledSet(LED_LEFT, false);
-		h.ledSet(LED_MIDD, true);
-		h.ledSet(LED_RGHT, false);
+		h->ledSet(LED_LEFT, false);
+		h->ledSet(LED_MIDD, true);
+		h->ledSet(LED_RGHT, false);
 		break;
 
 	case EGG_MULTI:
 		TRACE("[LED] Lighting LEDs for Multi egg.");
-		h.ledSet(LED_LEFT, false);
-		h.ledSet(LED_MIDD, true);
-		h.ledSet(LED_RGHT, true);
+		h->ledSet(LED_LEFT, false);
+		h->ledSet(LED_MIDD, true);
+		h->ledSet(LED_RGHT, true);
 		break;
 
 	case EGG_INDETERMINATE:
 		TRACE("[LED] Lighting LEDs for Indeterminate egg.");
-		h.ledSet(LED_LEFT, true);
-		h.ledSet(LED_MIDD, false);
-		h.ledSet(LED_RGHT, false);
+		h->ledSet(LED_LEFT, true);
+		h->ledSet(LED_MIDD, false);
+		h->ledSet(LED_RGHT, false);
 		break;
 	}
 
