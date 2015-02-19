@@ -18,13 +18,23 @@ HAL::HAL(int robot) {
 
 	INFO("[HAL] Intialising.");
 
-	if(!rlink.initialise(robot)) {
+	int result;
+
+#ifdef __arm__
+	INFO("[HAL] Connecting to local machine (on ARM).");
+	result = rlink.initialise();
+#else
+	INFO("[HAL] Connecting to remote robot "<<robot<<" (on workstation).");
+	result = rlink.initialise(robot);
+#endif
+
+	if(!result) {
 		ERR("[HAL] Something went wrong when trying to connect to the robot.");
 		rlink.print_errs();
 	}
 
+	//Set the robot's initial state.
 	resetRobot();
-
 
 }
 
@@ -135,8 +145,8 @@ void HAL::ledTest(void) {
 void HAL::motorSet(MOTOR m, float rate) {
 
 	TRACE("Motor: "<<m<<" rate: "<<rate);
-	
-	
+
+
 	//If the magnitude of the velocity is more than 1
 	if ((rate * rate) > 1)
 	{
@@ -156,6 +166,7 @@ void HAL::motorSet(MOTOR m, float rate) {
 		cmd = MOTOR_2_GO;
 		reverse_motor = true;
 		break;
+		//TODO assign grab/lift motor
 
 	default:
 		return;

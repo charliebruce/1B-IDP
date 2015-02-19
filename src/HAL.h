@@ -50,6 +50,8 @@ class HAL {
 
 public:
 
+	//Create a HAL with the given robot wireless card number
+	//When running directly on the robot processor, the robot number is ignored.
 	HAL(int robotNum);
 	~HAL(void);
 
