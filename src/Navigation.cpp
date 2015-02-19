@@ -23,7 +23,7 @@ Navigation::~Navigation() {
 
 }
 
-COLLECTION_POINT getNearestOccupiedCP(void) {
+COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
 	//TODO Implement this
 	return CP_0;
 }
