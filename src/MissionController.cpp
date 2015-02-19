@@ -9,10 +9,11 @@
 
 #include "Log.h"
 
-HAL* hal;
+HAL hal;
 
 MissionController::MissionController(HAL* h) {
 
+	//TODO fix passing this object around - use &
 	hal = h;
 
 	TRACE("[MC] Constructor.");
@@ -35,12 +36,15 @@ MissionController::MissionController(HAL* h) {
 void MissionController::RunMission(void) {
 
 	INFO("[MC] Starting mission.");
+	Navigation nav;
 
 	//While the game is still active
 	while (totalEggsRemaining() > 0)
 	{
 		INFO("[MC] Navigating to the next occupied egg collection point.");
 		//Navigate to the nearest occupied egg collection point
+		COLLECTION_POINT nextCP = nav.getNearestOccupiedCP();
+
 
 		INFO("[MC] Picking up the egg.");
 		//Attempt to pick up the egg
@@ -83,6 +87,9 @@ void MissionController::RunMission(void) {
 		//Update the total number of eggs remaining
 		eggsRemaining[e]--;
 		eggsPlaced++; //This is technically redundant - it should always be equal to (5 - totalEggsRemaining())...
+
+		//Mark the collection point as unoccupied
+		nav.setUnoccupied(nextCP);
 
 		//Stop displaying the LED pattern now that we've deposited the egg.
 		stopSignalling(hal);

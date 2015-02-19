@@ -28,6 +28,7 @@
 #include "Common.h"
 #include "LEDs.h"
 #include "HAL.h"
+#include "Navigation.h"
 
 
 class MissionController {

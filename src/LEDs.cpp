@@ -23,13 +23,13 @@
 
 #include "Log.h"
 
-void stopSignalling(HAL h) {
+void stopSignalling(HAL& h) {
 	h.ledSet(LED_LEFT, false);
 	h.ledSet(LED_MIDD, false);
 	h.ledSet(LED_RGHT, false);
 }
 
-void signalEggType(EGGTYPE e, HAL h) {
+void signalEggType(EGGTYPE e, HAL& h) {
 
 	DEBUG("[LED] Signalling egg type: " << e);
 
