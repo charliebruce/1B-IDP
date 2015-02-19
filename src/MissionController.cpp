@@ -14,7 +14,7 @@ HAL* hal;
 MissionController::MissionController(HAL* h) {
 
 	//TODO fix passing this object around - use &
-	hal = h;
+	hal = &h;
 
 	TRACE("[MC] Constructor.");
 
@@ -31,6 +31,9 @@ MissionController::MissionController(HAL* h) {
 
 	TRACE("[MC] Created.");
 
+}
+
+MissionController::~MissionController() {
 }
 
 void MissionController::RunMission(void) {

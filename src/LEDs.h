@@ -14,7 +14,7 @@
 #include "Common.h"
 
 void stopSignalling(HAL* h);
-void signalEggType(EGGTYPE e, HAL h);
+void signalEggType(EGGTYPE e, HAL* h);
 
 
 #endif /* LEDS_H_ */

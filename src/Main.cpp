@@ -21,7 +21,7 @@ int main(void) {
 
 	hal.ledTest();
 
-	MissionController mc(hal);
+	MissionController mc(&hal);
 
 	mc.RunMission();
 
