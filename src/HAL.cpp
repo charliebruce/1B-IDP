@@ -130,6 +130,9 @@ void HAL::ledTest(void) {
 
 void HAL::motorSet(MOTOR m, float rate) {
 
+	TRACE("Motor: "<<m<<" rate: "<<rate);
+	
+	
 	//If the magnitude of the velocity is more than 1
 	if ((rate * rate) > 1)
 	{
@@ -143,11 +146,11 @@ void HAL::motorSet(MOTOR m, float rate) {
 	switch (m) {
 	case MOTOR_LEFT:
 		cmd = MOTOR_1_GO;
-		reverse_motor = false;
+		reverse_motor = true;
 		break;
 	case MOTOR_RIGHT:
 		cmd = MOTOR_2_GO;
-		reverse_motor = false;
+		reverse_motor = true;
 		break;
 
 	default:
@@ -159,6 +162,7 @@ void HAL::motorSet(MOTOR m, float rate) {
 		rate = rate * -1.0;
 	}
 
+	TRACE("Rate is now "<<rate);
 	//0-128: velocity, with high bit representing reversed motors
 	int sig = 0;
 
@@ -168,10 +172,13 @@ void HAL::motorSet(MOTOR m, float rate) {
 		rate = rate * -1.0;
 	}
 
-	int iRate = (int) (128.0 * rate);
+	int iRate = (int) (127.0 * rate);
 
+	TRACE("iRate "<<iRate<<" sig "<<sig);
 	//Set the low bits with a guard
-	sig &= (iRate & 0b01111111);
+	sig |= (iRate & 0b01111111);
+
+	TRACE("Command: " << cmd << ". Signal: "<< sig); 
 
 	//Send the command to the hardware
 	rlink.command(cmd, sig);

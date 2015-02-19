@@ -25,7 +25,7 @@ int main(void) {
 
 	MissionController mc(&hal);
 
-	mc.RunMission();
+	//mc.RunMission();
 
 
 }
