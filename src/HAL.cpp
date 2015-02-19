@@ -128,29 +128,85 @@ void HAL::ledTest(void) {
 
 }
 
+void HAL::motorSet(MOTOR m, float rate) {
+
+	//If the magnitude of the velocity is more than 1
+	if ((rate * rate) > 1)
+	{
+		WARN("[HAL] Received a command to run a motor at a speed greater than 1.0 - clamping.");
+		rate = ((rate > 0.0)?1.0:-1.0);
+	}
+
+	command_instruction cmd = MOTOR_1_GO;
+	bool reverse_motor = false;
+	//Find the motor port with the given meaning
+	switch (m) {
+	case MOTOR_LEFT:
+		cmd = MOTOR_1_GO;
+		reverse_motor = false;
+		break;
+	case MOTOR_RIGHT:
+		cmd = MOTOR_2_GO;
+		reverse_motor = false;
+		break;
+
+	default:
+		return;
+
+	}
+
+	if (reverse_motor) {
+		rate = rate * -1.0;
+	}
+
+	//0-128: velocity, with high bit representing reversed motors
+	int sig = 0;
+
+	if (rate < 0) {
+		//Run in reverse
+		sig = 0b10000000;
+		rate = rate * -1.0;
+	}
+
+	int iRate = (int) (128.0 * rate);
+
+	//Set the low bits with a guard
+	sig &= (iRate & 0b01111111);
+
+	//Send the command to the hardware
+	rlink.command(cmd, sig);
+
+	handleErrors();
+
+}
+
 void HAL::motorTest(void) {
+
+	INFO("[HAL] Motor test starting.");
 	//TODO experiment with ramp
-    rlink.command (RAMP_TIME, 120);
+	//According to CUED it ranges from 0 (no ramping) to 254 (slow ramping)
+	rlink.command (RAMP_TIME, 120);
 
-    //Test all motors by driving forward indefinitely.
-	rlink.command(MOTOR_1_GO, 127);
-	rlink.command(MOTOR_2_GO, 127);
-	rlink.command(MOTOR_3_GO, 127);
-	rlink.command(MOTOR_4_GO, 127);
+	//Test all motors by driving forwards
+	motorSet(MOTOR_LEFT, 1.0);
+	motorSet(MOTOR_RIGHT, 1.0);
 
+	//Then, after 2 seconds
 	stopwatch sw;
 	sw.start();
 	while(sw.read() < 2000) ;
 	sw.start();
 
-	rlink.command(MOTOR_1_GO, 255);
-	rlink.command(MOTOR_2_GO, 255);
-	rlink.command(MOTOR_3_GO, 255);
-	rlink.command(MOTOR_4_GO, 255);
+	INFO("[HAL] Motor test - reversing.");
 
+	//Drive backwards
+	motorSet(MOTOR_LEFT, -1.0);
+	motorSet(MOTOR_RIGHT, -1.0);
 
 	sw.start();
 	while(sw.read() < 2000) ;
+
+	INFO("[HAL] Motor tests finished.");
 }
 
 void HAL::networkTest(void) {
