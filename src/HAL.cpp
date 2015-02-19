@@ -137,6 +137,20 @@ void HAL::motorTest(void) {
 	rlink.command(MOTOR_2_GO, 127);
 	rlink.command(MOTOR_3_GO, 127);
 	rlink.command(MOTOR_4_GO, 127);
+
+	stopwatch sw;
+	sw.start();
+	while(sw.read() < 2000) ;
+	sw.start();
+
+	rlink.command(MOTOR_1_GO, 255);
+	rlink.command(MOTOR_2_GO, 255);
+	rlink.command(MOTOR_3_GO, 255);
+	rlink.command(MOTOR_4_GO, 255);
+
+
+	sw.start();
+	while(sw.read() < 2000) ;
 }
 
 void HAL::networkTest(void) {
