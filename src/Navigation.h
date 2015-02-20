@@ -35,6 +35,22 @@ enum NODE {
 	NUM_NODES
 };
 
+enum ABS_DIRECTION {
+	NORTH = 0,
+	EAST,
+	SOUTH,
+	WEST
+};
+
+
+
+//Each node has up to 4 neighbours, in each of the 4 cardinal directions
+//A neighbour could be a node, a dead end, blank (ie no path) or a T-node
+//There is also an estimated distance associated with each direction
+
+//If approaching a T-node from one of its sides, follow the edge not the centre of the line
+//T-nodes either have an orientation, or are a node with NO_LINE attached in one direction
+
 class Navigation {
 
 public:
@@ -49,16 +65,22 @@ public:
 
 
 private:
+
 	//State of the collection points is also stored in here
 	bool cpOccupied[NUM_CP];
 
 	//TODO prototype this and pathfinding code
 	void travelToNode(NODE n);
 
-	//Our current position
-	//Node currentNode;
-	//Node nextNode;
-	//int orientation
+	int distanceBetweenNodes(NODE a, NODE b);
+	NODE nodeForCP(COLLECTION_POINT cp);
+
+
+
+	//Our current position and approximate orientation
+	NODE currentNode;
+	ABS_DIRECTION forwards;
+
 };
 
 

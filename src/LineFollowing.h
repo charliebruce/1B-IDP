@@ -14,7 +14,11 @@
 #ifndef LINEFOLLOWING_H_
 #define LINEFOLLOWING_H_
 
+//Used to navigate to/around + junctions
 void followLineToNext(int estimatedDistance);
+
+//Used to find T junctions
+void followEdgeToNext(bool left, int estimatedDistance);
 
 
 

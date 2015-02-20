@@ -20,6 +20,7 @@
 #include "Common.h"
 
 //Return the best guess at the egg type for the given sensor data
+//Electrical failures (ie 0 or 255?) should result in an INDETERMINATE response
 EGGTYPE identify(SENSOR_DATA s);
 
 

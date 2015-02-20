@@ -11,10 +11,13 @@
 
 HAL* hal;
 
+Navigation nav;
+
 MissionController::MissionController(HAL* h) {
 
 	//TODO fix passing this object around - use &
 	hal = h;
+
 
 	TRACE("[MC] Constructor.");
 
@@ -43,10 +46,21 @@ MissionController::MissionController(HAL* h) {
 MissionController::~MissionController() {
 }
 
+void MissionController::FunctionalTests(void) {
+
+	hal->networkTest();
+
+	hal->ledTest();
+
+	hal->motorTest();
+
+
+
+}
+
 void MissionController::RunMission(void) {
 
 	INFO("[MC] Starting mission.");
-	Navigation nav;
 
 	//While the game is still active
 	while (totalEggsRemaining() > 0)

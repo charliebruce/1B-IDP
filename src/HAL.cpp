@@ -55,13 +55,19 @@ void HAL::resetRobot(void) {
 	rlink.command(WRITE_PORT_0, port0);
 	handleErrors();
 
-	//Motors all off
+	//Motor configuration
 	//TODO complete this
-	//handleErrors();
+	//TODO experiment with ramp
+	//According to CUED it ranges from 0 (no ramping) to 254 (slow ramping)
+	rlink.command (RAMP_TIME, 0);
+	handleErrors();
 
-	//Motor ramp settings
-	//TODO complete this
-	//handleErrors();
+	//Motors all off
+	motorSet(MOTOR_LEFT, 0.0);
+	motorSet(MOTOR_RIGHT, 0.0);
+
+	//Sensors, etc
+	//TODO this
 }
 
 
@@ -205,9 +211,6 @@ void HAL::motorSet(MOTOR m, float rate) {
 void HAL::motorTest(void) {
 
 	INFO("[HAL] Motor test starting.");
-	//TODO experiment with ramp
-	//According to CUED it ranges from 0 (no ramping) to 254 (slow ramping)
-	rlink.command (RAMP_TIME, 120);
 
 	//Test all motors by driving forwards
 	motorSet(MOTOR_LEFT, 1.0);

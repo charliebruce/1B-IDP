@@ -39,6 +39,7 @@ public:
 	~MissionController(void);
 
 	void RunMission(void);
+	void FunctionalTests(void);
 
 
 private:

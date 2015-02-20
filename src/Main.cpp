@@ -17,14 +17,9 @@ int main(void) {
 	//Week 1: Initial testing.
 	HAL hal(ROBOT_NUM);
 
-	hal.networkTest();
-
-	hal.ledTest();
-
-	hal.motorTest();
-
 	MissionController mc(&hal);
 
+	mc.FunctionalTests();
 	//mc.RunMission();
 
 
