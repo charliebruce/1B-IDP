@@ -39,6 +39,13 @@ enum SENSOR {
 	NUM_SENSORS
 };
 
+struct LINE_SENSOR_DATA {
+	bool fl; //Front left
+	bool fc; //Front centre
+	bool fr; //Front right
+	bool rc; //Rear centre
+};
+
 struct SENSOR_DATA {
 	int r;
 	int g;
@@ -72,7 +79,7 @@ public:
 	//Read the raw data from the colour sensor (or is it just a simple LDR?)
 	SENSOR_DATA sensorRead(SENSOR s);
 
-
+	LINE_SENSOR_DATA lineRead(void);
 
 	void networkTest(void);
 	void ledTest(void);

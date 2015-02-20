@@ -83,6 +83,18 @@ void HAL::handleErrors(void) {
 
 }
 
+LINE_SENSOR_DATA lineRead(void) {
+
+	//TODO implement
+	LINE_SENSOR_DATA lsd;
+
+	lsd.fc = false;
+	lsd.fl = false;
+	lsd.fr = false;
+	lsd.rc = false;
+
+	return lsd;
+}
 
 void HAL::ledSet(LED led, bool on) {
 

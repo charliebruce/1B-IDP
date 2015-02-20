@@ -9,29 +9,42 @@
 
 //Follow the line we are currently on until we reach WWWW (indicating that our front sensors are on a node, pointing straight)
 //Estimated Distance is to ensure that we don't massively overshoot - stops us driving off to infinity.
-void followToNextNode(int estimatedDistance) {
+void followToNext(int estimatedDistance, HAL* h) {
 
 }
 
 
 
 
-void followEdgeToNext(bool left, int estimatedDistance) {
+void followEdgeToNext(bool left, int estimatedDistance, HAL* h) {
 
-	//TODO stop on the node rather than just following an edge.
-	//TODO implement left-edge-following
+	//Use a primitive estimate from the average velocity of the robot
+	stopwatch watchdog;
+	watchdog.start();
 
-	//Ignore the centre-wheel sensor
+	const int velocityReciprocal = 100; //in millieconds per centimeter
+	while(watchdog.read() < (250 + 1.2 * (estimatedDistance * velocityReciprocal))) { //compensate for 250ms of motor lag, max 20% overshoot
 
-	//Continue while pattern is XWB
-	//Turn left when pattern is XBB
-	//Turn right when pattern is XWW
+		//TODO stop on the node rather than just following an edge.
+		//TODO implement left-edge-following
 
-	//Stop when X = W? This will assume sensors are wide enough
-	//but will allow us to stop on nodes and Ts
+		//Ignore the centre-wheel sensor for now
 
-	//That is the only difference between Edge and Line following
+		//Continue while pattern is XWB
+		//Turn left when pattern is XBB
+		//Turn right when pattern is XWW
 
-	//TODO PID control to prevent/smooth out jaggy motion
+
+
+
+		//Stop when X = W? This will assume sensors are wide enough
+		//but will allow us to stop on nodes and Ts
+		//That is the only difference between Edge and Line following
+
+		//TODO PID control to prevent/smooth out jaggy motion
+
+	}
+
+	watchdog.stop();
 
 }
