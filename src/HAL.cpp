@@ -167,11 +167,11 @@ void HAL::motorSet(MOTOR m, float rate) {
 	case MOTOR_LEFT:
 		cmd = MOTOR_1_GO;
 		reverse_motor = true;
-		rate = rate * 0.5;//Gear ratio compensation on test robot
 		break;
 	case MOTOR_RIGHT:
 		cmd = MOTOR_2_GO;
 		reverse_motor = true;
+		rate = rate * 0.5;//Gear ratio compensation on test robot
 		break;
 		//TODO assign grab/lift motor
 
