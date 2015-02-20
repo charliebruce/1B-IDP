@@ -90,7 +90,7 @@ int Navigation::distanceBetweenNodes(NODE a, NODE b) {
 	return 100;
 }
 
-NODE nodeForCP(COLLECTION_POINT cp) {
+NODE Navigation::nodeForCP(COLLECTION_POINT cp) {
 	return NODE_0;
 }
 
