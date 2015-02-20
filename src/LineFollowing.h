@@ -16,6 +16,7 @@
 
 #include "HAL.h"
 
+
 //Used to navigate to/around + junctions
 void followLineToNext(int estimatedDistance, HAL* h);
 

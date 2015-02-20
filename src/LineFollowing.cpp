@@ -5,6 +5,8 @@
  *      Author: Charlie
  */
 
+#include "LineFollowing.h"
+
 
 
 //Follow the line we are currently on until we reach WWWW (indicating that our front sensors are on a node, pointing straight)
