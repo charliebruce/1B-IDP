@@ -1,4 +1,9 @@
-# Automatically generated Makefile
+# Makefile for IDP, group L206
+# Supports building for robot or workstation
+# To build for workstation:  "make robot"
+# To build for robot: "make robot_arm"
+# To build both: "make all"
+
 # TODO:
 # -> Optimisation level
 
