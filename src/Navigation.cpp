@@ -51,7 +51,7 @@ COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
 	//No collection point can ever be more than 10m away
 	int bestDist = 10000;
 
-	for(COLLECTION_POINT i = CP_0; i < NUM_CP; i++) {
+	for(int i = CP_0; i < NUM_CP; i++) {
 
 		//If the current collection point has no egg, move on to the next.
 		if(!cpOccupied[i]) {
@@ -60,13 +60,13 @@ COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
 		}
 
 		//If the distance to the node associated with CP i is lower
-		if(int bd = distanceBetweenNodes(currentNode, nodeForCP(i)) < bestDist)
+		if(int bd = distanceBetweenNodes(currentNode, nodeForCP((COLLECTION_POINT) i)) < bestDist)
 		{
 			//We've found a new minimum distance
 			bestDist = bd;
 
 			//That becomes the best collection point
-			best = i;
+			best = (COLLECTION_POINT) i;
 
 			TRACE("[NAV] CP" <<i<<" is "<<bd<<"cm away which is new best.");
 		} else {
@@ -80,7 +80,7 @@ COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
 		WARN("[NAV] No occupied collection point, or inaccessible.");
 	}
 
-	DEBUG("[NAV] Found nearest CP: "<<best);
+	DEBUG("[NAV] Found nearest CP: " << best);
 	return best;
 
 }
