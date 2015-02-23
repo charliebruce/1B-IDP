@@ -84,7 +84,7 @@ void HAL::handleErrors(void) {
 
 }
 
-LINE_SENSOR_DATA lineRead(void) {
+LINE_SENSOR_DATA HAL::lineRead(void) {
 
 	//TODO implement
 	LINE_SENSOR_DATA lsd;
