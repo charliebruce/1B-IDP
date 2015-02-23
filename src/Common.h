@@ -31,4 +31,6 @@ enum LINECOLOUR {
 	WHITE = true
 };
 
+void delay(int ms);
+
 #endif /* COMMON_H_ */

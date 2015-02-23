@@ -103,17 +103,46 @@ void HAL::sensorTest(void) {
 	INFO("[HAL] Sensor test starting.");
 
 	stopwatch sw;
+	LINE_SENSOR_DATA lsd;
 	sw.start();
 	for(int i = 0; i< 10; i++) {
 
-		while(sw.read() < i * 100)
+		//Every 500ms
+		while(sw.read() < i * 500)
 			;
 
 		//Read the value from the sensor
+		lsd = hal->lineRead();
 
-		//TODO implement this
+		//Output the values in a readable form to the console
+		INFO("Front sensors: " << ((lsd.fl == WHITE)?"white\t":"black\t") << ((lsd.fc == WHITE)?"white\t":"black\t") << ((lsd.fr == WHITE)?"white\t":"black\t") );
 
 	}
+
+	//Now test the limiting micro-switches.
+
+
+
+	//TODO this
+
+
+
+
+	//Now test the LDR
+
+
+	//TODO this
+
+
+
+
+	//Finally test the mechanical limit switches
+
+
+	//TODO this
+
+
+
 }
 
 void HAL::ledSet(LED led, bool on) {
@@ -272,6 +301,11 @@ void HAL::motorTest(void) {
 }
 
 void HAL::networkTest(void) {
+
+#ifdef __arm__
+	INFO("[HAL - Functional Tests] Running on robot; skipping network tests.");
+	return;
+#endif
 
 	//Perform latency tests and reliability. Uses CUED's "stopwatch" code.
 

@@ -29,9 +29,10 @@ enum DROPOFF_POINT {
 };
 
 enum NODE {
-	NODE_0 = 0,
+	NODE_START = 0,
 	NODE_1,
 	NODE_2,
+	NODE_D1,//TODO this better
 	NUM_NODES
 };
 
@@ -57,8 +58,8 @@ public:
 	Navigation();
 	~Navigation();
 
-	COLLECTION_POINT getNearestOccupiedCP(void);
-	void setUnoccupied(COLLECTION_POINT cp);
+	COLLECTION_POINT getNearestEggyCP(void);
+	void setNoEgg(COLLECTION_POINT cp);
 
 	void travelToDP(DROPOFF_POINT dp);
 	void travelToCP(COLLECTION_POINT cp);
@@ -67,7 +68,7 @@ public:
 private:
 
 	//State of the collection points is also stored in here
-	bool cpOccupied[NUM_CP];
+	bool cpHasEgg[NUM_CP];
 
 	//TODO prototype this and pathfinding code
 	void travelToNode(NODE n);

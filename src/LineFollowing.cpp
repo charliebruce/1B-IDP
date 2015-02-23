@@ -3,17 +3,48 @@
  *
  *  Created on: 19 Feb 2015
  *      Author: Charlie
+ *
+ *	Contains implementation of line following logic.
+ *	Makes implicit assumptions about the configuration of the sensors and the layout of the board.
+ *	These are generally reasonable:
+ *
+ *	Sensor spacing assumed to be slightly wider than the line
+ *	Lines are long enough that pivoting about one wheel will never end up with us losing the line
+ *
  */
 
 #include "LineFollowing.h"
 
 #include "Log.h"
 
-//TODO implement
+
 void junctionStraight(void) {
 
 	//Just shoot a little forwards, then re-align oneself on the line.
+	stopwatch sw;
+	hal->motorSet(MOTOR_LEFT, 0.1);
+	hal->motorSet(MOTOR_RIGHT, 0.1);
+	sw.start();
 
+	//Cut out after half a second or junction just traversed.
+	while(sw.read() < 500) {
+
+		//Read the sensors
+		//If two are black, we must have passed the junction and be back on the line
+
+
+	}
+
+
+	//Line ourselves back up straight with the line (BWB).
+	//sensors = hal->lineRead()
+
+	//When going straight, our rear sensor should remain over the line
+	//TODO check this condition is met?
+
+	//Finally, stop.
+	hal->motorSet(MOTOR_LEFT, 0.0);
+	hal->motorSet(MOTOR_RIGHT, 0.0);
 
 }
 
@@ -22,7 +53,7 @@ void junctionTurn(bool left) {
 
 	//Turning right is the same as turning left, but with the sensors and motors flipped.
 
-	//Slowly (so slowly that we can't "jump" the lines
+	//Slowly (so slowly that we can't "jump" the lines)
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
 
@@ -30,13 +61,15 @@ void junctionTurn(bool left) {
 
 	//Done. STOP!
 
+	//Preempt that and slow down by looking at the left or right sensor?
+
 	//TODO Estimate the time taken, error condition if it all goes wrong...!
 
 }
 
 //Follow the line we are currently on until we reach WWWW (indicating that our front sensors are on a node, pointing straight)
 //Estimated Distance is to ensure that we don't massively overshoot - stops us driving off to infinity.
-void followLineToNext(int estimatedDistance, HAL* h) {
+void followLineToNext(int lineDistance, bool justWentStraight, HAL* h) {
 
 	//Use a primitive estimate from the average velocity of the robot
 	stopwatch watchdog;
@@ -48,9 +81,23 @@ void followLineToNext(int estimatedDistance, HAL* h) {
 	float mtrB = 0.4;
 
 	//Assume we start lined up correctly.
+	//Also assume that the sensors are exactly 8cm in front of the wheel centreline
 
-	const int velocityReciprocal = 100; //in millieconds per centimeter
-	while(watchdog.read() < (250 + 1.2 * (estimatedDistance * velocityReciprocal))) { //compensate for 250ms of motor lag, max 20% overshoot
+	//If we've turned, our sensors are 8cm in front of the line
+	int estimatedDistanceRemaining = lineDistance - 8;
+
+	//If we've crossed a junction, we've got the entire length to travel.
+	if(justWentStraight)
+		estimatedDistanceRemaining += 8;
+
+	//Sanity check the remaining distance - no junctions should be within 8cm of each other.
+	if(estimatedDistanceRemaining <= 0) {
+		ERR("[LF] We are being asked to follow a line, but the distance remaining is "<<estimatedDistanceRemaining);
+		return;
+	}
+
+	const int velocityReciprocal = 100; //in milliseconds per centimeter
+	while(watchdog.read() < (250 + 1.2 * (estimatedDistanceRemaining * velocityReciprocal))) { //compensate for 250ms of motor lag, max 20% overshoot
 
 		int time_iteration_begin = watchdog.read();
 

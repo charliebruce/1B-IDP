@@ -40,16 +40,13 @@ MissionController::MissionController(HAL* h) {
 }
 
 MissionController::~MissionController() {
+
+	TRACE("[MC] Destructor.");
 }
 
 void MissionController::FunctionalTests(void) {
 
-#ifdef __arm__
-	INFO("[Functional Tests] Running on robot; skipping network tests.");
-#else
-	//Network test only makes sense if running on the workstation.
 	hal->networkTest();
-#endif
 
 	hal->ledTest();
 
@@ -79,7 +76,11 @@ void MissionController::RunMission(void) {
 	{
 		INFO("[MC] Navigating to the next occupied egg collection point.");
 		//Navigate to the nearest occupied egg collection point
-		COLLECTION_POINT nextCP = nav.getNearestOccupiedCP();
+
+		//TODO more efficient to generate all possible routes, then choose shortest?
+		//ie goToBestCollectionPoint returns a COLLECTION_POINT
+		COLLECTION_POINT nextCP = nav.getNearestEggyCP();
+		nav.travelToCP(nextCP);
 
 
 		INFO("[MC] Picking up the egg.");
@@ -87,7 +88,7 @@ void MissionController::RunMission(void) {
 		//TODO this
 
 		//Mark the collection point as unoccupied
-		nav.setUnoccupied(nextCP);
+		nav.setNoEgg(nextCP);
 
 		//Identify the egg using the sensor(s)
 		EGGTYPE e = EGG_WHITE; //TODO identify the type

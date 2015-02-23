@@ -14,14 +14,14 @@ Navigation::Navigation() {
 	DEBUG("[NAV] Creator.");
 	//The game state starts with all collection points occupied
 	for(int i = 0; i<NUM_CP; i++) {
-		cpOccupied[i] = true;
+		cpHasEgg[i] = true;
 	}
 
 	//We start pointing EAST
 	forwards = EAST;
 
 	//At the starting location
-	currentNode = NODE_0;
+	currentNode = NODE_START;
 
 }
 
@@ -30,59 +30,68 @@ Navigation::~Navigation() {
 }
 
 void Navigation::travelToCP(COLLECTION_POINT cp) {
-	//TODO this
-	travelToNode(NODE_0);
+	//TODO implement this
+	travelToNode(NODE_START);
 }
 
 void Navigation::travelToDP(DROPOFF_POINT dp) {
-	//TODO this
-	travelToNode(NODE_0);
+	//TODO implement this
+	travelToNode(NODE_START);
 }
 
 //Internal use only
 void Navigation::travelToNode(NODE n) {
 
+	//TODO implement this
 }
 
 //Find the nearest location from which we can collect an egg, given our current location
-COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
+COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 
-	COLLECTION_POINT best = CP_0;
+	//TODO simplify:
+	//if at D1, we prioritise CP2, 3, 4, 1, 0 to get the points ASAP
+	//If at D2 or D3, prioritise in descending order
+	//If at start, we prioritise in ascending order
+	//We should not be asked this if located anywhere else! Maybe if we discard an egg or encounter another error.
+	COLLECTION_POINT priority[NUM_CP];
 
-	//No collection point can ever be more than 100m away
-	int bestDist = 10000;
 
-	for(int i = CP_0; i < NUM_CP; i++) {
-
-		//If the current collection point has no egg, move on to the next.
-		if(!cpOccupied[i]) {
-			TRACE("CP"<<i<<" is not occupied with egg; continuing.");
-			continue;
-		}
-
-		//If the distance to the node associated with CP i is lower
-		if(int bd = distanceBetweenNodes(currentNode, nodeForCP((COLLECTION_POINT) i)) < bestDist)
-		{
-			//We've found a new minimum distance
-			bestDist = bd;
-
-			//That becomes the best collection point
-			best = (COLLECTION_POINT) i;
-
-			TRACE("[NAV] CP" <<i<<" is "<<bd<<"cm away which is new best.");
-		} else {
-			TRACE("[NAV] CP "<<i<<" is "<<bd<<"cm away which is not closer.");
-		}
+	if(currentNode == NODE_START) {
+		priority[0] = CP_0;
+		priority[1] = CP_1;
+		priority[2] = CP_2;
+		priority[3] = CP_3;
+		priority[4] = CP_4;
 	}
 
-
-	if(bestDist == 10000) {
-		//No collection point is occupied with egg, or the free one is inaccessible
-		WARN("[NAV] No occupied collection point, or inaccessible.");
+	else if(currentNode == NODE_D1) {
+		priority[0] = CP_2;
+		priority[1] = CP_3;
+		priority[2] = CP_4;
+		priority[3] = CP_1;
+		priority[4] = CP_0;
 	}
 
-	DEBUG("[NAV] Found nearest CP: " << best);
-	return best;
+	else {
+		priority[0] = CP_4;
+		priority[1] = CP_3;
+		priority[2] = CP_2;
+		priority[3] = CP_1;
+		priority[4] = CP_0;
+	}
+
+	int i = 0;
+	while(i < NUM_CP && !cpHasEgg[priority[i]]) {
+		i++;
+	}
+
+	if(i == NUM_CP)	{
+		WARN("No valid collection point found!");
+		return CP_0;
+	}
+
+	DEBUG("[NAV] Found nearest CP: " << priority[i]);
+	return priority[i];
 
 }
 
@@ -92,11 +101,11 @@ int Navigation::distanceBetweenNodes(NODE a, NODE b) {
 }
 
 NODE Navigation::nodeForCP(COLLECTION_POINT cp) {
-	return NODE_0;
+	return NODE_START;
 }
 
 
-void Navigation::setUnoccupied(COLLECTION_POINT cp) {
-	cpOccupied[cp] = false;
+void Navigation::setNoEgg(COLLECTION_POINT cp) {
+	cpHasEgg[cp] = false;
 }
 
