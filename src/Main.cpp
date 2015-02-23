@@ -32,20 +32,24 @@ int main(int argc,  char** argv) {
 
 		//TODO add calibration mode, save calibration parameters to file
 
-		if(!strcmp(argv[1], "functional-tests")) {
-			doFunctionalTests = true;
-			doMainMission = false;
-		}
-		else if(!strcmp(argv[1], "run-mission")) {
-			doFunctionalTests = false;
-			doMainMission = true;
-		}
-		else if(!strcmp(argv[1], "run-all")) {
-			doFunctionalTests = true;
-			doMainMission = true;
+		if(argc > 1) {
+			if(!strcmp(argv[1], "functional-tests")) {
+				doFunctionalTests = true;
+				doMainMission = false;
+			}
+			else if(!strcmp(argv[1], "run-mission")) {
+				doFunctionalTests = false;
+				doMainMission = true;
+			}
+			else if(!strcmp(argv[1], "run-all")) {
+				doFunctionalTests = true;
+				doMainMission = true;
+			} else {
+				WARN("Invalid parameters supplied; proceeding with main mission.");
+			}
 		}
 		else {
-			WARN("No valid parameters supplied; proceeding with main mission.");
+			INFO("No parameters supplied; proceeding with main mission.");
 		}
 
 	}
