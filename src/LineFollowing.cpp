@@ -69,7 +69,7 @@ void junctionTurn(bool left) {
 
 //Follow the line we are currently on until we reach WWWW (indicating that our front sensors are on a node, pointing straight)
 //Estimated Distance is to ensure that we don't massively overshoot - stops us driving off to infinity.
-void followLineToNext(int lineDistance, bool justWentStraight, HAL* h) {
+void followLineToNext(int lineDistance, bool justWentStraight, bool approachingTJunction, HAL* h) {
 
 	//Use a primitive estimate from the average velocity of the robot
 	stopwatch watchdog;
@@ -109,17 +109,25 @@ void followLineToNext(int lineDistance, bool justWentStraight, HAL* h) {
 		//If we lose the white line on our rear sensor there is a BIG PROBLEM!
 		if(sensors.rc != WHITE) {
 			//TODO implement recovery strategy, downgrade this to a warning
-			ERR("[LF] Temporary loss of line! Unable to correct, returning.");
-			return;
+			ERR("[LF] Loss of line on rear sensor! Unable to correct. Continuing, but maybe into the abyss!");
+			//return;
 		}
 
 		if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == WHITE)){
 			INFO("[LF] We might well have reached an X-junction! Party party party.");
+			if (approachingTJunction) {
+				ERR("[LF] Was expecting T junction but found what appears to be X!");
+				//TODO appropriate recovery strategy
+			}
 			return;
 		}
 		else if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK))
 		{
 			INFO("[LF] We might well have reached a T-junction! (or are approaching an X at a slight angle). Party.");
+			if (!approachingTJunction) {
+				ERR("[LF] Was expecting X junction but found what appears to be T!");
+				//TODO recovery strategy
+			}
 			return;
 		}
 

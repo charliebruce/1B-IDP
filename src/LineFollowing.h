@@ -19,7 +19,7 @@
 
 
 //Used to navigate to/around + junctions
-void followLineToNext(int estimatedDistance, bool justWentStraight, HAL* h);
+void followLineToNext(int estimatedDistance, bool justWentStraight, bool approachingTJunction, HAL* h);
 
 
 #endif /* LINEFOLLOWING_H_ */
