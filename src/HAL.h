@@ -81,9 +81,11 @@ public:
 
 	LINE_SENSOR_DATA lineRead(void);
 
+	//Simple unit tests to ensure that sub-systems are functioning correctly
 	void networkTest(void);
 	void ledTest(void);
 	void motorTest(void);
+	void sensorTest(void);
 
 private:
 

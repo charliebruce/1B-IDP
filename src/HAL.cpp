@@ -12,6 +12,7 @@
 robot_link rlink;
 
 //State of the pins connected to port0
+//TODO is the assumption that the high 24 bits are ignored correct? uint8_t?
 int port0;
 
 HAL::HAL(int robot) {
@@ -88,6 +89,7 @@ LINE_SENSOR_DATA lineRead(void) {
 	//TODO implement
 	LINE_SENSOR_DATA lsd;
 
+	//White is true, black is false
 	lsd.fc = false;
 	lsd.fl = false;
 	lsd.fr = false;
@@ -96,24 +98,45 @@ LINE_SENSOR_DATA lineRead(void) {
 	return lsd;
 }
 
+void HAL::sensorTest(void) {
+
+	INFO("[HAL] Sensor test starting.");
+
+	stopwatch sw;
+	sw.start();
+	for(int i = 0; i< 10; i++) {
+
+		while(sw.read() < i * 100)
+			;
+
+
+	}
+	//TODO implement this
+}
+
 void HAL::ledSet(LED led, bool on) {
 
 	//TODO ensure that pin numbering matches physical hardware
 	DEBUG("[HAL] LED: "<<led<<" set to "<<on);
 
 	int mask = 0;
+	bool invert = false; //If a HIGH pin turns the light OFF, this should be TRUE.
+
 	switch(led) {
 	case LED_LEFT:
 		//Left LED is on pin 0
 		mask = (1 << 0);
+		invert = false;
 		break;
 	case LED_MIDD:
 		//Middle LED is on pin 1
 		mask = (1 << 1);
+		invert = false;
 		break;
 	case LED_RGHT:
 		//Middle LED is on pin 2
 		mask = (1 << 2);
+		invert = false;
 		break;
 	case NUM_LEDS:
 	default:
@@ -121,8 +144,7 @@ void HAL::ledSet(LED led, bool on) {
 		return;
 	}
 
-	//If the hardware is wired such that HIGH is OFF then reverse this.
-	if(on) {
+	if(on != invert) {
 		port0 |= mask;
 	} else {
 		port0 &= ~mask;
