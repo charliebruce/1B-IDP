@@ -30,17 +30,34 @@ Navigation::~Navigation() {
 }
 
 void Navigation::travelToCP(COLLECTION_POINT cp) {
+	DEBUG("[NAV] Travelling to CP"<<cp);
 	travelToNode(nodeForCP(cp));
 }
 
 void Navigation::travelToDP(DROPOFF_POINT dp) {
+	DEBUG("[NAV] Travelling to DP"<<(dp + 1)); //DP_1 == 0
 	travelToNode(nodeForDP(dp));
 }
 
 //Internal use only
 void Navigation::travelToNode(NODE n) {
 
+	DEBUG("[NAV] Travelling to node " << n);
+
 	//TODO implement this
+
+	//Plan out the route as the optimal sequence of line followings, junction crossings and turnings
+
+
+
+
+
+
+
+
+
+
+
 }
 
 //Find the nearest location from which we can collect an egg, given our current location
@@ -85,7 +102,7 @@ COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 	}
 
 	if(i == NUM_CP)	{
-		WARN("No valid collection point found!");
+		WARN("[NAV] No valid collection point found!");
 		return CP_0;
 	}
 
@@ -96,7 +113,7 @@ COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 
 //An estimate of the line-following distance between two nodes on the field in cm
 int Navigation::distanceBetweenNodes(NODE a, NODE b) {
-	return 100;
+	return 100; //TODO implement
 }
 
 NODE Navigation::nodeForDP(DROPOFF_POINT dp) {
