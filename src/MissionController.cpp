@@ -48,12 +48,18 @@ MissionController::~MissionController() {
 
 void MissionController::FunctionalTests(void) {
 
+#ifdef __arm__
+	INFO("[Functional Tests] Running on robot; skipping network tests.");
+#else
+	//Network test only makes sense if running on the workstation.
 	hal->networkTest();
+#endif
 
 	hal->ledTest();
 
 	hal->motorTest();
 
+	hal->sensorTest();
 
 
 }
@@ -61,9 +67,19 @@ void MissionController::FunctionalTests(void) {
 void MissionController::RunMission(void) {
 
 	INFO("[MC] Starting mission.");
+	stopwatch missionTimer;
+	missionTimer.start();
+
+	//Wait until we are placed on the starting position
+	//We assume that if we are on the starting position, we will read white for both central sensors
+
+	//If we weren't started on the white lines, but now we are, give 3 seconds for the person to get
+	//their hands free.
+
+	const static int TIMELIMIT = 5 * 60 * 1000; //5 minutes
 
 	//While the game is still active
-	while (totalEggsRemaining() > 0)
+	while (totalEggsRemaining() > 0 && (missionTimer.read() < TIMELIMIT))
 	{
 		INFO("[MC] Navigating to the next occupied egg collection point.");
 		//Navigate to the nearest occupied egg collection point
@@ -79,7 +95,7 @@ void MissionController::RunMission(void) {
 
 		//Identify the egg using the sensor(s)
 		EGGTYPE e = EGG_WHITE; //TODO identify the type
-		INFO("[MC] Identified as " << e);
+		INFO("[MC] Identified as " << e << ".");
 
 		//Sanity check the type of egg
 		if(eggsRemaining[e] <= 0) {
@@ -99,7 +115,7 @@ void MissionController::RunMission(void) {
 			}
 		}
 
-		INFO("[MC] Acting as if this is a " << e);
+		INFO("[MC] Acting as if this is a " << e << ".");
 
 		//Signal the type using the LEDs
 		signalEggType(e, hal);
