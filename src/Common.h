@@ -26,5 +26,9 @@ enum EGGTYPE {
 //TODO define this
 static const int ROBOT_NUM = 11;
 
+enum LINECOLOUR {
+	BLACK = false,
+	WHITE = true
+};
 
 #endif /* COMMON_H_ */
