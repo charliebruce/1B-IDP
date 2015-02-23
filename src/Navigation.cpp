@@ -20,6 +20,7 @@ Navigation::Navigation() {
 	//We start pointing EAST
 	forwards = EAST;
 
+	//At the starting location
 	currentNode = NODE_0;
 
 }
@@ -48,7 +49,7 @@ COLLECTION_POINT Navigation::getNearestOccupiedCP(void) {
 
 	COLLECTION_POINT best = CP_0;
 
-	//No collection point can ever be more than 10m away
+	//No collection point can ever be more than 100m away
 	int bestDist = 10000;
 
 	for(int i = CP_0; i < NUM_CP; i++) {

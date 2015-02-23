@@ -15,9 +15,7 @@ Navigation nav;
 
 MissionController::MissionController(HAL* h) {
 
-	//TODO fix passing this object around - use &
 	hal = h;
-
 
 	TRACE("[MC] Constructor.");
 
@@ -29,12 +27,10 @@ MissionController::MissionController(HAL* h) {
 	eggsRemaining[EGG_MULTI] = 1;
 	eggsRemaining[EGG_INDETERMINATE] = 0;
 
-
 	dropoffForEgg[EGG_WHITE] = DP_1;
 	dropoffForEgg[EGG_BROWN] = DP_2;
 	dropoffForEgg[EGG_MULTI] = DP_3;
 	dropoffForEgg[EGG_INDETERMINATE] = DP_ANYWHERE; //If we really can't determine the type and can't handle, then discard anywhere.
-
 
 	//At the start, we have not deposited any eggs
 	eggsPlaced = 0;

@@ -9,6 +9,30 @@
 
 #include "Log.h"
 
+//TODO implement
+void junctionStraight(void) {
+
+	//Just shoot a little forwards, then re-align oneself on the line.
+
+
+}
+
+//TODO implement
+void junctionTurn(bool left) {
+
+	//Turning right is the same as turning left, but with the sensors and motors flipped.
+
+	//Slowly (so slowly that we can't "jump" the lines
+	//turn just far enough to lose the line completely (BBB)
+	//by pivoting about the correct wheel
+
+	//Then keep going until the centre sensor hits white again.
+
+	//Done. STOP!
+
+	//TODO Estimate the time taken, error condition if it all goes wrong...!
+
+}
 
 //Follow the line we are currently on until we reach WWWW (indicating that our front sensors are on a node, pointing straight)
 //Estimated Distance is to ensure that we don't massively overshoot - stops us driving off to infinity.
@@ -23,6 +47,7 @@ void followLineToNext(int estimatedDistance, HAL* h) {
 	float mtrA = 0.4;
 	float mtrB = 0.4;
 
+	//Assume we start lined up correctly.
 
 	const int velocityReciprocal = 100; //in millieconds per centimeter
 	while(watchdog.read() < (250 + 1.2 * (estimatedDistance * velocityReciprocal))) { //compensate for 250ms of motor lag, max 20% overshoot
@@ -51,7 +76,6 @@ void followLineToNext(int estimatedDistance, HAL* h) {
 			INFO("[LF] We might well have reached a T-junction! (or are approaching an X at a slight angle). Party.");
 			return;
 		}
-
 
 		//TODO We assume that the spacing of the sensors is just greater than the line width?
 		//TODO: Very primitive implementation here: improve with PID/smoothing
