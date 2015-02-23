@@ -54,7 +54,6 @@ void followLineToNext(int estimatedDistance, HAL* h) {
 
 		int time_iteration_begin = watchdog.read();
 
-
 		//Read the sensor state
 		LINE_SENSOR_DATA sensors = h->lineRead();
 		//TODO determine if repeat readings help?
@@ -104,10 +103,12 @@ void followLineToNext(int estimatedDistance, HAL* h) {
 			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently?");
 		}
 
-
 		h->motorSet(MOTOR_LEFT, mtrA);
 		h->motorSet(MOTOR_RIGHT, mtrB);
 
+		//TODO A small time delay here to reduce jitter?
+		//Delay for 10ms
+		//while(watchdog.read() < time_iteration_begin + 10) ;
 
 	}
 

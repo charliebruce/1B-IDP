@@ -109,9 +109,11 @@ void HAL::sensorTest(void) {
 		while(sw.read() < i * 100)
 			;
 
+		//Read the value from the sensor
+
+		//TODO implement this
 
 	}
-	//TODO implement this
 }
 
 void HAL::ledSet(LED led, bool on) {
