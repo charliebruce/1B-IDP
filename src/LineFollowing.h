@@ -15,14 +15,11 @@
 #define LINEFOLLOWING_H_
 
 #include "HAL.h"
+#include "Common.h"
 
 
 //Used to navigate to/around + junctions
 void followLineToNext(int estimatedDistance, HAL* h);
-
-//Used to find T junctions
-void followEdgeToNext(bool left, int estimatedDistance, HAL* h);
-
 
 
 #endif /* LINEFOLLOWING_H_ */
