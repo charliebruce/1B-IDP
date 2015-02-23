@@ -30,13 +30,11 @@ Navigation::~Navigation() {
 }
 
 void Navigation::travelToCP(COLLECTION_POINT cp) {
-	//TODO implement this
-	travelToNode(NODE_START);
+	travelToNode(nodeForCP(cp));
 }
 
 void Navigation::travelToDP(DROPOFF_POINT dp) {
-	//TODO implement this
-	travelToNode(NODE_START);
+	travelToNode(nodeForDP(dp));
 }
 
 //Internal use only
@@ -48,11 +46,11 @@ void Navigation::travelToNode(NODE n) {
 //Find the nearest location from which we can collect an egg, given our current location
 COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 
-	//TODO simplify:
 	//if at D1, we prioritise CP2, 3, 4, 1, 0 to get the points ASAP
 	//If at D2 or D3, prioritise in descending order
 	//If at start, we prioritise in ascending order
 	//We should not be asked this if located anywhere else! Maybe if we discard an egg or encounter another error.
+	//In that case a non-optimal pickup location is the least of our worries.
 	COLLECTION_POINT priority[NUM_CP];
 
 
@@ -72,7 +70,7 @@ COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 		priority[4] = CP_0;
 	}
 
-	else {
+	else { //TODO if we're not at D2 or D3 this may not be optimal!
 		priority[0] = CP_4;
 		priority[1] = CP_3;
 		priority[2] = CP_2;
@@ -82,6 +80,7 @@ COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 
 	int i = 0;
 	while(i < NUM_CP && !cpHasEgg[priority[i]]) {
+		//If the egg has been collected, move to the next-highest ranking pickup location
 		i++;
 	}
 
@@ -100,10 +99,37 @@ int Navigation::distanceBetweenNodes(NODE a, NODE b) {
 	return 100;
 }
 
-NODE Navigation::nodeForCP(COLLECTION_POINT cp) {
-	return NODE_START;
+NODE Navigation::nodeForDP(DROPOFF_POINT dp) {
+	switch(dp) {
+	case DP_1:
+		return NODE_START; //TODO this
+	case DP_2:
+		return NODE_START; //TODO this
+	case DP_3:
+		return NODE_START; //TODO this
+	default:
+		ERR("[NAV] Tried to get node for an unknown or invalid dropoff point!");
+		return NODE_START;
+	}
 }
 
+NODE Navigation::nodeForCP(COLLECTION_POINT cp) {
+	switch(cp) {
+	case CP_0:
+		return NODE_START; //TODO this
+	case CP_1:
+		return NODE_START; //TODO this
+	case CP_2:
+		return NODE_START; //TODO this
+	case CP_3:
+		return NODE_START; //TODO this
+	case CP_4:
+		return NODE_START; //TODO this
+	default:
+		ERR("[NAV] Tried to get node for an unknown or invalid collection point!");
+		return NODE_START;
+	}
+}
 
 void Navigation::setNoEgg(COLLECTION_POINT cp) {
 	cpHasEgg[cp] = false;

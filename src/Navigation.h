@@ -75,6 +75,7 @@ private:
 
 	int distanceBetweenNodes(NODE a, NODE b);
 	NODE nodeForCP(COLLECTION_POINT cp);
+	NODE nodeForDP(DROPOFF_POINT dp);
 
 
 
