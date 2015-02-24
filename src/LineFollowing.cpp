@@ -18,7 +18,7 @@
 #include "Log.h"
 
 
-void junctionStraight(void) {
+void junctionStraight(HAL* hal) {
 
 	//Just shoot a little forwards, then re-align oneself on the line.
 	stopwatch sw;
@@ -49,7 +49,7 @@ void junctionStraight(void) {
 }
 
 //TODO implement
-void junctionTurn(bool left) {
+void junctionTurn(bool left, HAL* hal) {
 
 	//Turning right is the same as turning left, but with the sensors and motors flipped.
 
