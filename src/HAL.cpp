@@ -101,7 +101,6 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 	//Sensor 3 is on pin 2 (dec 4)
 	//Sensor 4 is on pin 3 (dec 8)
 
-	//White is true, black is false
 	lsd.fl = (vals & (1<<0));
 	lsd.fc = (vals & (1<<1));
 	lsd.fr = (vals & (1<<2));
@@ -109,6 +108,8 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 
 	bool invert = false;
 
+	//White is true, black is false, but this logic depends on wiring
+	//TODO confirm
 	if (invert) {
 		lsd.fl = !lsd.fl;
 		lsd.fc = !lsd.fc;

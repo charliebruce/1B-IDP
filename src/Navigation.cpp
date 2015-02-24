@@ -71,7 +71,6 @@ COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 	//In that case a non-optimal pickup location is the least of our worries.
 	COLLECTION_POINT priority[NUM_CP];
 
-
 	if(currentNode == NODE_START) {
 		priority[0] = CP_0;
 		priority[1] = CP_1;

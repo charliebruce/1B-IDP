@@ -11,23 +11,9 @@
 #ifndef NAVIGATION_H_
 #define NAVIGATION_H_
 
-enum COLLECTION_POINT {
-	CP_0 = 0,
-	CP_1,
-	CP_2,
-	CP_3,
-	CP_4,
-	NUM_CP
-};
+#include "Common.h"
 
-enum DROPOFF_POINT {
-	DP_1 = 0,
-	DP_2,
-	DP_3,
-	DP_ANYWHERE,
-	NUM_DP
-};
-
+//Nodes are internal to the navigation class
 enum NODE {
 	NODE_START = 0,
 	NODE_1,
@@ -35,6 +21,7 @@ enum NODE {
 	NODE_D1,//TODO this better
 	NUM_NODES
 };
+
 
 enum ABS_DIRECTION {
 	NORTH = 0,

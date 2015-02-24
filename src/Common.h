@@ -23,6 +23,23 @@ enum EGGTYPE {
 	NUM_EGGTYPES
 };
 
+enum COLLECTION_POINT {
+	CP_0 = 0,
+	CP_1,
+	CP_2,
+	CP_3,
+	CP_4,
+	NUM_CP
+};
+
+enum DROPOFF_POINT {
+	DP_1 = 0,
+	DP_2,
+	DP_3,
+	DP_ANYWHERE,
+	NUM_DP
+};
+
 //TODO define this
 static const int ROBOT_NUM = 11;
 

@@ -90,7 +90,8 @@ void MissionController::RunMission(void) {
 		nav.setNoEgg(nextCP);
 
 		//Identify the egg using the sensor(s)
-		EGGTYPE e = EGG_WHITE; //TODO identify the type
+		EGGTYPE e = identify(hal);
+
 		INFO("[MC] Identified as " << e << ".");
 
 		//Sanity check the type of egg
