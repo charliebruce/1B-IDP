@@ -91,17 +91,30 @@ void HAL::handleErrors(void) {
 
 LINE_SENSOR_DATA HAL::lineRead(void) {
 
-	//TODO implement
 	LINE_SENSOR_DATA lsd;
 
-	//White is true, black is false
-	lsd.fc = false;
-	lsd.fl = false;
-	lsd.fr = false;
-	lsd.rc = false;
-
 	int vals = rlink.request(READ_PORT_0);
-	DEBUG("Port 0 read: " << vals);
+	TRACE("Port 0 read: " << vals);
+
+	//Sensor 1 is on pin 0 (dec 1) - front left
+	//Sensor 2 is on pin 1 (dec 2)
+	//Sensor 3 is on pin 2 (dec 4)
+	//Sensor 4 is on pin 3 (dec 8)
+
+	//White is true, black is false
+	lsd.fl = (vals & (1<<0));
+	lsd.fc = (vals & (1<<1));
+	lsd.fr = (vals & (1<<2));
+	lsd.rc = (vals & (1<<3));
+
+	bool invert = false;
+
+	if (invert) {
+		lsd.fl = !lsd.fl;
+		lsd.fc = !lsd.fc;
+		lsd.fr = !lsd.fr;
+		lsd.rc = !lsd.rc;
+	}
 
 	return lsd;
 }
