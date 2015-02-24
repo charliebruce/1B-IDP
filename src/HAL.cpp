@@ -80,6 +80,11 @@ void HAL::handleErrors(void) {
 
 		//TODO implement error catching and handling
 		rlink.print_errs();
+
+		if(rlink.fatal_err()) {
+			rlink.reinitialise();
+		}
+
 	}
 
 }
@@ -94,6 +99,9 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 	lsd.fl = false;
 	lsd.fr = false;
 	lsd.rc = false;
+
+	int vals = rlink.request(READ_PORT_0);
+	DEBUG("Port 0 read: " << vals);
 
 	return lsd;
 }
@@ -115,7 +123,7 @@ void HAL::sensorTest(void) {
 		lsd = lineRead();
 
 		//Output the values in a readable form to the console
-		INFO("Front sensors: " << ((lsd.fl == WHITE)?"white\t":"black\t") << ((lsd.fc == WHITE)?"white\t":"black\t") << ((lsd.fr == WHITE)?"white\t":"black\t") );
+		INFO("Front sensors:\t" << ((lsd.fl == WHITE)?"white\t":"black\t") << ((lsd.fc == WHITE)?"white\t":"black\t") << ((lsd.fr == WHITE)?"white\t":"black\t") );
 
 	}
 

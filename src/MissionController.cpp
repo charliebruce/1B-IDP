@@ -42,6 +42,7 @@ MissionController::MissionController(HAL* h) {
 MissionController::~MissionController() {
 
 	TRACE("[MC] Destructor.");
+
 }
 
 void MissionController::FunctionalTests(void) {
@@ -53,7 +54,6 @@ void MissionController::FunctionalTests(void) {
 	hal->motorTest();
 
 	hal->sensorTest();
-
 
 }
 
@@ -69,7 +69,7 @@ void MissionController::RunMission(void) {
 	//If we weren't started on the white lines, but now we are, give 3 seconds for the person to get
 	//their hands free.
 
-	const static int TIMELIMIT = 5 * 60 * 1000; //5 minutes
+	const static int TIMELIMIT = 5 * 60 * 1000; //5 minutes in ms
 
 	//While the game is still active
 	while (totalEggsRemaining() > 0 && (missionTimer.read() < TIMELIMIT))
@@ -81,7 +81,6 @@ void MissionController::RunMission(void) {
 		//ie goToBestCollectionPoint returns a COLLECTION_POINT
 		COLLECTION_POINT nextCP = nav.getNearestEggyCP();
 		nav.travelToCP(nextCP);
-
 
 		INFO("[MC] Picking up the egg.");
 		//Attempt to pick up the egg

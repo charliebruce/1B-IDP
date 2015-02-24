@@ -12,6 +12,7 @@
 Navigation::Navigation() {
 
 	DEBUG("[NAV] Creator.");
+
 	//The game state starts with all collection points occupied
 	for(int i = 0; i<NUM_CP; i++) {
 		cpHasEgg[i] = true;
