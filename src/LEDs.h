@@ -13,7 +13,10 @@
 #include "HAL.h"
 #include "Common.h"
 
+//Switch all the LEDs off
 void stopSignalling(HAL* h);
+
+//Light the LEDs in the pattern corresponding to the given EGGTYPE
 void signalEggType(EGGTYPE e, HAL* h);
 
 

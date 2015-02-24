@@ -4,13 +4,12 @@
  *  Created on: 12 Feb 2015
  *      Author: Charlie
  *
- *	This is responsible for identifying the type of the object, based on the raw data from the sensor(s).
+ *	This is responsible for identifying the type of the egg.
  *
  *	This could be done in a very primitive way (ie just manually defining thresholds on a single variable),
- *	or with more advanced sampling (ie taking multiple readings from multiple sensors, getting a better
- *	estimate of colour). The data could then be grouped multi-dimensionally with "learning" samples. The
- *	choice of method should be determined by writing a simple threshold-based algorithm, and testing that
- *	algorithm over a sample of objects to determine reliability.
+ *	or with more advanced methods (ie taking multiple readings from multiple sensors or under different
+ *	lighting conditions, getting a better estimate of colour). The chosen method will depend on the results
+ *	from testing.
  */
 
 #ifndef OBJECTRECOGNITION_H_
@@ -21,6 +20,8 @@
 
 //Return the best guess at the egg type for the given sensor data
 //Electrical failures (ie 0 or 255?) should result in an INDETERMINATE response
+//This code might control one or more coloured LEDs that illuminates the egg, to give
+//more information about what colour the egg might be
 EGGTYPE identify(HAL* h);
 
 

@@ -7,7 +7,7 @@
  *	See:
  *  http://www-h.eng.cam.ac.uk/help/tpl/IDP/linefollowing.html
  *
- *	TODO determine sensor layout/communicate with mechanical team regarding placement of the sensors.
+ *	Responsible for the driving motion of the robot, especially when concerned with moving around lines
  *
  */
 

@@ -23,6 +23,7 @@ enum EGGTYPE {
 	NUM_EGGTYPES
 };
 
+//The five collection points
 enum COLLECTION_POINT {
 	CP_0 = 0,
 	CP_1,
@@ -32,6 +33,7 @@ enum COLLECTION_POINT {
 	NUM_CP
 };
 
+//Dropping off the egg anywhere might be used in a recovery strategy, if an un-recoverable error state is reached.
 enum DROPOFF_POINT {
 	DP_1 = 0,
 	DP_2,
@@ -40,9 +42,10 @@ enum DROPOFF_POINT {
 	NUM_DP
 };
 
-//TODO define this
+//The number on the wireless dongle attached to the robot.
 static const int ROBOT_NUM = 11;
 
+//Type safeness is key
 enum LINECOLOUR {
 	BLACK = false,
 	WHITE = true

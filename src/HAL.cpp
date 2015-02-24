@@ -66,6 +66,7 @@ void HAL::resetRobot(void) {
 	//Motors all off
 	motorSet(MOTOR_LEFT, 0.0);
 	motorSet(MOTOR_RIGHT, 0.0);
+	motorSet(MOTOR_LIFT, 0.0);
 
 	//Sensors, etc
 	//TODO this
@@ -169,6 +170,8 @@ void HAL::sensorTest(void) {
 
 void HAL::ledSet(LED led, bool on) {
 
+	//TODO LED CLRA and CLRB
+
 	//TODO ensure that pin numbering matches physical hardware
 	DEBUG("[HAL] LED: "<<led<<" set to "<<on);
 
@@ -260,9 +263,13 @@ void HAL::motorSet(MOTOR m, float rate) {
 		reverse_motor = true;
 		rate = rate * 0.5;//Gear ratio compensation on test robot
 		break;
-		//TODO assign grab/lift motor
+	case MOTOR_LIFT:
+		cmd = MOTOR_3_GO;
+		reverse_motor = true;
+		break;
 
 	default:
+		WARN("[HAL] Invalid motor commanded.");
 		return;
 
 	}
@@ -320,6 +327,10 @@ void HAL::motorTest(void) {
 	while(sw.read() < 2000) ;
 
 	INFO("[HAL] Motor tests finished.");
+
+
+	motorSet(MOTOR_LEFT, 0.0);
+	motorSet(MOTOR_RIGHT, 0.0);
 }
 
 void HAL::networkTest(void) {
