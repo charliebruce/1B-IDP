@@ -11,6 +11,8 @@
 #ifndef NAVIGATION_H_
 #define NAVIGATION_H_
 
+#include "ObjectRecognition.h"
+
 #include "Common.h"
 
 //Nodes are internal to the navigation class
