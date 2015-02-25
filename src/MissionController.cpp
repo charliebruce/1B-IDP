@@ -84,7 +84,7 @@ void MissionController::RunMission(void) {
 
 		INFO("[MC] Picking up the egg.");
 		//Attempt to pick up the egg
-		//TODO this
+		nav.collectEgg();
 
 		//Mark the collection point as unoccupied
 		nav.setNoEgg(nextCP);
@@ -124,6 +124,7 @@ void MissionController::RunMission(void) {
 		nav.travelToDP(dp);
 
 		//Deposit the egg in the egg cup
+		nav.dropoffEgg();
 
 		INFO("[MC] Egg has been deposited.");
 

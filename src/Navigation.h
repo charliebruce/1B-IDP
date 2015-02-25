@@ -52,8 +52,9 @@ public:
 	void travelToDP(DROPOFF_POINT dp);
 	void travelToCP(COLLECTION_POINT cp);
 
-	//Pick up the egg - also operates the lift, claw
+	//Pick up and deposit the egg - also operates the lift, claw
 	void collectEgg(void);
+	void dropoffEgg(void);
 
 private:
 

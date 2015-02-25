@@ -40,6 +40,16 @@ void Navigation::travelToDP(DROPOFF_POINT dp) {
 	travelToNode(nodeForDP(dp));
 }
 
+void Navigation::collectEgg(void) {
+	WARN("[NAV] Not yet implemented egg pickup.");
+	//TODO time lift time to work out weight / "shake" up and down to time?
+	//TODO this
+}
+void Navigation::dropoffEgg(void) {
+	WARN("[NAV] Not yet implemented egg dropoff.");
+	//TODO this
+}
+
 //Internal use only
 void Navigation::travelToNode(NODE n) {
 
