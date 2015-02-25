@@ -57,7 +57,7 @@ void junctionTurn(bool left, HAL* hal) {
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
 
-	//Then keep going until the centre sensor hits white again.
+	//Then keep going until the front centre sensor hits white again.
 
 	//Done. STOP!
 
@@ -112,6 +112,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			ERR("[LF] Loss of line on rear sensor! Unable to correct. Continuing, but maybe into the abyss!");
 			//return;
 		}
+
+		//If junctions are regularly detected falsely, sensor spacing needs to be increased.
 
 		if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == WHITE)){
 			INFO("[LF] We might well have reached an X-junction! Party party party.");
