@@ -71,6 +71,8 @@ void MissionController::RunMission(void) {
 
 	const static int TIMELIMIT = 5 * 60 * 1000; //5 minutes in ms
 
+
+
 	//While the game is still active
 	while (totalEggsRemaining() > 0 && (missionTimer.read() < TIMELIMIT))
 	{
@@ -136,7 +138,9 @@ void MissionController::RunMission(void) {
 		stopSignalling(hal);
 
 	}
+	//Bonus points for returning to the start
 
+	//TODO This
 	INFO("[MC] Mission complete.");
 }
 

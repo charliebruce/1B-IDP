@@ -72,6 +72,8 @@ private:
 	NODE currentNode;
 	ABS_DIRECTION forwards;
 
+	int distanceBetweenNodes(NODE a, NODE b);
+
 };
 
 //Each node has up to 4 neighbours, in each of the 4 cardinal directions

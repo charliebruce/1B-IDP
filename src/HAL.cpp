@@ -194,6 +194,16 @@ void HAL::ledSet(LED led, bool on) {
 		mask = (1 << 2);
 		invert = false;
 		break;
+	case LED_CLRA:
+		//Colour A LED is on pin 3
+		mask = (1 << 3);
+		invert = false;
+		break;
+	case LED_CLRB:
+		//Colour B LED is on pin 4
+		mask = (1 << 4);
+		invert = false;
+		break;
 	case NUM_LEDS:
 	default:
 		WARN("[HAL] Incorrect use of ledSet function (wrong LED specified).");
