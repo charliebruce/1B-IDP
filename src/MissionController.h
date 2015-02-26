@@ -45,6 +45,9 @@ public:
 	//Run functional tests
 	void FunctionalTests(void);
 
+	//Run line following tests
+	void LineTests(void);
+
 private:
 
 	//How many of each type of egg remain?

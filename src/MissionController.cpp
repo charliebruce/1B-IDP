@@ -57,6 +57,14 @@ void MissionController::FunctionalTests(void) {
 
 }
 
+void MissionController::LineTests(void) {
+
+
+	followLineToNext(1000, true, false, hal);
+
+}
+
+
 void MissionController::RunMission(void) {
 
 	INFO("[MC] Starting mission.");
