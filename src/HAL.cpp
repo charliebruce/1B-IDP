@@ -94,7 +94,7 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 
 	LINE_SENSOR_DATA lsd;
 
-	int vals = rlink.request(READ_PORT_0);
+	int vals = rlink.request(READ_PORT_1);
 	DEBUG("Port 0 read: " << vals);
 
 	//Sensor 1 is on pin 0 (dec 1) - front left
