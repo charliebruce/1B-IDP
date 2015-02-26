@@ -107,9 +107,9 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 	lsd.fr = (vals & (1<<2));
 	lsd.rc = (vals & (1<<3));
 
-	bool invert = true;
+	bool invert = false;
 
-	//White is true, black is false, but this logic depends on wiring - inverting IS required
+	//White is true, black is false, but this logic depends on wiring - inverting IS NOT required
 	if (invert) {
 		lsd.fl = !lsd.fl;
 		lsd.fc = !lsd.fc;
