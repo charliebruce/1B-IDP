@@ -137,7 +137,11 @@ void HAL::sensorTest(void) {
 		lsd = lineRead();
 
 		//Output the values in a readable form to the console
-		INFO("Front sensors:\t" << ((lsd.fl == WHITE)?"white\t":"black\t") << ((lsd.fc == WHITE)?"white\t":"black\t") << ((lsd.fr == WHITE)?"white\t":"black\t") );
+		INFO("Front sensors:\t" << ((lsd.fl == WHITE)?"white\t":"black\t")
+								<< ((lsd.fc == WHITE)?"white\t":"black\t")
+								<< ((lsd.fr == WHITE)?"white\t":"black\t")
+			<< " Rear: \t"
+								<< ((lsd.rc == WHITE)?"white\n":"black\n") );
 
 	}
 
