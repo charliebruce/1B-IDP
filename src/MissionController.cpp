@@ -47,14 +47,12 @@ MissionController::~MissionController() {
 
 void MissionController::FunctionalTests(void) {
 
-	//hal->networkTest();
+	hal->networkTest();
 
-	//hal->ledTest();
+	hal->ledTest();
 
-	//hal->motorTest();
+	hal->motorTest();
 
-	hal->sensorTest();
-	hal->sensorTest();
 	hal->sensorTest();
 
 }
