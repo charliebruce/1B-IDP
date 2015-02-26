@@ -156,7 +156,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//(ie the robot is starting to drift, but the spacing of the sensor means we haven't caught it')
 		//That is OK as long as we check frequently enough that the line is "trapped" at all times
 		//A total loss would be bad. Testing will determine if this is a problem.
-		if(sensors.fr == sensors.fc == sensors.fr == BLACK) {
+		if((sensors.fr == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
 			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently?");
 		}
 
