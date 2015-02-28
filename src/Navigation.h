@@ -17,16 +17,59 @@
 
 //Nodes are internal to the navigation class
 //TODO complete the node map
-enum NODE {
+enum NODEINDEX {
+
 	NODE_START = 0,
+	NODE_DP1,
+	NODE_DP2DP3,
+
+	NODE_CP0,
+	NODE_CP1,
+	NODE_CP2,
+	NODE_CP3,
+	NODE_CP4,
+
+	NODE_CP0S,
+	NODE_CP1S,
+	NODE_CP2S,
+	NODE_CP3S,
+	NODE_CP4S,
+
 	NODE_1,
 	NODE_2,
-	NODE_D1,
+	NODE_3,
+	NODE_4,
+	NODE_5,
+	NODE_6,
+	NODE_7,
+	NODE_8,
+	NODE_9,
+	NODE_10,
+	NODE_11,
+
 	NUM_NODES
 };
 
+//Struct for storing data
+
+//Each node has up to 4 neighbours, in each of the 4 cardinal directions
+//A neighbour could be a node, a dead end, blank (ie no path) or a T-node
+//There is also an estimated distance associated with each direction
+struct Node {
+	//Which node index is our neighbour in each of the given directions
+	NODEINDEX neighbours[4];
+	//Length, in cm, of the line in the given direction
+	int lengths[4];
+	//Is the node a T-junction?
+	bool tJunction;
+	//The side of the node that is missing the line
+	ABS_DIRECTION tOrientation;
+	//Calculated distance from the target node
+	int weight;
+};
+
 //Direction reference for orientation
-//We arbitrarily define the raised section to be in the NORTH (ramp running NORTH-SOUTH)
+//We arbitrarily define the raised section to be in the NORTH (ramp running NORTH-SOUTH, facing SOUTH as you descend)
 enum ABS_DIRECTION {
 	NORTH = 0,
 	EAST,
@@ -56,37 +99,35 @@ public:
 	void collectEgg(void);
 	void dropoffEgg(void);
 
+	//Calculate the distance (weight) map and return the distance from our current location
+	int calculateRouteToNode(NODEINDEX n);
+
+	//Actually make the journey
+	void travelRoute(HAL* h);
+
 private:
 
 	//State of the collection points is stored in here
 	bool cpHasEgg[NUM_CP];
 
 	//TODO prototype this and pathfinding code
-	void travelToNode(NODE n);
+
 
 	//Work out which junction we are aiming to navigate to.
-	NODE nodeForCP(COLLECTION_POINT cp);
-	NODE nodeForDP(DROPOFF_POINT dp);
+	NODEINDEX nodeForCP(COLLECTION_POINT cp);
+	NODEINDEX nodeForDP(DROPOFF_POINT dp);
 
 	//Our current position and approximate orientation
-	NODE currentNode;
+	NODEINDEX currentNode;
 	ABS_DIRECTION forwards;
 
-	int distanceBetweenNodes(NODE a, NODE b);
+	//The node that we have calculated our weights based on
+	NODEINDEX targetNode;
 
-};
+	void addLink(NODEINDEX from, ABS_DIRECTION dir, NODEINDEX to, int length);
+	bool notFinishedWeighting(void);
+	Node nodes[NUM_NODES];
 
-//Each node has up to 4 neighbours, in each of the 4 cardinal directions
-//A neighbour could be a node, a dead end, blank (ie no path) or a T-node
-//There is also an estimated distance associated with each direction
-
-//TODO Represent the world in this way, write navigation code which uses this knowledge
-class Node {
-public:
-	Node* neighbours[4];
-	int lengths[4];
-	bool tJunction;
-	ABS_DIRECTION tOrientation;
 };
 
 

@@ -67,18 +67,16 @@ void junctionTurn(bool left, HAL* hal) {
 
 }
 
-//Follow the line we are currently on until we reach WWWW (indicating that our front sensors are on a node, pointing straight)
+//Follow the line we are currently on until we reach a node, pointing straight
 //Estimated Distance is to ensure that we don't massively overshoot - stops us driving off to infinity.
-void followLineToNext(int lineDistance, bool justWentStraight, bool approachingTJunction, HAL* h) {
+void followLineToNext(int lineDistance, bool justWentStraight, bool approachingTJunctionFromSide, HAL* h) {
 
 	//Use a primitive estimate from the average velocity of the robot
 	stopwatch watchdog;
 	watchdog.start();
 
-
-	//A is the LEFT motor when RIGHT-following, and vice versa
-	float mtrA = 0.4;
-	float mtrB = 0.4;
+	float mtrL = 0.4;
+	float mtrR = 0.4;
 
 	//Assume we start lined up correctly.
 	//Also assume that the sensors are exactly 8cm in front of the wheel centreline
@@ -92,7 +90,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 	//Sanity check the remaining distance - no junctions should be within 8cm of each other.
 	if(estimatedDistanceRemaining <= 0) {
-		ERR("[LF] We are being asked to follow a line, but the distance remaining is "<<estimatedDistanceRemaining);
+		ERR("[LF] We are being asked to follow a line, but the distance remaining is " << estimatedDistanceRemaining);
 		return;
 	}
 
@@ -117,16 +115,18 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == WHITE)){
 			INFO("[LF] We might well have reached an X-junction! Party party party.");
-			if (approachingTJunction) {
+			if (approachingTJunctionFromSide) {
 				ERR("[LF] Was expecting T junction but found what appears to be X!");
 				//TODO appropriate recovery strategy
 			}
 			return;
 		}
-		else if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK))
+		//we have reached a T from the side
+		else if (	((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) 	||
+					((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == WHITE))	)
 		{
 			INFO("[LF] We might well have reached a T-junction! (or are approaching an X at a slight angle). Party.");
-			if (!approachingTJunction) {
+			if (!approachingTJunctionFromSide) {
 				ERR("[LF] Was expecting X junction but found what appears to be T!");
 				//TODO recovery strategy
 			}
@@ -138,18 +138,18 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
-			mtrA = 0.4;
-			mtrB = 0.4;
+			mtrL = 0.4;
+			mtrR = 0.4;
 		}
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrA = 0.1;
+			mtrL = 0.1;
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
-			mtrB = 0.1;
+			mtrR = 0.1;
 		}
 
 		//If we're in a situation where we're seeing BBB, we're either in a transitional period
@@ -160,8 +160,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently?");
 		}
 
-		h->motorSet(MOTOR_LEFT, mtrA);
-		h->motorSet(MOTOR_RIGHT, mtrB);
+		h->motorSet(MOTOR_LEFT, mtrL);
+		h->motorSet(MOTOR_RIGHT, mtrR);
 
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
