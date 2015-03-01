@@ -90,7 +90,7 @@ void MissionController::RunMission(void) {
 		//TODO more efficient to generate all possible routes, then choose shortest?
 		//ie goToBestCollectionPoint returns a COLLECTION_POINT
 		COLLECTION_POINT nextCP = nav.getNearestEggyCP();
-		nav.travelToCP(nextCP);
+		nav.travelToCP(nextCP, hal);
 
 		INFO("[MC] Picking up the egg.");
 		//Attempt to pick up the egg
@@ -131,7 +131,7 @@ void MissionController::RunMission(void) {
 		DROPOFF_POINT dp = dropoffForEgg[e];
 
 		//Navigate to the correct dropoff point
-		nav.travelToDP(dp);
+		nav.travelToDP(dp, hal);
 
 		//Deposit the egg in the egg cup
 		nav.dropoffEgg();

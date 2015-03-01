@@ -114,14 +114,16 @@ Navigation::~Navigation() {
 	DEBUG("[NAV] Destructor.");
 }
 
-void Navigation::travelToCP(COLLECTION_POINT cp) {
+void Navigation::travelToCP(COLLECTION_POINT cp, HAL* h) {
 	DEBUG("[NAV] Travelling to CP"<<cp);
 	calculateRouteToNode(nodeForCP(cp));
+	travelRoute(h);
 }
 
-void Navigation::travelToDP(DROPOFF_POINT dp) {
+void Navigation::travelToDP(DROPOFF_POINT dp, HAL* h) {
 	DEBUG("[NAV] Travelling to DP"<<(dp + 1)); //DP_1 == 0
 	calculateRouteToNode(nodeForDP(dp));
+	travelRoute(h);
 }
 
 void Navigation::collectEgg(void) {
