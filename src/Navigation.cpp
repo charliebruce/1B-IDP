@@ -10,6 +10,7 @@
 #include "Log.h"
 
 ABS_DIRECTION flip (ABS_DIRECTION in) {
+	//This should simplify to ((in + 2) % 4) provided NORTH == 0
 	switch (in) {
 	case NORTH:
 		return SOUTH;
@@ -54,7 +55,7 @@ Navigation::Navigation() {
 	//No target initially
 	targetNode = NODE_START;
 
-	//Set up the world map - dsoing this way stops redundancy
+	//Set up the world map - doing it this way stops redundancy
 
 	//The upper section
 	addLink(NODE_DP2DP3, EAST, NODE_1, 85);
@@ -63,8 +64,8 @@ Navigation::Navigation() {
 	addLink(NODE_3, SOUTH, NODE_4, 24);
 
 	//Collection points, E-W roads
-	addLink(NODE_3, WEST, NODE_CP4S, 44);
-	addLink(NODE_4, WEST, NODE_CP4, 44);
+	addLink(NODE_3, WEST, NODE_CP4, 44);
+	addLink(NODE_4, WEST, NODE_CP4S, 44);
 	addLink(NODE_CP4S, WEST, NODE_CP3S, 20);
 	addLink(NODE_CP4, WEST, NODE_CP3, 20);
 	addLink(NODE_CP3S, WEST, NODE_CP2S, 20);
@@ -125,10 +126,34 @@ void Navigation::collectEgg(void) {
 	WARN("[NAV] Not yet implemented egg pickup.");
 	//TODO time lift time to work out weight / "shake" up and down to time?
 	//TODO this
+
+	//Orient
+
+	//Approach
+
+	//Operate claw
+
+	//Operate lift
+
+	//Pivot
+
+	//Find node
 }
 void Navigation::dropoffEgg(void) {
 	WARN("[NAV] Not yet implemented egg dropoff.");
 	//TODO this
+
+	//Orient
+
+	//Approach
+
+	//Operate claw
+
+	//Operate lift
+
+	//Pivot
+
+	//Find node
 }
 
 bool Navigation::notFinishedWeighting(void) {
@@ -305,7 +330,7 @@ COLLECTION_POINT Navigation::getNearestEggyCP(void) {
 		priority[4] = CP_4;
 	}
 
-	else if(currentNode == NODE_DP1) {
+	else if(currentNode == NODE_DP1) { //If at DP1 we're almost certain to need to take it up the ramp (assuming we can't reach from below!!!!)
 		priority[0] = CP_2;
 		priority[1] = CP_3;
 		priority[2] = CP_4;
