@@ -10,6 +10,7 @@
 #include "Log.h"
 
 ABS_DIRECTION flip (ABS_DIRECTION in) {
+
 	//This should simplify to ((in + 2) % 4) provided NORTH == 0
 	switch (in) {
 	case NORTH:
@@ -24,6 +25,7 @@ ABS_DIRECTION flip (ABS_DIRECTION in) {
 		WARN("Incorrect use of flip!");
 		return NORTH;
 	}
+
 }
 
 
@@ -163,6 +165,7 @@ bool Navigation::notFinishedWeighting(void) {
 	}
 	return false;
 }
+
 //Return the distance from current location to the node
 int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 
@@ -178,12 +181,12 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 	//Start at the target node, assign a weight of 0
 	nodes[givenTarget].weight = 0;
 
-	//Now loop until no node is at -1 (unreachable nodes will be BAD!)
+	//Now loop until no node is at -1 (unreachable nodes will cause a loop until the failsafe catches it)
 	int runs = 0;
 	while(notFinishedWeighting()) {
 
 		runs++;
-		TRACE("[NAV] Weighting: Run "<<runs);
+		TRACE("[NAV] Weighting: Run " << runs);
 
 		//For each of the nodes
 		for(int i = 0; i < NUM_NODES; i++) {
@@ -302,8 +305,6 @@ void Navigation::travelRoute(HAL* h) {
 			followLineToNext(nodes[currentNode].lengths[nextdir], true, approachingTSide, h);
 
 		}
-
-
 
 		//Update the current node
 		currentNode = next;

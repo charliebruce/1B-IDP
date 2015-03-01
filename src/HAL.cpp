@@ -124,14 +124,12 @@ void HAL::sensorTest(void) {
 
 	INFO("[HAL] Sensor test starting.");
 
-	stopwatch sw;
 	LINE_SENSOR_DATA lsd;
-	sw.start();
+
 	for(int i = 0; i< 10; i++) {
 
 		//Every 500ms
-		while(sw.read() < i * 500)
-			;
+		delay(500);
 
 		//Read the value from the sensor
 		lsd = lineRead();
@@ -172,8 +170,6 @@ void HAL::sensorTest(void) {
 }
 
 void HAL::ledSet(LED led, bool on) {
-
-	//TODO LED CLRA and CLRB
 
 	//TODO ensure that pin numbering matches physical hardware
 	DEBUG("[HAL] LED: "<<led<<" set to "<<on);
@@ -236,11 +232,7 @@ void HAL::ledTest(void) {
 	handleErrors();
 
 	//Wait for approximately 3 seconds in a platform-independent way.
-	stopwatch sw;
-	sw.start();
-	while(sw.read() < 3000)
-		;
-	sw.stop();
+	delay(3000);
 
 	INFO("[HAL] LED Test: Setting all LEDs off again.");
 	ledSet(LED_LEFT, false);
@@ -248,6 +240,14 @@ void HAL::ledTest(void) {
 	ledSet(LED_RGHT, false);
 
 	handleErrors();
+
+}
+
+SENSOR_DATA HAL::sensorRead(LDR_SENSOR s) {
+
+	SENSOR_DATA sd;
+	sd.intensity = rlink.request(ADC0);
+	return sd;
 
 }
 
@@ -265,6 +265,7 @@ void HAL::motorSet(MOTOR m, float rate) {
 
 	command_instruction cmd = MOTOR_1_GO;
 	bool reverse_motor = false;
+
 	//Find the motor port with the given meaning
 	switch (m) {
 	case MOTOR_LEFT:
@@ -325,10 +326,7 @@ void HAL::motorTest(void) {
 	motorSet(MOTOR_RIGHT, 1.0);
 
 	//Then, after 2 seconds
-	stopwatch sw;
-	sw.start();
-	while(sw.read() < 2000) ;
-	sw.start();
+	delay(2000);
 
 	INFO("[HAL] Motor test - reversing.");
 
@@ -336,8 +334,8 @@ void HAL::motorTest(void) {
 	motorSet(MOTOR_LEFT, -1.0);
 	motorSet(MOTOR_RIGHT, -1.0);
 
-	sw.start();
-	while(sw.read() < 2000) ;
+	//After 2 more seconds
+	delay(2000);
 
 	INFO("[HAL] Motor tests finished.");
 
