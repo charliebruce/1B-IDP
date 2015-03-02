@@ -156,12 +156,15 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.1;
+			mtrL = 0.0;
+			mtrR = 0.6;
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
-			mtrR = 0.1;
+			mtrL = 0.6;
+			mtrR = 0.0;
+
 		}
 
 		h->motorSet(MOTOR_LEFT, mtrL);
