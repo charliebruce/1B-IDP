@@ -130,6 +130,17 @@ void MissionController::RunMission(MISSION objective) {
 
 		//TODO implement this
 
+
+
+
+		if(objective != ALL_MISSIONS)
+			return;
+		//Intentional fall-through
+
+	case LINESENSOR_WIRING:
+
+		hal->sensorTest();
+
 		if(objective != ALL_MISSIONS)
 			return;
 		//Intentional fall-through

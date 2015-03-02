@@ -126,7 +126,7 @@ void HAL::sensorTest(void) {
 
 	LINE_SENSOR_DATA lsd;
 
-	for(int i = 0; i< 10; i++) {
+	for(;;) {
 
 		//Every 500ms
 		delay(500);
