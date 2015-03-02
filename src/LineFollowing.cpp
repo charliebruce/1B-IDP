@@ -70,13 +70,13 @@ void junctionTurn(bool left, HAL* h) {
 	//by pivoting about the correct wheel
 	if (left == true)
 	{
-		h->motorSet(MOTOR_LEFT, 0.0);
+		h->motorSet(MOTOR_LEFT, 0.1);
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
 	else
 	{
 		h->motorSet(MOTOR_LEFT, 1.0);
-		h->motorSet(MOTOR_RIGHT, 0.0);
+		h->motorSet(MOTOR_RIGHT, 0.1);
 	}
 	while(true)
 	{
@@ -178,7 +178,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//That is OK as long as we check frequently enough that the line is "trapped" at all times
 		//A total loss would be bad. Testing will determine if this is a problem.
 		if((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
-			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently? Momentary.");
+			//DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently? Momentary.");
 			continue;
 		}
 
@@ -196,14 +196,14 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.0;
+			mtrL = 0.1;
 			mtrR = 1.0;
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			mtrL = 1.0;
-			mtrR = 0.0;
+			mtrR = 0.1;
 
 		}
 
