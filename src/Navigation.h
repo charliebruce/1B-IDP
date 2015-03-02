@@ -68,15 +68,6 @@ struct Node {
 	int weight;
 };
 
-//Direction reference for orientation
-//We arbitrarily define the raised section to be in the NORTH (ramp running NORTH-SOUTH, facing SOUTH as you descend)
-enum ABS_DIRECTION {
-	NORTH = 0,
-	EAST,
-	SOUTH,
-	WEST
-};
-
 class Navigation {
 
 public:

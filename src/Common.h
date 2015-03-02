@@ -12,6 +12,14 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+//Direction reference for orientation
+//We arbitrarily define the raised section to be in the NORTH (ramp running NOR$
+enum ABS_DIRECTION {
+        NORTH = 0,
+        EAST,
+	SOUTH,
+	WEST
+};
 
 //The indeterminate case should hopefully never be used but exists for completeness - in this situation
 //the logical behaviour would be to either deposit in the nearest bin, or put back/discard the egg.
