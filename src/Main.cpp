@@ -16,14 +16,12 @@
 int main(int argc,  char** argv) {
 
 	//If no arguments are specified, run the main mission only.
-	bool doFunctionalTests = false;
-	bool doMainMission = true;
-	bool doLFTests = false;
+	MISSION objective = MAIN_MISSION;
 
 	if(argc) {
-		INFO("Run with "<< argc << " arguments:");
+		TRACE("Run with "<< argc << " arguments:");
 		for(int i = 0; i < argc; i++) {
-			INFO(i<<" is \"" << argv[i] <<"\".");
+			TRACE(i<<" is \"" << argv[i] <<"\".");
 		}
 
 		//Program name is usually argv[0], so argv[1] is the first parameter.
@@ -35,24 +33,25 @@ int main(int argc,  char** argv) {
 
 		if(argc > 1) {
 			if(!strcmp(argv[1], "functional-tests")) {
-				doFunctionalTests = true;
-				doMainMission = false;
-				doLFTests = false;
+
 			}
 			else if(!strcmp(argv[1], "run-mission")) {
-				doFunctionalTests = false;
-				doMainMission = true;
-				doLFTests = false;
+				objective = MAIN_MISSION;
 			}
 			else if(!strcmp(argv[1], "run-all")) {
-				doFunctionalTests = true;
-				doMainMission = true;
-				doLFTests = true;
+				objective = ALL_MISSIONS;
 			}
-			else if(!strcmp(argv[1], "run-lf")) {
-				doFunctionalTests = false;
-				doMainMission = false;
-				doLFTests = true;
+			else if(!strcmp(argv[1], "run-week1")) {
+				objective = WEEK1_TESTS;
+			}
+			else if(!strcmp(argv[1], "run-functional-demo1")) {
+				objective = FUNCTIONAL_DEMO_1;
+			}
+			else if(!strcmp(argv[1], "run-functional-demo2")) {
+				objective = FUNCTIONAL_DEMO_2;
+			}
+			else if(!strcmp(argv[1], "run-functional-demo3")) {
+				objective = FUNCTIONAL_DEMO_3;
 			}
 
 			else {
@@ -60,7 +59,7 @@ int main(int argc,  char** argv) {
 			}
 		}
 		else {
-			INFO("No parameters supplied; proceeding with main mission.");
+			DEBUG("No parameters supplied; proceeding with main mission.");
 		}
 
 	}
@@ -69,14 +68,7 @@ int main(int argc,  char** argv) {
 
 	MissionController mc(&hal);
 
-	if(doFunctionalTests)
-		mc.FunctionalTests();
-
-	if(doLFTests)
-		mc.LineTests();
-
-	if(doMainMission)
-		mc.RunMission();
+	mc.RunMission(objective);
 
 
 	return 0;

@@ -42,7 +42,7 @@ public:
 	~MissionController(void);
 
 	//Run the competition logic
-	void RunMission(void);
+	void RunMission(MISSION objective);
 
 	//Run functional tests
 	void FunctionalTests(void);
@@ -51,6 +51,8 @@ public:
 	void LineTests(void);
 
 private:
+
+	void MainMission(void);
 
 	//How many of each type of egg remain?
 	int eggsRemaining[NUM_EGGTYPES];

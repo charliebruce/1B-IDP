@@ -94,6 +94,7 @@ public:
 	//Travel to a given collection or dropoff point
 	void travelToDP(DROPOFF_POINT dp, HAL* h);
 	void travelToCP(COLLECTION_POINT cp, HAL* h);
+	void travelToStart(HAL* h);
 
 	//Pick up and deposit the egg - also operates the lift, claw
 	void collectEgg(void);

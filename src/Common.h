@@ -42,6 +42,17 @@ enum DROPOFF_POINT {
 	NUM_DP
 };
 
+//The various missions we can run
+enum MISSION {
+	MAIN_MISSION,
+	WEEK1_TESTS,
+	FUNCTIONAL_DEMO_1,
+	FUNCTIONAL_DEMO_2,
+	FUNCTIONAL_DEMO_3,
+	ALL_MISSIONS,
+	NUM_MISISONS
+};
+
 //The number on the wireless dongle attached to the robot.
 static const int ROBOT_NUM = 11;
 

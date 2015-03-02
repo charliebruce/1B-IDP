@@ -126,6 +126,12 @@ void Navigation::travelToDP(DROPOFF_POINT dp, HAL* h) {
 	travelRoute(h);
 }
 
+void Navigation::travelToStart(HAL* h) {
+	DEBUG("[NAV] Returning home.");
+	calculateRouteToNode(NODE_START);
+	travelRoute(h);
+}
+
 void Navigation::collectEgg(void) {
 	WARN("[NAV] Not yet implemented egg pickup.");
 	//TODO time lift time to work out weight / "shake" up and down to time?
