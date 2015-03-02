@@ -12,6 +12,7 @@
 #define NAVIGATION_H_
 
 #include "ObjectRecognition.h"
+#include "LineFollowing.h"
 
 #include "Common.h"
 

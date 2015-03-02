@@ -34,7 +34,7 @@ void Navigation::addLink(NODEINDEX from, ABS_DIRECTION dir, NODEINDEX to, int le
 
 	nodes[from].neighbours[dir] = to;
 	nodes[to].neighbours[flip(dir)] = from;
-	nodes[from].lengths = length;
+	nodes[from].lengths[dir] = length;
 	nodes[to].lengths[flip(dir)] = length;
 
 }
