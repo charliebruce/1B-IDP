@@ -19,7 +19,7 @@
 
 
 void junctionStraight(HAL* h) {
-
+	DEBUG("[LF] Starting junctionStraight");
 	stopwatch watchdog;
 	watchdog.start();
 
@@ -54,12 +54,12 @@ void junctionStraight(HAL* h) {
 	//h->motorSet(MOTOR_RIGHT, 0.0);
 
 	watchdog.stop();
-
+	DEBUG("[LF] Ending junctionStraight");
 }
 
 //TODO implement
 void junctionTurn(bool left, HAL* h) {
-
+	DEBUG("[LF] Starting junctionTurn: " << left);
 	//Turning right is the same as turning left, but with the sensors and motors flipped.
 
 	stopwatch watchdog;
@@ -78,6 +78,14 @@ void junctionTurn(bool left, HAL* h) {
 		h->motorSet(MOTOR_LEFT, 1.0);
 		h->motorSet(MOTOR_RIGHT, 0.0);
 	}
+	while(true)
+	{
+		LINE_SENSOR_DATA sensors = h->lineRead();
+		if((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK))
+		{
+			break;
+		}
+	}
 	//Then keep going until the front centre sensor hits white again.
 	while(true)
 	{
@@ -93,6 +101,7 @@ void junctionTurn(bool left, HAL* h) {
 
 	//TODO Estimate the time taken, error condition if it all goes wrong...!
 	watchdog.stop();
+	DEBUG("[LF] Ending junctionTurn");
 }
 
 //Follow the line we are currently on until we reach a node, pointing straight
