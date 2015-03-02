@@ -167,9 +167,11 @@ void Navigation::dropoffEgg(void) {
 	//Find node
 }
 
+static const int HIGHWEIGHT = 100000;
+
 bool Navigation::notFinishedWeighting(void) {
 	for(int i = 0; i < NUM_NODES; i++) {
-		if (nodes[i].weight == -1)
+		if (nodes[i].weight == HIGHWEIGHT)
 			return true;
 	}
 	return false;
@@ -182,9 +184,9 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 
 	targetNode = givenTarget;
 
-	//Assign weight of -1 to all nodes
+	//Assign weight of 100000 to all nodes
 	for(int i = 0; i< NUM_NODES; i++) {
-		nodes[i].weight = -1;
+		nodes[i].weight = HIGHWEIGHT;
 	}
 
 	//Start at the target node, assign a weight of 0
@@ -206,9 +208,12 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 				//Consider the neighbour in each direction
 				NODEINDEX neighbour = nodes[i].neighbours[dir];
 
-				//If the neighbour in that direction is reachable (weight > -1)
-				if(nodes[neighbour].weight > -1) {
+				TRACE("Considering "<<i<<"'s neighbour in the "<<dir <<" direction. Has weight "<<nodes[neighbour].weight);
 
+				//If the neighbour in that direction is reachable (weight realistix)
+				if(nodes[neighbour].weight < HIGHWEIGHT) {
+
+					TRACE("That neighbour is weighted!");
 					//The total weight through that neighbour is (neighbour weight + interconnecting line length)
 					int neighbourRouteWeight = nodes[neighbour].weight + nodes[i].lengths[dir];
 
@@ -227,7 +232,7 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 
 			WARN("[NAV] Not yet weighted: ");
 			for(int i = 0; i< NUM_NODES; i++) {
-				if(nodes[i].weight == -1)
+				if(nodes[i].weight == HIGHWEIGHT)
 					WARN("Node " << i);
 			}
 
@@ -237,7 +242,6 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 
 
 	//NOTE: This algorithm does not take in to account the fact that changing direction has a cost associated with it.
-
 
 	DEBUG("[NAV] Found weights, distance is " << nodes[currentNode].weight);
 	return nodes[currentNode].weight;
