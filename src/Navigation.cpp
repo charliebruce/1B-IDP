@@ -7,6 +7,7 @@
 
 #include "Navigation.h"
 
+#define LOGLEVEL LL_TRACE
 #include "Log.h"
 
 ABS_DIRECTION flip (ABS_DIRECTION in) {
