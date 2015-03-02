@@ -256,7 +256,7 @@ void Navigation::travelRoute(HAL* h) {
 			if (nodes[n].weight < lowest)
 			{
 				next = n;
-				nextdir = NORTH + dir;
+				nextdir = (ABS_DIRECTION) dir;
 				lowest = nodes[n].weight;
 				TRACE("[NAV] "<<n <<" has lower weight of "<<nodes[n].weight<<"; a better candidate.");
 			}
