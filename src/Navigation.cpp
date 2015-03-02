@@ -223,6 +223,13 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 		//This should typically reach a conclusion in under 20 loops - guards against un-linked nodes (we won't spin forever)
 		if (runs > 25) {
 			WARN("[NAV] Possibly unreachable node in navigation mesh!");
+
+			WARN("[NAV] Not yet weighted: ");
+			for(int i = 0; i< NUM_NODES; i++) {
+				if(nodes[i].weight == -1)
+					WARN("Node " << i);
+			}
+
 			return nodes[currentNode].weight;
 		}
 	}
