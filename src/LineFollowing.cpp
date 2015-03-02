@@ -133,6 +133,18 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			return;
 		}
 
+
+		//If we're in a situation where we're seeing BBB, we're either in a transitional period
+		//(ie the robot is starting to drift, but the spacing of the sensor means we haven't caught it')
+		//That is OK as long as we check frequently enough that the line is "trapped" at all times
+		//A total loss would be bad. Testing will determine if this is a problem.
+		if((sensors.fr == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
+			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently? Momentary.");
+			continue;
+		}
+
+
+
 		//TODO We assume that the spacing of the sensors is just greater than the line width?
 		//TODO: Very primitive implementation here: improve with PID/smoothing
 
