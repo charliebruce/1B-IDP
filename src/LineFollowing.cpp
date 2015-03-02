@@ -75,8 +75,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 	stopwatch watchdog;
 	watchdog.start();
 
-	float mtrL = 0.4;
-	float mtrR = 0.4;
+	float mtrL = 1.0;
+	float mtrR = 1.0;
 
 	//Assume we start lined up correctly.
 	//Also assume that the sensors are exactly 8cm in front of the wheel centreline
@@ -95,19 +95,21 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 	}
 
 	const int velocityReciprocal = 100; //in milliseconds per centimeter
-	while(watchdog.read() < (250 + 1.2 * (estimatedDistanceRemaining * velocityReciprocal))) { //compensate for 250ms of motor lag, max 20% overshoot
-
+	while(true) { //compensate for 250ms of motor lag, max 20% overshoot
+		
 		int time_iteration_begin = watchdog.read();
 
 		//Read the sensor state
 		LINE_SENSOR_DATA sensors = h->lineRead();
 		//TODO determine if repeat readings help?
 
+		//DEBUG("We see "<<sensors.fl <<", "<<sensors.fc <<", "<<sensors.fr);
+
 
 		//If we lose the white line on our rear sensor there is a BIG PROBLEM!
 		if(sensors.rc != WHITE) {
 			//TODO implement recovery strategy, downgrade this to a warning
-			ERR("[LF] Loss of line on rear sensor! Unable to correct. Continuing, but maybe into the abyss!");
+			//ERR("[LF] Loss of line on rear sensor! Unable to correct. Continuing, but maybe into the abyss!");
 			//return;
 		}
 
@@ -121,8 +123,9 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			}
 			return;
 		}
+		
 		//we have reached a T from the side
-		else if (	((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) 	||
+		if (	((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) 	||
 					((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == WHITE))	)
 		{
 			INFO("[LF] We might well have reached a T-junction! (or are approaching an X at a slight angle). Party.");
@@ -138,7 +141,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//(ie the robot is starting to drift, but the spacing of the sensor means we haven't caught it')
 		//That is OK as long as we check frequently enough that the line is "trapped" at all times
 		//A total loss would be bad. Testing will determine if this is a problem.
-		if((sensors.fr == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
+		if((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
 			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently? Momentary.");
 			continue;
 		}
@@ -150,29 +153,36 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
-			mtrL = 0.4;
-			mtrR = 0.4;
+			mtrL = 0.8;
+			mtrR = 0.8;
+			DEBUG("On track.");
+
 		}
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
 			mtrL = 0.0;
-			mtrR = 0.6;
+			mtrR = 1.0;
+			DEBUG("Compensating for right drift");
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
-			mtrL = 0.6;
+			mtrL = 1.0;
 			mtrR = 0.0;
+			DEBUG("Compensating for left drift");
 
 		}
 
 		h->motorSet(MOTOR_LEFT, mtrL);
 		h->motorSet(MOTOR_RIGHT, mtrR);
+		
+		DEBUG("Setting motors: "<<mtrL<<", "<<mtrR);
 
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
 		//while(watchdog.read() < time_iteration_begin + 10) ;
+		delay(50);
 
 	}
 
