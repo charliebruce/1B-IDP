@@ -22,16 +22,15 @@ void junctionStraight(HAL* hal) {
 
 	//Just shoot a little forwards, then re-align oneself on the line.
 	stopwatch sw;
-	hal->motorSet(MOTOR_LEFT, 0.1);
-	hal->motorSet(MOTOR_RIGHT, 0.1);
+	hal->motorSet(MOTOR_LEFT, 0.7);
+	hal->motorSet(MOTOR_RIGHT, 0.7);
 	sw.start();
 
 	//Cut out after half a second or junction just traversed.
-	while(sw.read() < 500) {
+	while(sw.read() < 750) {
 
 		//Read the sensors
 		//If two are black, we must have passed the junction and be back on the line
-
 
 	}
 
