@@ -164,14 +164,6 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			mtrR = 0.1;
 		}
 
-		//If we're in a situation where we're seeing BBB, we're either in a transitional period
-		//(ie the robot is starting to drift, but the spacing of the sensor means we haven't caught it')
-		//That is OK as long as we check frequently enough that the line is "trapped" at all times
-		//A total loss would be bad. Testing will determine if this is a problem.
-		if((sensors.fr == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
-			DEBUG("[LF] BBB seen. Decrease sensor spacing if seen frequently?");
-		}
-
 		h->motorSet(MOTOR_LEFT, mtrL);
 		h->motorSet(MOTOR_RIGHT, mtrR);
 
