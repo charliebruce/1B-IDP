@@ -288,7 +288,7 @@ void Navigation::travelRoute(HAL* h) {
 				left = true;
 			}
 
-			TRACE("[NAV] Current orientation is "<<forwards<<" but we need "<<nextdie<<" - we need to rotate "<<(left?"left":"right"));
+			TRACE("[NAV] Current orientation is "<<forwards<<" but we need " << nextdir << " - we need to rotate "<<(left?"left":"right"));
 
 			//Perform the rotation and update the orientation
 			junctionTurn(left, h);
