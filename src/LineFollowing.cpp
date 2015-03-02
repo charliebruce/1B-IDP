@@ -18,20 +18,28 @@
 #include "Log.h"
 
 
-void junctionStraight(HAL* hal) {
+void junctionStraight(HAL* h) {
 
-	//Just shoot a little forwards, then re-align oneself on the line.
-	stopwatch sw;
-	hal->motorSet(MOTOR_LEFT, 0.7);
-	hal->motorSet(MOTOR_RIGHT, 0.7);
-	sw.start();
+	stopwatch watchdog;
+	watchdog.start();
+
+	//move forwards, then re-align oneself on the line.
+	h->motorSet(MOTOR_LEFT, 1.0);
+	h->motorSet(MOTOR_RIGHT, 1.0);
 
 	//Cut out after half a second or junction just traversed.
-	while(sw.read() < 750) {
+	while(true) {
 
 		//Read the sensors
-		//If two are black, we must have passed the junction and be back on the line
-
+		LINE_SENSOR_DATA sensors = h->lineRead();
+		//If two OR MORE are black, we must have passed the junction and be back on the line
+		if( ((sensors.fl == WHITE) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) ||
+			((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) || 
+			((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == WHITE)) ||
+			((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) )
+		{
+			break;
+		}
 	}
 
 
@@ -42,28 +50,49 @@ void junctionStraight(HAL* hal) {
 	//TODO check this condition is met?
 
 	//Finally, stop.
-	hal->motorSet(MOTOR_LEFT, 0.0);
-	hal->motorSet(MOTOR_RIGHT, 0.0);
+	//h->motorSet(MOTOR_LEFT, 0.0);
+	//h->motorSet(MOTOR_RIGHT, 0.0);
+
+	watchdog.stop();
 
 }
 
 //TODO implement
-void junctionTurn(bool left, HAL* hal) {
+void junctionTurn(bool left, HAL* h) {
 
 	//Turning right is the same as turning left, but with the sensors and motors flipped.
+
+	stopwatch watchdog;
+	watchdog.start();
 
 	//Slowly (so slowly that we can't "jump" the lines)
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
-
+	if (left == true)
+	{
+		h->motorSet(MOTOR_LEFT, 0.0);
+		h->motorSet(MOTOR_RIGHT, 1.0);
+	}
+	else
+	{
+		h->motorSet(MOTOR_LEFT, 1.0);
+		h->motorSet(MOTOR_RIGHT, 0.0);
+	}
 	//Then keep going until the front centre sensor hits white again.
-
+	while(true)
+	{
+		LINE_SENSOR_DATA sensors = h->lineRead();
+		if(sensors.fc == WHITE)
+		{
+			break;
+		}
+	}
 	//Done. STOP!
-
+	
 	//Preempt that and slow down by looking at the left or right sensor?
 
 	//TODO Estimate the time taken, error condition if it all goes wrong...!
-
+	watchdog.stop();
 }
 
 //Follow the line we are currently on until we reach a node, pointing straight
@@ -100,7 +129,6 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		//Read the sensor state
 		LINE_SENSOR_DATA sensors = h->lineRead();
-		//TODO determine if repeat readings help?
 
 		//DEBUG("We see "<<sensors.fl <<", "<<sensors.fc <<", "<<sensors.fr);
 
@@ -152,9 +180,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
-			mtrL = 0.8;
-			mtrR = 0.8;
-			DEBUG("On track.");
+			mtrL = 1.0;
+			mtrR = 1.0;
 
 		}
 
@@ -162,26 +189,22 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			//We need to turn left slightly: slow the left wheel down
 			mtrL = 0.0;
 			mtrR = 1.0;
-			DEBUG("Compensating for right drift");
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			mtrL = 1.0;
 			mtrR = 0.0;
-			DEBUG("Compensating for left drift");
 
 		}
 
 		h->motorSet(MOTOR_LEFT, mtrL);
 		h->motorSet(MOTOR_RIGHT, mtrR);
-		
-		DEBUG("Setting motors: "<<mtrL<<", "<<mtrR);
 
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
 		//while(watchdog.read() < time_iteration_begin + 10) ;
-		delay(50);
+		//delay(50);
 
 	}
 

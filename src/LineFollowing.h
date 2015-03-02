@@ -18,10 +18,10 @@
 #include "Common.h"
 
 //Pass straight over the junction we're at.
-void junctionStraight(HAL* hal);
+void junctionStraight(HAL* h);
 
 //Turn in the given direction (when at the given junction)
-void junctionTurn(bool left, HAL* hal);
+void junctionTurn(bool left, HAL* h);
 
 //Used to navigate to/around + junctions
 void followLineToNext(int estimatedDistance, bool justWentStraight, bool approachingTJunction, HAL* h);

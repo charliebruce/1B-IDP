@@ -7,7 +7,7 @@
 
 #include "Navigation.h"
 
-#define LOGLEVEL LL_DEBUG
+#define LOGLEVEL LL_TRACE
 #include "Log.h"
 
 ABS_DIRECTION flip (ABS_DIRECTION in) {
@@ -208,12 +208,12 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 				//Consider the neighbour in each direction
 				NODEINDEX neighbour = nodes[i].neighbours[dir];
 
-				TRACE("Considering "<<i<<"'s neighbour in the "<<dir <<" direction. Has weight "<<nodes[neighbour].weight);
+				TRACE("[NAV] Considering "<<i<<"'s neighbour in the "<<dir <<" direction. Has weight "<<nodes[neighbour].weight);
 
 				//If the neighbour in that direction is reachable (weight realistix)
 				if(nodes[neighbour].weight < HIGHWEIGHT) {
 
-					TRACE("That neighbour is weighted!");
+					TRACE("[NAV] That neighbour is weighted!");
 					//The total weight through that neighbour is (neighbour weight + interconnecting line length)
 					int neighbourRouteWeight = nodes[neighbour].weight + nodes[i].lengths[dir];
 
