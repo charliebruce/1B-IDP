@@ -31,7 +31,7 @@ ABS_DIRECTION flip (ABS_DIRECTION in) {
 }
 
 void Navigation::addDeadend(NODEINDEX n, ABS_DIRECTION dir) {
-	
+
 	nodes[n].neighbours[dir] = NODE_DEADEND; //Essentially an unreachable node
 
 }
@@ -66,15 +66,15 @@ Navigation::Navigation() {
 	targetNode = NODE_START;
 
 	//Set up the world map - doing it this way stops redundancy
-	
-	
+
+
 	//If it isn't connected to anything it is a deadend
 	for(int i = 0; i < NODE_DEADEND; i++) {
 		for(int d = 0; d < 4; d++) {
 			nodes[i].neighbours[d] = NODE_DEADEND;
 		}
 	}
-	
+
 	//The upper section
 	addLink(NODE_DP2DP3, EAST, NODE_1, 85);
 	addLink(NODE_1, EAST, NODE_2, 85);
@@ -122,7 +122,7 @@ Navigation::Navigation() {
 	nodes[NODE_CP3].tOrientation = NORTH;
 	nodes[NODE_CP4].tJunction = true;
 	nodes[NODE_CP4].tOrientation = NORTH;
-	
+
 	//TODO finish list of dead ends
 
 }
@@ -290,18 +290,21 @@ void Navigation::travelRoute(HAL* h) {
 			}
 		}
 
-		 DEBUG("[NAV] Next node will be " << next);
+		DEBUG("[NAV] Next node will be " << next);
+
+		//U-Turns implemented in a special case (we are turning on the spot)
+		if(nextdir == flip(forwards)) {
+			DEBUG("[NAV] U Turn.");
+			uTurn(h);
+			DEBUG("[NAV] U Turned.");
+			forwards = flip(forwards);
+		}
+
 
 		//If we need to change orientation, do so
 		if(forwards != nextdir) {
 
-			//U-Turns implemented in a special case (we are turning on the spot)
-			if(nextdir == flip(forwards)) {
-				DEBUG("[NAV] U Turn.");
-				uTurn(h);
-				DEBUG("[NAV] U Turned.");
-				forwards = flip(forwards);
-			}
+
 
 			//Work out if we want to perform a left or a right turn. This assumes that the orientations are defined clockwise as seen from above looking down
 			bool left = true;
