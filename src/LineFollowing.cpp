@@ -23,10 +23,10 @@ void uTurn(HAL* h) {
 
 	//Spin 90 degrees on the spot twice
 	//Stop when the centre sensor hits the white
+	float uSpeed = 0.5;
 
-
-	h->motorSet(MOTOR_LEFT, -1.0);
-	h->motorSet(MOTOR_RIGHT, 1.0);
+	h->motorSet(MOTOR_LEFT, -1.0*uSpeed);
+	h->motorSet(MOTOR_RIGHT, 1.0*uSpeed);
 
 	TRACE("U turn: 1");
 
@@ -116,12 +116,12 @@ void junctionTurn(bool left, HAL* h) {
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
 	if (left) {
-		h->motorSet(MOTOR_LEFT, 0.1);
+		h->motorSet(MOTOR_LEFT, 0.0);
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
 	else {
 		h->motorSet(MOTOR_LEFT, 1.0);
-		h->motorSet(MOTOR_RIGHT, 0.1);
+		h->motorSet(MOTOR_RIGHT, 0.0);
 	}
 	while(true) {
 		LINE_SENSOR_DATA sensors = h->lineRead();

@@ -86,7 +86,7 @@ void MissionController::RunMission(MISSION objective) {
 		//•	Travel from the starting location to dropoff location D1 and return to the starting location.
 
 		INFO("[MC-FD1] Travelling to DP1.");
-		nav.travelToDP(DP_3, hal);
+		nav.travelToDP(DP_1, hal);
 		INFO("[MC-FD1] Travelling to Start.");
 		nav.travelToStart(hal);
 
