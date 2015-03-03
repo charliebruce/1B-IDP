@@ -29,10 +29,13 @@ void uTurn(HAL* h) {
 	h->motorSet(MOTOR_RIGHT, 1.0);
 
 	TRACE("U turn: 1");
+
+	delay(200);
 	//Wait until we've seen RH sensor go white
 	while(h->lineRead().fr != WHITE)
 		;
 
+	delay(200);
 
 	TRACE("U turn: 2");
 	//We're now in the BBB region
@@ -41,13 +44,14 @@ void uTurn(HAL* h) {
 	while(h->lineRead().fc != WHITE)
 		;
 
+	delay(200);
 
 	TRACE("U turn: 3");
 	//Wait until we've seen RH sensor go white again
 	while(h->lineRead().fr != WHITE)
 		;
 
-
+	delay(200);
 	TRACE("U turn: 4");
 	//Wait until we've lined up with the line again
 	while(h->lineRead().fc != WHITE);
