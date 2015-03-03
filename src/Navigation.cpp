@@ -66,7 +66,15 @@ Navigation::Navigation() {
 	targetNode = NODE_START;
 
 	//Set up the world map - doing it this way stops redundancy
-
+	
+	
+	//If it isn't connected to anything it is a deadend
+	for(int i = 0; i < NODE_DEADEND; i++) {
+		for(int d = 0; d < 4; d++) {
+			nodes[i].neighbours[d] = NODE_DEADEND;
+		}
+	}
+	
 	//The upper section
 	addLink(NODE_DP2DP3, EAST, NODE_1, 85);
 	addLink(NODE_1, EAST, NODE_2, 85);
@@ -115,20 +123,6 @@ Navigation::Navigation() {
 	nodes[NODE_CP4].tJunction = true;
 	nodes[NODE_CP4].tOrientation = NORTH;
 	
-	
-	
-	//Mark deadends
-	addDeadend(NODE_DP2DP3, NORTH);
-	addDeadend(NODE_1, NORTH);
-	addDeadend(NODE_1, SOUTH);
-	addDeadend(NODE_2, NORTH);
-	addDeadend(NODE_1, WEST);
-	addDeadend(NODE_3, WEST);
-	addDeadend(NODE_4, WEST);
-	addDeadend(NODE_4, WEST);
-	addDeadend(NODE_4, SOUTH);
-	addDeadend(NODE_5, EAST);
-	addDeadend(NODE_8, WEST);
 	//TODO finish list of dead ends
 
 }
@@ -192,7 +186,7 @@ void Navigation::dropoffEgg(void) {
 static const int HIGHWEIGHT = 100000;
 
 bool Navigation::notFinishedWeighting(void) {
-	for(int i = 0; i < NUM_NODES; i++) {
+	for(int i = 0; i < NODE_DEADEND; i++) {
 		if (nodes[i].weight == HIGHWEIGHT)
 			return true;
 	}
@@ -206,7 +200,7 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 
 	targetNode = givenTarget;
 
-	//Assign weight of 100000 to all nodes
+	//Assign weight of 100000 to all nodes including the DEADEND node
 	for(int i = 0; i< NUM_NODES; i++) {
 		nodes[i].weight = HIGHWEIGHT;
 	}
@@ -253,7 +247,7 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 			WARN("[NAV] Possibly unreachable node in navigation mesh!");
 
 			WARN("[NAV] Not yet weighted: ");
-			for(int i = 0; i< NUM_NODES; i++) {
+			for(int i = 0; i< NODE_DEADEND; i++) {
 				if(nodes[i].weight == HIGHWEIGHT)
 					WARN("Node " << i);
 			}
