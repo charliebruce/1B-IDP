@@ -38,6 +38,7 @@ enum NODEINDEX {
 
 	NODE_1,
 	NODE_2,
+	NODE_3A,
 	NODE_3,
 	NODE_4,
 	NODE_5,
@@ -48,6 +49,7 @@ enum NODEINDEX {
 	NODE_10,
 	NODE_11,
 
+	NODE_DEADEND,
 	NUM_NODES
 };
 
@@ -118,6 +120,7 @@ private:
 	NODEINDEX targetNode;
 
 	void addLink(NODEINDEX from, ABS_DIRECTION dir, NODEINDEX to, int length);
+	void addDeadend(NODEINDEX n, ABS_DIRECTION dir);
 	bool notFinishedWeighting(void);
 	Node nodes[NUM_NODES];
 

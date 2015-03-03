@@ -75,8 +75,8 @@ void junctionTurn(bool left, HAL* h) {
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
 	else {
-		h->motorSet(MOTOR_LEFT, 0.7);
-		h->motorSet(MOTOR_RIGHT, 1.0);
+		h->motorSet(MOTOR_LEFT, 1.0);
+		h->motorSet(MOTOR_RIGHT, 0.1);
 	}
 	while(true) {
 		LINE_SENSOR_DATA sensors = h->lineRead();

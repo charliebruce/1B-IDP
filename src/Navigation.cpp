@@ -8,6 +8,7 @@
 #include "Navigation.h"
 
 #define LOGLEVEL LL_TRACE
+
 #include "Log.h"
 
 ABS_DIRECTION flip (ABS_DIRECTION in) {
@@ -26,6 +27,12 @@ ABS_DIRECTION flip (ABS_DIRECTION in) {
 		WARN("Incorrect use of flip!");
 		return NORTH;
 	}
+
+}
+
+void Navigation::addDeadend(NODEINDEX n, ABS_DIRECTION dir) {
+	
+	nodes[n].neighbours[dir] = NODE_DEADEND; //Essentially an unreachable node
 
 }
 
@@ -63,7 +70,8 @@ Navigation::Navigation() {
 	//The upper section
 	addLink(NODE_DP2DP3, EAST, NODE_1, 85);
 	addLink(NODE_1, EAST, NODE_2, 85);
-	addLink(NODE_2, SOUTH, NODE_3, 144);
+	addLink(NODE_2, SOUTH, NODE_3A, 30);
+	addLink(NODE_3A, SOUTH, NODE_3, 114);
 	addLink(NODE_3, SOUTH, NODE_4, 24);
 
 	//Collection points, E-W roads
@@ -106,6 +114,22 @@ Navigation::Navigation() {
 	nodes[NODE_CP3].tOrientation = NORTH;
 	nodes[NODE_CP4].tJunction = true;
 	nodes[NODE_CP4].tOrientation = NORTH;
+	
+	
+	
+	//Mark deadends
+	addDeadend(NODE_DP2DP3, NORTH);
+	addDeadend(NODE_1, NORTH);
+	addDeadend(NODE_1, SOUTH);
+	addDeadend(NODE_2, NORTH);
+	addDeadend(NODE_1, WEST);
+	addDeadend(NODE_3, WEST);
+	addDeadend(NODE_4, WEST);
+	addDeadend(NODE_4, WEST);
+	addDeadend(NODE_4, SOUTH);
+	addDeadend(NODE_5, EAST);
+	addDeadend(NODE_8, WEST);
+	//TODO finish list of dead ends
 
 }
 
@@ -197,8 +221,8 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 		runs++;
 		TRACE("[NAV] Weighting: Run " << runs);
 
-		//For each of the nodes
-		for(int i = 0; i < NUM_NODES; i++) {
+		//For each of the nodes except dead ends
+		for(int i = 0; i < NODE_DEADEND; i++) {
 
 			//For each of the directions
 			for(int dir = 0; dir < 4; dir++) {
@@ -254,7 +278,7 @@ void Navigation::travelRoute(HAL* h) {
 	//While we haven't arrived
 	while(currentNode != targetNode) {
 
-		TRACE("[NAV] Not there yet: at "<<currentNode);
+		DEBUG("[NAV] Not there yet: at "<<currentNode);
 
 		NODEINDEX next;
 		ABS_DIRECTION nextdir;
@@ -272,7 +296,7 @@ void Navigation::travelRoute(HAL* h) {
 			}
 		}
 
-		TRACE("[NAV] Next node will be " << next);
+		 DEBUG("[NAV] Next node will be " << next);
 
 		//If we need to change orientation, do so
 		if(forwards != nextdir) {
