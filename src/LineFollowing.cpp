@@ -28,22 +28,32 @@ void uTurn(HAL* h) {
 	h->motorSet(MOTOR_LEFT, -1.0);
 	h->motorSet(MOTOR_RIGHT, 1.0);
 
+	TRACE("U turn: 1");
 	//Wait until we've seen RH sensor go white
 	while(h->lineRead().fr != WHITE)
 		;
 
+
+	TRACE("U turn: 2");
 	//We're now in the BBB region
 
 	//Rotate until we hit the centre of the next one
 	while(h->lineRead().fc != WHITE)
 		;
 
+
+	TRACE("U turn: 3");
 	//Wait until we've seen RH sensor go white again
 	while(h->lineRead().fr != WHITE)
 		;
 
+
+	TRACE("U turn: 4");
 	//Wait until we've lined up with the line again
 	while(h->lineRead().fc != WHITE);
+
+
+	TRACE("U turn: Fin");
 
 	h->motorSet(MOTOR_LEFT, 0.0);
 	h->motorSet(MOTOR_RIGHT, 0.0);

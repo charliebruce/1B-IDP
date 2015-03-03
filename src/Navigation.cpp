@@ -297,7 +297,9 @@ void Navigation::travelRoute(HAL* h) {
 
 			//U-Turns implemented in a special case (we are turning on the spot)
 			if(nextdir == flip(forwards)) {
+				DEBUG("[NAV] U Turn.");
 				uTurn(h);
+				DEBUG("[NAV] U Turned.");
 				forwards = flip(forwards);
 			}
 
