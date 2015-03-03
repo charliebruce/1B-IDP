@@ -116,12 +116,12 @@ void junctionTurn(bool left, HAL* h) {
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
 	if (left) {
-		h->motorSet(MOTOR_LEFT, 0.0);
+		h->motorSet(MOTOR_LEFT, -0.4);
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
 	else {
 		h->motorSet(MOTOR_LEFT, 1.0);
-		h->motorSet(MOTOR_RIGHT, 0.0);
+		h->motorSet(MOTOR_RIGHT, -0.4);
 	}
 	while(true) {
 		LINE_SENSOR_DATA sensors = h->lineRead();
@@ -233,20 +233,20 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
 			mtrL = 1.0;
-			mtrR = 1.0;
+			mtrR = 0.95;
 
 		}
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.1;
+			mtrL = 0.5;
 			mtrR = 1.0;
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			mtrL = 1.0;
-			mtrR = 0.1;
+			mtrR = 0.5;
 
 		}
 
@@ -256,7 +256,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
 		//while(watchdog.read() < time_iteration_begin + 10) ;
-		delay(50);
+		delay(20);
 
 	}
 
