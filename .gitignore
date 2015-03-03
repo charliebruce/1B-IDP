@@ -3,3 +3,5 @@
 
 *.o
 *.oarm
+/src/robot
+/src/robot.arm
