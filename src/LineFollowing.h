@@ -26,5 +26,7 @@ void junctionTurn(bool left, HAL* h);
 //Used to navigate to/around + junctions
 void followLineToNext(int estimatedDistance, bool justWentStraight, bool approachingTJunction, HAL* h);
 
+//Flip 180
+void uTurn(HAL* h);
 
 #endif /* LINEFOLLOWING_H_ */

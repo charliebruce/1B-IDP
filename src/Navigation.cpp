@@ -295,9 +295,10 @@ void Navigation::travelRoute(HAL* h) {
 		//If we need to change orientation, do so
 		if(forwards != nextdir) {
 
-			//U-Turns should never happen!
+			//U-Turns implemented in a special case (we are turning on the spot)
 			if(nextdir == flip(forwards)) {
-				ERR("[NAV] U-turn requested! Cannot comply.");
+				uTurn(h);
+				forwards = flip(forwards);
 			}
 
 			//Work out if we want to perform a left or a right turn. This assumes that the orientations are defined clockwise as seen from above looking down

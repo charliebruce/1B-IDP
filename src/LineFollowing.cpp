@@ -19,6 +19,37 @@
 
 #include "Log.h"
 
+void uTurn(HAL* h) {
+
+	//Spin 90 degrees on the spot twice
+	//Stop when the centre sensor hits the white
+
+
+	h->motorSet(MOTOR_LEFT, -1.0);
+	h->motorSet(MOTOR_RIGHT, 1.0);
+
+	//Wait until we've seen RH sensor go white
+	while(h->lineRead().fr != WHITE)
+		;
+
+	//We're now in the BBB region
+
+	//Rotate until we hit the centre of the next one
+	while(h->lineRead().fc != WHITE)
+		;
+
+	//Wait until we've seen RH sensor go white again
+	while(h->lineRead().fr != WHITE)
+		;
+
+	//Wait until we've lined up with the line again
+	while(h->lineRead().fc != WHITE);
+
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
+
+
+}
 
 void junctionStraight(HAL* h) {
 	TRACE("[LF] Starting junctionStraight");
