@@ -7,7 +7,7 @@
 
 #include "Navigation.h"
 
-#define LOGLEVEL LL_DEBUG
+#define LOGLEVEL LL_TRACE
 #include "Log.h"
 
 ABS_DIRECTION flip (ABS_DIRECTION in) {
@@ -102,8 +102,6 @@ Navigation::Navigation() {
 	nodes[NODE_CP0].tOrientation = NORTH;
 	nodes[NODE_CP1].tJunction = true;
 	nodes[NODE_CP1].tOrientation = NORTH;
-	nodes[NODE_CP2].tJunction = true;
-	nodes[NODE_CP2].tOrientation = NORTH;
 	nodes[NODE_CP3].tJunction = true;
 	nodes[NODE_CP3].tOrientation = NORTH;
 	nodes[NODE_CP4].tJunction = true;
@@ -256,7 +254,7 @@ void Navigation::travelRoute(HAL* h) {
 	//While we haven't arrived
 	while(currentNode != targetNode) {
 
-		TRACE("[NAV] Not there yet.");
+		TRACE("[NAV] Not there yet: at "<<currentNode);
 
 		NODEINDEX next;
 		ABS_DIRECTION nextdir;
@@ -292,7 +290,7 @@ void Navigation::travelRoute(HAL* h) {
 				left = true;
 			}
 
-			TRACE("[NAV] Current orientation is "<<forwards<<" but we need " << nextdir << " - we need to rotate "<<(left?"left":"right"));
+			DEBUG("[NAV] Current orientation is "<<forwards<<" but we need " << nextdir << " - we need to rotate "<<(left?"left":"right"));
 
 			//Perform the rotation and update the orientation
 			junctionTurn(left, h);

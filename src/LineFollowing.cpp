@@ -15,11 +15,13 @@
 
 #include "LineFollowing.h"
 
+#define LOGLEVEL LL_TRACE
+
 #include "Log.h"
 
 
 void junctionStraight(HAL* h) {
-	DEBUG("[LF] Starting junctionStraight");
+	TRACE("[LF] Starting junctionStraight");
 	stopwatch watchdog;
 	watchdog.start();
 
@@ -28,7 +30,7 @@ void junctionStraight(HAL* h) {
 	h->motorSet(MOTOR_RIGHT, 1.0);
 
 	//Cut out after half a second or junction just traversed.
-	while(true) {
+	while(watchdog.read() < 500) {
 
 		//Read the sensors
 		LINE_SENSOR_DATA sensors = h->lineRead();
@@ -54,12 +56,12 @@ void junctionStraight(HAL* h) {
 	//h->motorSet(MOTOR_RIGHT, 0.0);
 
 	watchdog.stop();
-	DEBUG("[LF] Ending junctionStraight");
+	TRACE("[LF] Ending junctionStraight");
 }
 
 //TODO implement
 void junctionTurn(bool left, HAL* h) {
-	DEBUG("[LF] Starting junctionTurn: " << left);
+	TRACE("[LF] Starting junctionTurn: " << left);
 	//Turning right is the same as turning left, but with the sensors and motors flipped.
 
 	stopwatch watchdog;
@@ -68,21 +70,17 @@ void junctionTurn(bool left, HAL* h) {
 	//Slowly (so slowly that we can't "jump" the lines)
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
-	if (left == true)
-	{
+	if (left) {
 		h->motorSet(MOTOR_LEFT, 0.1);
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
-	else
-	{
-		h->motorSet(MOTOR_LEFT, 1.0);
-		h->motorSet(MOTOR_RIGHT, 0.1);
+	else {
+		h->motorSet(MOTOR_LEFT, 0.7);
+		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
-	while(true)
-	{
+	while(true) {
 		LINE_SENSOR_DATA sensors = h->lineRead();
-		if((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK))
-		{
+		if((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) {
 			break;
 		}
 	}
@@ -101,7 +99,7 @@ void junctionTurn(bool left, HAL* h) {
 
 	//TODO Estimate the time taken, error condition if it all goes wrong...!
 	watchdog.stop();
-	DEBUG("[LF] Ending junctionTurn");
+	TRACE("[LF] Ending junctionTurn");
 }
 
 //Follow the line we are currently on until we reach a node, pointing straight
@@ -152,9 +150,9 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//If junctions are regularly detected falsely, sensor spacing needs to be increased.
 
 		if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == WHITE)){
-			INFO("[LF] We might well have reached an X-junction! Party party party.");
+			INFO("[LF] Found an X junction.");
 			if (approachingTJunctionFromSide) {
-				ERR("[LF] Was expecting T junction but found what appears to be X!");
+				ERR("[LF] Was expecting T junction but found X!");
 				//TODO appropriate recovery strategy
 			}
 			return;
@@ -164,9 +162,9 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if (	((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) 	||
 					((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == WHITE))	)
 		{
-			INFO("[LF] We might well have reached a T-junction! (or are approaching an X at a slight angle). Party.");
+			INFO("[LF] Found a T junction.");
 			if (!approachingTJunctionFromSide) {
-				ERR("[LF] Was expecting X junction but found what appears to be T!");
+				ERR("[LF] Was expecting X junction but found T!");
 				//TODO recovery strategy
 			}
 			return;
@@ -213,7 +211,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
 		//while(watchdog.read() < time_iteration_begin + 10) ;
-		//delay(50);
+		delay(50);
 
 	}
 
