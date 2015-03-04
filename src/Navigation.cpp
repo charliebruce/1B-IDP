@@ -7,7 +7,7 @@
 
 #include "Navigation.h"
 
-#define LOGLEVEL LL_DEBUG
+#define LOGLEVEL LL_TRACE
 
 #include "Log.h"
 
