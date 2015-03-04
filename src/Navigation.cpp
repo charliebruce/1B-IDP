@@ -270,7 +270,10 @@ void Navigation::travelRoute(HAL* h) {
 	TRACE("[NAV] I walk this lonely road...");
 
 	//While we haven't arrived
+	int juncs = 0;	
 	while(currentNode != targetNode) {
+
+		juncs++;
 
 		DEBUG("[NAV] Not there yet: at "<<currentNode);
 
@@ -293,18 +296,18 @@ void Navigation::travelRoute(HAL* h) {
 		DEBUG("[NAV] Next node will be " << next);
 
 		//U-Turns implemented in a special case (we are turning on the spot)
+		bool uTurned = false;	
 		if(nextdir == flip(forwards)) {
 			DEBUG("[NAV] U Turn.");
 			uTurn(h);
 			DEBUG("[NAV] U Turned.");
 			forwards = flip(forwards);
+			uTurned = true;
 		}
 
 
 		//If we need to change orientation, do so
 		if(forwards != nextdir) {
-
-
 
 			//Work out if we want to perform a left or a right turn. This assumes that the orientations are defined clockwise as seen from above looking down
 			bool left = true;
@@ -332,9 +335,9 @@ void Navigation::travelRoute(HAL* h) {
 			followLineToNext(nodes[currentNode].lengths[nextdir], false, approachingTSide, h);
 
 		} else {
-
-			junctionStraight(h);
-
+			if(!uTurned)
+				junctionStraight(h);
+	
 			//Are we approaching a T junction from the side?
 			bool approachingTSide = false;
 			if(nodes[next].tJunction && (forwards != flip(nodes[next].tOrientation)))
