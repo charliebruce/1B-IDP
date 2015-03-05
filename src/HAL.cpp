@@ -224,6 +224,9 @@ void HAL::ledSet(LED led, bool on) {
 		*port &= ~mask;
 	}
 
+	INFO("Port0 now "<<port0);
+	INFO("Port1 now "<<port1);
+
 	rlink.command(WRITE_PORT_0, port0);
 	rlink.command(WRITE_PORT_1, port1);
 
