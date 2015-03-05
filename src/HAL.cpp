@@ -238,6 +238,8 @@ void HAL::ledTest(void) {
 	ledSet(LED_LEFT, true);
 	ledSet(LED_MIDD, true);
 	ledSet(LED_RGHT, true);
+	ledSet(LED_CLRA, true);
+	ledSet(LED_CLRB, true);
 
 	handleErrors();
 
@@ -248,6 +250,8 @@ void HAL::ledTest(void) {
 	ledSet(LED_LEFT, false);
 	ledSet(LED_MIDD, false);
 	ledSet(LED_RGHT, false);
+	ledSet(LED_CLRA, false);
+	ledSet(LED_CLRB, false);
 
 	handleErrors();
 

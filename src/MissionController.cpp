@@ -75,6 +75,7 @@ void MissionController::RunMission(MISSION objective) {
 		INFO("[MC-W1] Performing Week 1 Tests.");
 
 		hal->networkTest();
+		hal->ledTest();
 		hal->motorTest();
 		hal->sensorTest();
 
