@@ -202,13 +202,13 @@ void HAL::ledSet(LED led, bool on) {
 		break;
 	case LED_CLRA:
 		//Colour A LED is on pin 6, port 0
-		mask = (1 << 3);
+		mask = (1 << 6);
 		port = &port0;
 		invert = false;
 		break;
 	case LED_CLRB:
 		//Colour B LED is on pin 7, port 0
-		mask = (1 << 2);
+		mask = (1 << 7);
 		port = &port0;
 		invert = false;
 		break;
