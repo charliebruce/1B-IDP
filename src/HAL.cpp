@@ -177,32 +177,39 @@ void HAL::ledSet(LED led, bool on) {
 	DEBUG("[HAL] LED: "<<led<<" set to "<<on);
 
 	int mask = 0;
+	int* port = &port0;
+
 	bool invert = false; //If a HIGH pin turns the light OFF, this should be TRUE.
 
 	switch(led) {
 	case LED_LEFT:
-		//Left LED is on pin B4
+		//Left LED is on pin B4, port 1
 		mask = (1 << 4);
+		port = &port1;
 		invert = false;
 		break;
 	case LED_MIDD:
-		//Middle LED is on B5
+		//Middle LED is on B5, port 1
 		mask = (1 << 5);
+		port = &port1;
 		invert = false;
 		break;
 	case LED_RGHT:
-		//Middle LED is on B6
+		//Middle LED is on B6, port 1
 		mask = (1 << 6);
+		port = &port1;
 		invert = false;
 		break;
 	case LED_CLRA:
-		//Colour A LED is on pin 3 TODO correct
+		//Colour A LED is on pin 6, port 0
 		mask = (1 << 3);
+		port = &port0;
 		invert = false;
 		break;
 	case LED_CLRB:
-		//Colour B LED is on pin 2 TODO correct
+		//Colour B LED is on pin 7, port 0
 		mask = (1 << 2);
+		port = &port0;
 		invert = false;
 		break;
 	case NUM_LEDS:
@@ -212,11 +219,12 @@ void HAL::ledSet(LED led, bool on) {
 	}
 
 	if(on != invert) {
-		port1 |= mask;
+		*port |= mask;
 	} else {
-		port1 &= ~mask;
+		*port &= ~mask;
 	}
 
+	rlink.command(WRITE_PORT_0, port0);
 	rlink.command(WRITE_PORT_1, port1);
 
 	handleErrors();

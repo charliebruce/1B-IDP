@@ -73,6 +73,7 @@ void MissionController::RunMission(MISSION objective) {
 	case WEEK1_TESTS:
 
 		INFO("[MC-W1] Performing Week 1 Tests.");
+
 		hal->networkTest();
 		hal->motorTest();
 		hal->sensorTest();
@@ -139,6 +140,7 @@ void MissionController::RunMission(MISSION objective) {
 
 	case EFUNC_DEMO:
 		//Electrical functionality demo: Operate the actuators.
+		//PASSED
 		INFO("Electrical functionality demo. Pneumatic actuator channels will switch on and off in turn.");
 
 		for(int i = 0; i< 5; i++) {
