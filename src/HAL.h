@@ -99,6 +99,7 @@ public:
 	void ledTest(void);
 	void motorTest(void);
 	void sensorTest(void);
+	void lsTest(void);
 
 private:
 

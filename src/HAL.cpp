@@ -122,6 +122,13 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 	return lsd;
 }
 
+void HAL::lsTest(void) {
+	SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
+	SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
+
+	DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
+}
+
 void HAL::sensorTest(void) {
 
 	INFO("[HAL] Sensor test starting.");
@@ -155,12 +162,9 @@ void HAL::sensorTest(void) {
 
 
 	//Now test the LDR
-	while(true) {
+	for(int i = 0; i<20; i++) {
 
-		SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
-		SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
-
-		DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
+		lsTest();
 		delay(500);
 
 	}

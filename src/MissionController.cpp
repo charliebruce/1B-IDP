@@ -163,7 +163,8 @@ void MissionController::RunMission(MISSION objective) {
 
 	case LINESENSOR_WIRING:
 
-		hal->sensorTest();
+		while(true)
+			hal->lsTest(); //never returns
 
 		if(objective != ALL_MISSIONS)
 			return;
