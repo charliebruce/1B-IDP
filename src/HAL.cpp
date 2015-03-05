@@ -252,12 +252,12 @@ void HAL::pneumaticOperation(PNEUMATIC p, bool state) {
 
 	switch(p) {
 	case PNEU_OPEN:
-		//Port 0 B7
-		mask = (1 << 7);
+		//Port 0 B4
+		mask = (1 << 4);
 		break;
 	case PNEU_CLOSE:
-		//Port 0 B6
-		mask = (1 << 6);
+		//Port 0 B5
+		mask = (1 << 5);
 		break;
 
 	case NUM_PNEUS:

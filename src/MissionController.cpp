@@ -139,8 +139,9 @@ void MissionController::RunMission(MISSION objective) {
 
 	case EFUNC_DEMO:
 		//Electrical functionality demo: Operate the actuators.
+		INFO("Electrical functionality demo. Pneumatic actuator channels will switch on and off in turn.");
 
-		for(int i = 0; i< 10; i++) {
+		for(int i = 0; i< 5; i++) {
 
 			hal->pneumaticOperation(PNEU_OPEN, true);
 			delay(1000);
