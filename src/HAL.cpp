@@ -234,26 +234,29 @@ void HAL::ledSet(LED led, bool on) {
 
 void HAL::ledTest(void) {
 
-	INFO("[HAL] LED Test: Setting all LEDs on.");
-	ledSet(LED_LEFT, true);
-	ledSet(LED_MIDD, true);
-	ledSet(LED_RGHT, true);
-	ledSet(LED_CLRA, true);
-	ledSet(LED_CLRB, true);
+	for(int i = 0; i<30; i++) {
+		INFO("[HAL] LED Test: Setting all LEDs on.");
+		ledSet(LED_LEFT, true);
+		ledSet(LED_MIDD, true);
+		ledSet(LED_RGHT, true);
+		ledSet(LED_CLRA, true);
+		ledSet(LED_CLRB, true);
 
-	handleErrors();
+		handleErrors();
 
-	//Wait for approximately 3 seconds in a platform-independent way.
-	delay(3000);
+		delay(1000);
 
-	INFO("[HAL] LED Test: Setting all LEDs off again.");
-	ledSet(LED_LEFT, false);
-	ledSet(LED_MIDD, false);
-	ledSet(LED_RGHT, false);
-	ledSet(LED_CLRA, false);
-	ledSet(LED_CLRB, false);
+		INFO("[HAL] LED Test: Setting all LEDs off again.");
+		ledSet(LED_LEFT, false);
+		ledSet(LED_MIDD, false);
+		ledSet(LED_RGHT, false);
+		ledSet(LED_CLRA, false);
+		ledSet(LED_CLRB, false);
 
-	handleErrors();
+		handleErrors();
+
+		delay(1000);
+	}
 
 }
 
