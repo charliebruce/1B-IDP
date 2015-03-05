@@ -19,6 +19,9 @@
 
 #include "Log.h"
 
+
+static const int juncDelay = 3000;
+
 void uTurn(HAL* h) {
 
 	//Spin 90 degrees on the spot twice
@@ -97,8 +100,11 @@ void junctionStraight(HAL* h) {
 	//TODO check this condition is met?
 
 	//Finally, stop.
-	//h->motorSet(MOTOR_LEFT, 0.0);
-	//h->motorSet(MOTOR_RIGHT, 0.0);
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
+	
+	//For debugging, stop for some time at every straight junction.
+	delay(juncDelay);
 
 	watchdog.stop();
 	TRACE("[LF] Ending junctionStraight");
@@ -116,12 +122,12 @@ void junctionTurn(bool left, HAL* h) {
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
 	if (left) {
-		h->motorSet(MOTOR_LEFT, 0.0);
+		h->motorSet(MOTOR_LEFT, -0.4);
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
 	else {
 		h->motorSet(MOTOR_LEFT, 1.0);
-		h->motorSet(MOTOR_RIGHT, 0.0);
+		h->motorSet(MOTOR_RIGHT, -0.4);
 	}
 	while(true) {
 		LINE_SENSOR_DATA sensors = h->lineRead();
@@ -142,6 +148,12 @@ void junctionTurn(bool left, HAL* h) {
 	
 	//Preempt that and slow down by looking at the left or right sensor?
 
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
+
+	//Delay for some delay for debugging
+	delay(juncDelay);
+
 	//TODO Estimate the time taken, error condition if it all goes wrong...!
 	watchdog.stop();
 	TRACE("[LF] Ending junctionTurn");
@@ -157,7 +169,11 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 	float mtrL = 1.0;
 	float mtrR = 1.0;
-
+	
+	//Stop it from sitting forever if we stop at a junction aligned well, velocity 0.0
+	h->motorSet(MOTOR_LEFT, mtrL);
+	h->motorSet(MOTOR_RIGHT, mtrR);
+	
 	//Assume we start lined up correctly.
 	//Also assume that the sensors are exactly 8cm in front of the wheel centreline
 
@@ -175,6 +191,9 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 	}
 
 	const int velocityReciprocal = 100; //in milliseconds per centimeter
+
+	int errs = 0;
+
 	while(true) { //compensate for 250ms of motor lag, max 20% overshoot
 		
 		int time_iteration_begin = watchdog.read();
@@ -233,21 +252,23 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
 			mtrL = 1.0;
-			mtrR = 1.0;
+			mtrR = 0.95;
+			errs = 0;
 
 		}
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.1;
+			mtrL = 0.5; // ((float) errs / 30.0);
 			mtrR = 1.0;
+			errs++;
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			mtrL = 1.0;
-			mtrR = 0.1;
-
+			mtrR = 0.5; // ((float) errs / 30.0);
+			errs++;
 		}
 
 		h->motorSet(MOTOR_LEFT, mtrL);
@@ -256,7 +277,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
 		//while(watchdog.read() < time_iteration_begin + 10) ;
-		delay(50);
+		delay(20);
 
 	}
 
