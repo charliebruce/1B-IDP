@@ -128,7 +128,7 @@ void HAL::sensorTest(void) {
 
 	LINE_SENSOR_DATA lsd;
 
-	for(;;) {
+	for(int i = 0; i < 20; i++) {
 
 		//Every 500ms
 		delay(500);
@@ -155,7 +155,15 @@ void HAL::sensorTest(void) {
 
 
 	//Now test the LDR
+	while(true) {
 
+		SENSOR_DATA sa = hal->sensorRead(SENSOR_EGG_LDR);
+		SENSOR_DATA sb = hal->sensorRead(SENSOR_EGG_LF);
+
+		DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
+		delay(500);
+
+	}
 
 	//TODO this
 
