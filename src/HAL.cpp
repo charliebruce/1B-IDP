@@ -123,48 +123,46 @@ LINE_SENSOR_DATA HAL::lineRead(void) {
 }
 
 void HAL::lsTest(void) {
-	SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
-	SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
 
-	DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
+	LINE_SENSOR_DATA lsd;
+
+	//Read the value from the sensor
+	lsd = lineRead();
+
+	//Output the values in a readable form to the console
+	INFO("Front sensors (L, C, R):\t" << ((lsd.fl == WHITE)?"white\t":"black\t")
+			<< ((lsd.fc == WHITE)?"white\t":"black\t")
+			<< ((lsd.fr == WHITE)?"white\t":"black\t")
+			<< " Rear: \t"
+			<< ((lsd.rc == WHITE)?"white\n":"black\n") );
+
 }
 
 void HAL::sensorTest(void) {
 
 	INFO("[HAL] Sensor test starting.");
 
-	LINE_SENSOR_DATA lsd;
-
 	for(int i = 0; i < 20; i++) {
 
 		//Every 500ms
 		delay(500);
 
-		//Read the value from the sensor
-		lsd = lineRead();
-
-		//Output the values in a readable form to the console
-		INFO("Front sensors (L, C, R):\t" << ((lsd.fl == WHITE)?"white\t":"black\t")
-				<< ((lsd.fc == WHITE)?"white\t":"black\t")
-				<< ((lsd.fr == WHITE)?"white\t":"black\t")
-				<< " Rear: \t"
-				<< ((lsd.rc == WHITE)?"white\n":"black\n") );
+		lsTest();
 
 	}
 
 	//Now test the limiting micro-switches.
 
-
-
 	//TODO this
-
 
 
 
 	//Now test the LDR
 	for(int i = 0; i<20; i++) {
+		SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
+		SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
 
-		lsTest();
+		DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
 		delay(500);
 
 	}
