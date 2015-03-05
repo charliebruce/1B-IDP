@@ -13,7 +13,7 @@ robot_link rlink;
 
 //State of the pins connected to port0
 //TODO is the assumption that the high 24 bits are ignored correct? uint8_t?
-int port0;
+int port0, port1;
 
 HAL::HAL(int robot) {
 
@@ -53,7 +53,9 @@ void HAL::resetRobot(void) {
 
 	//We start with the GPIOs all off
 	port0 = 0;
+	port1 = 0;
 	rlink.command(WRITE_PORT_0, port0);
+	rlink.command(WRITE_PORT_1, port1);
 	handleErrors();
 
 	//Motor configuration
@@ -136,10 +138,10 @@ void HAL::sensorTest(void) {
 
 		//Output the values in a readable form to the console
 		INFO("Front sensors (L, C, R):\t" << ((lsd.fl == WHITE)?"white\t":"black\t")
-								<< ((lsd.fc == WHITE)?"white\t":"black\t")
-								<< ((lsd.fr == WHITE)?"white\t":"black\t")
-			<< " Rear: \t"
-								<< ((lsd.rc == WHITE)?"white\n":"black\n") );
+				<< ((lsd.fc == WHITE)?"white\t":"black\t")
+				<< ((lsd.fr == WHITE)?"white\t":"black\t")
+				<< " Rear: \t"
+				<< ((lsd.rc == WHITE)?"white\n":"black\n") );
 
 	}
 
@@ -179,28 +181,28 @@ void HAL::ledSet(LED led, bool on) {
 
 	switch(led) {
 	case LED_LEFT:
-		//Left LED is on pin 0
-		mask = (1 << 0);
+		//Left LED is on pin B4
+		mask = (1 << 4);
 		invert = false;
 		break;
 	case LED_MIDD:
-		//Middle LED is on pin 1
-		mask = (1 << 1);
+		//Middle LED is on B5
+		mask = (1 << 5);
 		invert = false;
 		break;
 	case LED_RGHT:
-		//Middle LED is on pin 2
-		mask = (1 << 2);
+		//Middle LED is on B6
+		mask = (1 << 6);
 		invert = false;
 		break;
 	case LED_CLRA:
-		//Colour A LED is on pin 3
+		//Colour A LED is on pin 3 TODO correct
 		mask = (1 << 3);
 		invert = false;
 		break;
 	case LED_CLRB:
-		//Colour B LED is on pin 4
-		mask = (1 << 4);
+		//Colour B LED is on pin 2 TODO correct
+		mask = (1 << 2);
 		invert = false;
 		break;
 	case NUM_LEDS:
@@ -210,12 +212,12 @@ void HAL::ledSet(LED led, bool on) {
 	}
 
 	if(on != invert) {
-		port0 |= mask;
+		port1 |= mask;
 	} else {
-		port0 &= ~mask;
+		port1 &= ~mask;
 	}
 
-	rlink.command(WRITE_PORT_0, port0);
+	rlink.command(WRITE_PORT_1, port1);
 
 	handleErrors();
 
@@ -240,6 +242,36 @@ void HAL::ledTest(void) {
 	ledSet(LED_RGHT, false);
 
 	handleErrors();
+
+}
+
+
+void HAL::pneumaticOperation(PNEUMATIC p, bool state) {
+
+	int mask = 0;
+
+	switch(p) {
+	case PNEU_OPEN:
+		//Port 0 B7
+		mask = (1 << 7);
+		break;
+	case PNEU_CLOSE:
+		//Port 0 B6
+		mask = (1 << 6);
+		break;
+
+	case NUM_PNEUS:
+	default:
+		WARN("Incorrect use of pneumatic operation: "<< p <<", "<<state);
+	}
+
+	if(state) {
+		port0 |= mask;
+	} else {
+		port0 &= ~mask;
+	}
+
+	rlink.command(WRITE_PORT_0, port0);
 
 }
 

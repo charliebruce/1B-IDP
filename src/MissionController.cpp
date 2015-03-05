@@ -137,6 +137,26 @@ void MissionController::RunMission(MISSION objective) {
 			return;
 		//Intentional fall-through
 
+	case EFUNC_DEMO:
+		//Electrical functionality demo: Operate the actuators.
+
+		for(int i = 0; i< 10; i++) {
+
+			hal->pneumaticOperation(PNEU_OPEN, true);
+			delay(1000);
+			hal->pneumaticOperation(PNEU_CLOSE, true);
+			delay(1000);
+
+			hal->pneumaticOperation(PNEU_OPEN, false);
+			delay(1000);
+			hal->pneumaticOperation(PNEU_CLOSE, false);
+			delay(1000);
+		}
+
+		if(objective != ALL_MISSIONS)
+			return;
+		//Intentional fall-through
+
 	case LINESENSOR_WIRING:
 
 		hal->sensorTest();

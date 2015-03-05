@@ -51,11 +51,16 @@ int main(int argc,  char** argv) {
 				objective = FUNCTIONAL_DEMO_2;
 			}
 			else if(!strcmp(argv[1], "run-functional-demo3")) {
-							objective = FUNCTIONAL_DEMO_3;
-						}
+				objective = FUNCTIONAL_DEMO_3;
+			}
+			else if(!strcmp(argv[1], "run-electrical-demo")) {
+				objective = EFUNC_DEMO;
+			}
+
+
 			else if(!strcmp(argv[1], "ls-cal")) {
-							objective = LINESENSOR_WIRING;
-						}
+				objective = LINESENSOR_WIRING;
+			}
 
 
 			else {

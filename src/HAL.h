@@ -91,7 +91,7 @@ public:
 	LINE_SENSOR_DATA lineRead(void);
 
 	//Operate the pneumatics
-	void pneumaticOperation(PNEUMATIC p);
+	void pneumaticOperation(PNEUMATIC p, bool state);
 
 	//Simple unit tests to ensure that sub-systems are functioning correctly
 	void networkTest(void);
