@@ -157,8 +157,8 @@ void HAL::sensorTest(void) {
 	//Now test the LDR
 	while(true) {
 
-		SENSOR_DATA sa = hal->sensorRead(SENSOR_EGG_LDR);
-		SENSOR_DATA sb = hal->sensorRead(SENSOR_EGG_LF);
+		SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
+		SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
 
 		DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
 		delay(500);
