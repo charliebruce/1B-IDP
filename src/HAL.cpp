@@ -296,7 +296,26 @@ void HAL::pneumaticOperation(PNEUMATIC p, bool state) {
 SENSOR_DATA HAL::sensorRead(LDR_SENSOR s) {
 
 	SENSOR_DATA sd;
-	sd.intensity = rlink.request(ADC0);
+
+	switch(s) {
+
+	case SENSOR_EGG_LDR:
+		//Read from the egg-pointing LDR
+		sd.intensity = rlink.request(ADC0);
+		break;
+
+	case SENSOR_EGG_LF:
+		//Read from the line-following sensor pointing at the egg
+		sd.intensity = rlink.request(ADC1);
+		break;
+
+	default:
+		WARN("Incorrect use of sensorRead: " << s);
+		break;
+
+	}
+
+	//If the sensor is undefined, we return an undefined value.
 	return sd;
 
 }

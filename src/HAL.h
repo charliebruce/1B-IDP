@@ -43,7 +43,8 @@ enum LED {
 };
 
 enum LDR_SENSOR {
-	SENSOR_0 = 0,
+	SENSOR_EGG_LDR = 0,
+	SENSOR_EGG_LF,
 	NUM_SENSORS
 };
 
