@@ -161,7 +161,7 @@ void Navigation::travelToStart(HAL* h) {
 	travelRoute(h);
 }
 
-void Navigation::collectEgg(HAL* h) {
+void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	WARN("[NAV] Not yet implemented egg pickup.");
 	//TODO time lift time to work out weight / "shake" up and down to time?
 	//TODO this
@@ -187,7 +187,7 @@ void Navigation::collectEgg(HAL* h) {
 	//Find node
 }
 
-void Navigation::dropoffEgg(HAL* h) {
+void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
 	WARN("[NAV] Not yet implemented egg dropoff.");
 	//TODO this
 

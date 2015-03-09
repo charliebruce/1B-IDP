@@ -43,12 +43,12 @@ enum NODEINDEX {
 	NODE_4,
 	NODE_5,
 	NODE_6,
-	NODE_7,//20
+	NODE_7,//19
 	NODE_8,
 	NODE_9,
 	NODE_10,
 
-	NODE_DEADEND,//24
+	NODE_DEADEND,//23
 	NUM_NODES
 };
 
@@ -90,8 +90,8 @@ public:
 	void travelToStart(HAL* h);
 
 	//Pick up and deposit the egg - also operates the lift, claw
-	void collectEgg(HAL* h);
-	void dropoffEgg(HAL* h);
+	void collectEgg(COLLECTION_POINT cp, HAL* h);
+	void dropoffEgg(DROPOFF_POINT dp, HAL* h);
 
 	//Calculate the distance (weight) map and return the distance from our current location
 	int calculateRouteToNode(NODEINDEX n);

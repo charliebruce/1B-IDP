@@ -67,8 +67,6 @@ void MissionController::LineTests(void) {
 void MissionController::RunMission(MISSION objective) {
 
 	switch(objective) {
-	case ALL_MISSIONS:
-		//FALLTHROUGH INTENTIONAL
 
 	case WEEK1_TESTS:
 
@@ -79,9 +77,7 @@ void MissionController::RunMission(MISSION objective) {
 		hal->motorTest();
 		hal->sensorTest();
 
-		if(objective != ALL_MISSIONS)
-			return;
-		//Intentional fall-through for "all missions" option
+		return;
 
 	case FUNCTIONAL_DEMO_1:
 
@@ -92,9 +88,7 @@ void MissionController::RunMission(MISSION objective) {
 		INFO("[MC-FD1] Travelling to Start.");
 		nav.goHome(hal);
 
-		if(objective != ALL_MISSIONS)
-			return;
-		//Intentional fall-through
+		return;
 
 	case FUNCTIONAL_DEMO_2:
 
@@ -120,26 +114,30 @@ void MissionController::RunMission(MISSION objective) {
 
 		}
 
-		if(objective != ALL_MISSIONS)
-			return;
-		//Intentional fall-through
+		return;
 
 	case FUNCTIONAL_DEMO_3:
 
 		//•	Demonstrate the procedure of collecting and depositing an egg: operating pneumatic claw to grab the egg, operating the lift
 		//mechanism to raise the egg (stopping when the upper limit switch is pressed). The same procedure is followed in reverse
 		//to deposit the egg.
+
+		//To avoid re-orienting, we hack around that by setting our orientation manually
+		ABS_DIRECTION preserve = nav.forwards;
+		nav.forwards = SOUTH;
 		INFO("[MC-FD3] Picking egg up.");
-		nav.collectEgg(hal);
+		nav.collectEgg(CP_0, hal); //Does not matter what collection point, really, as long as our orientation matches approach direction
 
 		delay(3000);
 
+		nav.forwards = NORTH;
 		INFO("[MC-FD3] Dropping egg off.");
-		nav.dropoffEgg(hal);
+		nav.dropoffEgg(DP_1, hal);
 
-		if(objective != ALL_MISSIONS)
-			return;
-		//Intentional fall-through
+		//Restore our old orientation
+		nav.forwards = preserve;
+
+		return;
 
 	case EFUNC_DEMO:
 		//Electrical functionality demo: Operate the actuators.
@@ -159,18 +157,14 @@ void MissionController::RunMission(MISSION objective) {
 			delay(1000);
 		}
 
-		if(objective != ALL_MISSIONS)
-			return;
-		//Intentional fall-through
+		return;
 
 	case LINESENSOR_WIRING:
 
 		while(true)
 			hal->lsTest(); //never returns
 
-		if(objective != ALL_MISSIONS)
-			return;
-		//Intentional fall-through
+		return; //Never reached.
 
 	case MAIN_MISSION:
 		MainMission();
@@ -229,7 +223,7 @@ void MissionController::MainMission(void) {
 
 		INFO("[MC] Picking up the egg.");
 		//Pick up the egg
-		nav.collectEgg(hal);
+		nav.collectEgg(nextCP, hal);
 
 		//Mark the collection point as unoccupied
 		nav.setNoEgg(nextCP);
@@ -269,7 +263,7 @@ void MissionController::MainMission(void) {
 		nav.travelToDP(dp, hal);
 
 		//Deposit the egg in the egg cup
-		nav.dropoffEgg(hal);
+		nav.dropoffEgg(dp, hal);
 
 		INFO("[MC] Egg has been deposited.");
 

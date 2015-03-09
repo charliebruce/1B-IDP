@@ -12,11 +12,13 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+#include <iostream>
+
 //Direction reference for orientation
 //We arbitrarily define the raised section to be in the NORTH (ramp running NOR$
 enum ABS_DIRECTION {
-        NORTH = 0,
-        EAST,
+	NORTH = 0,
+	EAST,
 	SOUTH,
 	WEST
 };
@@ -59,7 +61,6 @@ enum MISSION {
 	FUNCTIONAL_DEMO_3,
 	LINESENSOR_WIRING,
 	EFUNC_DEMO,
-	ALL_MISSIONS,
 	NUM_MISISONS
 };
 
@@ -73,5 +74,25 @@ enum LINECOLOUR {
 };
 
 void delay(int ms);
+
+//This should make enums of the eggtype print nicely - hopefully it works!
+std::ostream& operator<<  (std::ostream& os, EGGTYPE var) {
+
+	switch(var) {
+	case EGG_INDETERMINATE:
+		return os << "Indeterminate Egg";
+	case EGG_WHITE:
+		return os << "White Egg";
+	case EGG_BROWN:
+		return os << "Brown Egg";
+	case EGG_MULTI:
+		return os << "Creme Egg";
+	}
+
+	return os << "Unknown Egg Type!";
+}
+
+
+
 
 #endif /* COMMON_H_ */

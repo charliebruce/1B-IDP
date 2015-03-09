@@ -32,14 +32,8 @@ int main(int argc,  char** argv) {
 		//TODO add calibration mode, save calibration parameters to file
 
 		if(argc > 1) {
-			if(!strcmp(argv[1], "functional-tests")) {
-
-			}
-			else if(!strcmp(argv[1], "run-mission")) {
+			if(!strcmp(argv[1], "run-mission")) {
 				objective = MAIN_MISSION;
-			}
-			else if(!strcmp(argv[1], "run-all")) {
-				objective = ALL_MISSIONS;
 			}
 			else if(!strcmp(argv[1], "run-week1")) {
 				objective = WEEK1_TESTS;
@@ -56,13 +50,9 @@ int main(int argc,  char** argv) {
 			else if(!strcmp(argv[1], "run-electrical-demo")) {
 				objective = EFUNC_DEMO;
 			}
-
-
 			else if(!strcmp(argv[1], "ls-cal")) {
 				objective = LINESENSOR_WIRING;
 			}
-
-
 			else {
 				WARN("Invalid parameters supplied; proceeding with main mission.");
 			}
@@ -78,7 +68,6 @@ int main(int argc,  char** argv) {
 	MissionController mc(&hal);
 
 	mc.RunMission(objective);
-
 
 	return 0;
 }
