@@ -90,8 +90,8 @@ public:
 	void travelToStart(HAL* h);
 
 	//Pick up and deposit the egg - also operates the lift, claw
-	void collectEgg(void);
-	void dropoffEgg(void);
+	void collectEgg(HAL* h);
+	void dropoffEgg(HAL* h);
 
 	//Calculate the distance (weight) map and return the distance from our current location
 	int calculateRouteToNode(NODEINDEX n);

@@ -94,6 +94,32 @@ void HAL::handleErrors(void) {
 
 }
 
+bool switchRead(SWITCH s) {
+
+	int vals0 = rlink.request(READ_PORT_0);
+	//Currently no switches on port 1
+	//int vals1 = rlink.request(READ_PORT_1);
+
+
+	switch(s) {
+
+	case SWITCH_EGG:
+		return (vals0 & (1 << 0)); //TODO pin numbers
+
+	case SWITCH_LIMIT_DOWN:
+		return (vals0 & (1 << 1));
+
+	case SWITCH_LIMIT_UP:
+		return (vals0 & (1 << 2));
+
+	//Error catching
+	case NUM_SWITCHES:
+	default:
+		WARN("[HAL] Incorrect use of switchRead!" << s);
+		return false;
+	}
+}
+
 LINE_SENSOR_DATA HAL::lineRead(void) {
 
 	LINE_SENSOR_DATA lsd;
@@ -140,6 +166,20 @@ void HAL::lsTest(void) {
 
 }
 
+void HAL::switchTest(void) {
+	INFO("Switches - Egg: " 	<< (switchRead(SWITCH_EGG)?"y":"n") <<
+					"\t LU:" 	<< (switchRead(SWITCH_LIMIT_UP)?"y":"n") <<
+					"\t LD:" 	<< (switchRead(SWITCH_LIMIT_DOWN)?"y":"n"));
+}
+
+void HAL::ldrTest(void) {
+	SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
+	SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
+
+	DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
+	delay(500);
+}
+
 void HAL::sensorTest(void) {
 
 	INFO("[HAL] Sensor test starting.");
@@ -149,37 +189,16 @@ void HAL::sensorTest(void) {
 		//Every 500ms
 		delay(500);
 
+		//Line sensors
 		lsTest();
 
-	}
+		//Limit switches
+		switchTest();
 
-	//Now test the limiting micro-switches.
-
-	//TODO this
-
-
-
-	//Now test the LDR
-	for(int i = 0; i<20; i++) {
-		SENSOR_DATA sa = sensorRead(SENSOR_EGG_LDR);
-		SENSOR_DATA sb = sensorRead(SENSOR_EGG_LF);
-
-		DEBUG("LDR: " << sa.intensity << ", \tLF: " << sb.intensity);
-		delay(500);
+		//LDR
+		ldrTest();
 
 	}
-
-	//TODO this
-
-
-
-
-	//Finally test the mechanical limit switches
-
-
-	//TODO this
-
-
 
 }
 
@@ -231,8 +250,8 @@ void HAL::ledSet(LED led, bool on) {
 		*port &= ~mask;
 	}
 
-	INFO("Port0 now "<<port0);
-	INFO("Port1 now "<<port1);
+	TRACE("Port0 now "<<port0);
+	TRACE("Port1 now "<<port1);
 
 	rlink.command(WRITE_PORT_0, port0);
 	rlink.command(WRITE_PORT_1, port1);

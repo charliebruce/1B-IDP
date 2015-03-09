@@ -149,7 +149,7 @@ void Navigation::travelToStart(HAL* h) {
 	travelRoute(h);
 }
 
-void Navigation::collectEgg(void) {
+void Navigation::collectEgg(HAL* h) {
 	WARN("[NAV] Not yet implemented egg pickup.");
 	//TODO time lift time to work out weight / "shake" up and down to time?
 	//TODO this
@@ -159,14 +159,22 @@ void Navigation::collectEgg(void) {
 	//Approach
 
 	//Operate claw
+	h->pneumaticOperation(PNEU_A, true);
 
 	//Operate lift
+	h->motorSet(MOTOR_LIFT, 1.0);
+
+	while(!h->switchRead(SWITCH_LIMIT_UP))
+		;
+
+	h->motorSet(MOTOR_LIFT, 0.0);
+
 
 	//Pivot
 
 	//Find node
 }
-void Navigation::dropoffEgg(void) {
+void Navigation::dropoffEgg(HAL* h) {
 	WARN("[NAV] Not yet implemented egg dropoff.");
 	//TODO this
 
@@ -174,9 +182,10 @@ void Navigation::dropoffEgg(void) {
 
 	//Approach
 
-	//Operate claw
-
 	//Operate lift
+
+	//Operate claw
+	h->pneumaticOperation(PNEU_A, false);
 
 	//Pivot
 
@@ -337,7 +346,7 @@ void Navigation::travelRoute(HAL* h) {
 		} else {
 			if(!uTurned)
 				junctionStraight(h);
-	
+
 			//Are we approaching a T junction from the side?
 			bool approachingTSide = false;
 			if(nodes[next].tJunction && (forwards != flip(nodes[next].tOrientation)))

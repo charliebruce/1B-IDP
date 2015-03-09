@@ -48,6 +48,13 @@ enum LDR_SENSOR {
 	NUM_SENSORS
 };
 
+enum SWITCH {
+	SWITCH_EGG = 0,
+	SWITCH_LIMIT_UP,
+	SWITCH_LIMIT_DOWN,
+	NUM_SWITCHES
+};
+
 struct LINE_SENSOR_DATA {
 	bool fl; //Front left
 	bool fc; //Front centre
@@ -91,6 +98,9 @@ public:
 	//Read the data from the line sensors
 	LINE_SENSOR_DATA lineRead(void);
 
+	//Read the state of a microswitch
+	bool switchRead(SWITCH s);
+
 	//Operate the pneumatics
 	void pneumaticOperation(PNEUMATIC p, bool state);
 
@@ -100,6 +110,8 @@ public:
 	void motorTest(void);
 	void sensorTest(void);
 	void lsTest(void);
+	void switchTest(void);
+	void ldrTest(void);
 
 private:
 
