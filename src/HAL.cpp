@@ -94,7 +94,7 @@ void HAL::handleErrors(void) {
 
 }
 
-bool switchRead(SWITCH s) {
+bool HAL::switchRead(SWITCH s) {
 
 	int vals0 = rlink.request(READ_PORT_0);
 	//Currently no switches on port 1
