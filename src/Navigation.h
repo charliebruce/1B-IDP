@@ -38,7 +38,7 @@ enum NODEINDEX {
 
 	NODE_1, //13
 	NODE_2,
-	NODE_3A,
+	/*NODE_3A,*/
 	NODE_3,
 	NODE_4,
 	NODE_5,
@@ -98,6 +98,9 @@ public:
 
 	//Actually make the journey
 	void travelRoute(HAL* h);
+
+	//Return to start
+	void goHome(HAL* h);
 
 private:
 

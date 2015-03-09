@@ -190,7 +190,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		return;
 	}
 
-	const int velocityReciprocal = 100; //in milliseconds per centimeter
+	const int velocityReciprocal = 100; //in milliseconds per centimeter TODO improve this estimate
 
 	int errs = 0;
 

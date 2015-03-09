@@ -78,8 +78,8 @@ Navigation::Navigation() {
 	//The upper section
 	addLink(NODE_DP2DP3, EAST, NODE_1, 85);
 	addLink(NODE_1, EAST, NODE_2, 85);
-	addLink(NODE_2, SOUTH, NODE_3A, 30);
-	addLink(NODE_3A, SOUTH, NODE_3, 114);
+	//addLink(NODE_2, SOUTH, NODE_3A, 30);
+	addLink(/*NODE_3A*/NODE_2, SOUTH, NODE_3, /*114*/144);
 	addLink(NODE_3, SOUTH, NODE_4, 24);
 
 	//Collection points, E-W roads
@@ -131,6 +131,18 @@ Navigation::~Navigation() {
 	DEBUG("[NAV] Destructor.");
 }
 
+void Navigation::goHome(HAL* hal) {
+	DEBUG("[NAV] Returning home...");
+	calculateRouteToNode(NODE_START);
+	travelRoute(hal);
+	DEBUG("[NAV] Orienting in the E-W direction...");
+	if((forwards == EAST) || (forwards == WEST))
+		return;
+	junctionTurn(false, hal);
+	forwards = (forwards+1) % 4; //Clockwise turn is the same as incrementing the compass direction, modulo 4
+	DEBUG("[NAV] Home!");
+}
+
 void Navigation::travelToCP(COLLECTION_POINT cp, HAL* h) {
 	DEBUG("[NAV] Travelling to CP"<<cp);
 	calculateRouteToNode(nodeForCP(cp));
@@ -174,6 +186,7 @@ void Navigation::collectEgg(HAL* h) {
 
 	//Find node
 }
+
 void Navigation::dropoffEgg(HAL* h) {
 	WARN("[NAV] Not yet implemented egg dropoff.");
 	//TODO this

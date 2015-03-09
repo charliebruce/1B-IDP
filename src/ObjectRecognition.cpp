@@ -45,8 +45,28 @@ EGGTYPE identify(HAL* hal) {
 	//Based on the values of sa, sb, sc infer the type of egg
 	DEBUG("[REC] Values: " << sa.intensity <<", "<< sb.intensity <<", "<<sc.intensity);
 
-	//TODO implement
 
-	return EGG_WHITE;
+	//TODO implement a better detection scheme
+
+
+
+	//Simple threshold based detection on Line Sensor:
+
+	//Note that these are all incredibly distance-critical - about 5mm seemed ideal, but needs to be repeatable
+	static const int eggMedTyp = 130; //Brown seems to give middling values
+	static const int eggLowTyp = 10; //Creme egg absorbs
+	static const int eggHighTyp = 220; //White can be as high as this
+
+	static const int THR_LOW = (eggLowTyp + eggMedTyp) / 2;
+	static const int THR_HIGH = (eggMedTyp + eggHighTyp) / 2;
+
+	if(sc.intensity < THR_LOW)
+		return EGG_MULTI;
+
+	if(sc.intensity > THR_HIGH)
+		return EGG_WHITE;
+
+
+	return EGG_BROWN;
 
 }

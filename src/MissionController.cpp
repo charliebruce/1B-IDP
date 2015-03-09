@@ -90,7 +90,7 @@ void MissionController::RunMission(MISSION objective) {
 		INFO("[MC-FD1] Travelling to DP1.");
 		nav.travelToDP(DP_1, hal);
 		INFO("[MC-FD1] Travelling to Start.");
-		nav.travelToStart(hal);
+		nav.goHome(hal);
 
 		if(objective != ALL_MISSIONS)
 			return;
@@ -129,11 +129,13 @@ void MissionController::RunMission(MISSION objective) {
 		//•	Demonstrate the procedure of collecting and depositing an egg: operating pneumatic claw to grab the egg, operating the lift
 		//mechanism to raise the egg (stopping when the upper limit switch is pressed). The same procedure is followed in reverse
 		//to deposit the egg.
+		INFO("[MC-FD3] Picking egg up.");
+		nav.collectEgg(hal);
 
-		//TODO implement this
+		delay(3000);
 
-
-
+		INFO("[MC-FD3] Dropping egg off.");
+		nav.dropoffEgg(hal);
 
 		if(objective != ALL_MISSIONS)
 			return;
@@ -199,6 +201,26 @@ void MissionController::MainMission(void) {
 	//While the game is still active
 	while (totalEggsRemaining() > 0 && (missionTimer.read() < TIMELIMIT))
 	{
+		//If we have one egg remaining, we can infer its colour
+		//We can also estimate the amount of time it will take to do this.
+		//Therefore we can work out if it is worth attempting to deposit the egg,
+		//or to get the points for returning to the start.
+
+		//Safety margin of 5 seconds
+		static const int SAFETY_MARGIN = 5000;
+
+		//If we have already collected 4 of the 5 eggs
+		if(totalEggsRemaining() == 1) {
+			int estimatedTimeToComplete = 60000;//Initially estimate 1 minute per egg - TODO improve this estimate
+
+			//If it will take longer to complete the final egg than the time we have remaining,
+			//we should sacrifice the final egg and return to the start
+			if((SAFETY_MARGIN + estimatedTimeToComplete) > (TIMELIMIT - missionTimer.read()))
+				break; //out of the main while loop: has no effect on the if statements.
+
+		}
+
+
 		INFO("[MC] Navigating to the next occupied egg collection point.");
 
 		//Navigate to the nearest occupied egg collection point
@@ -259,9 +281,10 @@ void MissionController::MainMission(void) {
 		stopSignalling(hal);
 
 	}
-	//Bonus points for returning to the start
 
-	//TODO This
+	//Return to the start
+	nav.goHome(hal);
+
 	INFO("[MC] Mission complete.");
 }
 
