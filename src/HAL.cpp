@@ -191,38 +191,33 @@ void HAL::ledSet(LED led, bool on) {
 	int mask = 0;
 	int* port = &port0;
 
-	bool invert = false; //If a HIGH pin turns the light OFF, this should be TRUE.
+	bool invert = true; //If a HIGH pin turns the light OFF, this should be TRUE.
 
 	switch(led) {
 	case LED_LEFT:
 		//Left LED is on pin B4, port 1
 		mask = (1 << 4);
 		port = &port1;
-		invert = false;
 		break;
 	case LED_MIDD:
 		//Middle LED is on B5, port 1
 		mask = (1 << 5);
 		port = &port1;
-		invert = false;
 		break;
 	case LED_RGHT:
 		//Middle LED is on B6, port 1
 		mask = (1 << 6);
 		port = &port1;
-		invert = false;
 		break;
 	case LED_CLRA:
 		//Colour A LED is on pin 6, port 0
 		mask = (1 << 6);
 		port = &port0;
-		invert = false;
 		break;
 	case LED_CLRB:
 		//Colour B LED is on pin 7, port 0
 		mask = (1 << 7);
 		port = &port0;
-		invert = false;
 		break;
 	case NUM_LEDS:
 	default:
