@@ -18,7 +18,7 @@ EGGTYPE identify(HAL* hal) {
 	hal->ledSet(LED_CLRB, false);
 
 	//Let the value settle
-	delay(100);
+	delay(1000);
 
 	//Read the ADC value
 	SENSOR_DATA sa = hal->sensorRead(SENSOR_EGG_LDR);
@@ -28,7 +28,7 @@ EGGTYPE identify(HAL* hal) {
 	hal->ledSet(LED_CLRB, true);
 
 	//Let the value settle
-	delay(100);
+	delay(1000);
 
 	//Read the ADC value again
 	SENSOR_DATA sb = hal->sensorRead(SENSOR_EGG_LDR);
@@ -37,11 +37,13 @@ EGGTYPE identify(HAL* hal) {
 	hal->ledSet(LED_CLRA, false);
 	hal->ledSet(LED_CLRB, false);
 
-	//Read the egg "line" sensor value in the dark
+	//Read the egg "line" sensor value in the dark (no need for delay)
 	SENSOR_DATA sc = hal->sensorRead(SENSOR_EGG_LDR);
 
+	//TODO determine if weighing the egg using mechanical/lift timing is necessary
+
 	//Based on the values of sa, sb, sc infer the type of egg
-	DEBUG("Values: " << sa.intensity <<", "<< sb.intensity <<", "<<sc.intensity);
+	DEBUG("[REC] Values: " << sa.intensity <<", "<< sb.intensity <<", "<<sc.intensity);
 
 	//TODO implement
 

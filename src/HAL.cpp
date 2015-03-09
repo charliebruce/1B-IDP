@@ -7,6 +7,8 @@
 
 #include "HAL.h"
 
+#define LOGLEVEL LL_TRACE
+
 #include "Log.h"
 
 robot_link rlink;

@@ -9,8 +9,6 @@
  *	suppress logging information from code that has been tested.
  *	By default, all logging information will be sent.
  *
- *	I haven't tested this macro witchcraft, but it should work...
- *
  */
 
 #ifndef LOG_H_
