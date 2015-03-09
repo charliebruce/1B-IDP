@@ -7,7 +7,7 @@
 
 #include "HAL.h"
 
-#define LOGLEVEL LL_TRACE
+#define LOGLEVEL LL_DEBUG
 
 #include "Log.h"
 
@@ -263,7 +263,7 @@ void HAL::ledSet(LED led, bool on) {
 
 void HAL::ledTest(void) {
 
-	for(int i = 0; i<30; i++) {
+	for(int i = 0; i<2; i++) {
 		INFO("[HAL] LED Test: Setting all LEDs on.");
 		ledSet(LED_LEFT, true);
 		delay(1000);
