@@ -146,14 +146,14 @@ void MissionController::RunMission(MISSION objective) {
 
 		for(int i = 0; i< 5; i++) {
 
-			hal->pneumaticOperation(PNEU_OPEN, true);
+			hal->pneumaticOperation(PNEU_A, true);
 			delay(1000);
-			hal->pneumaticOperation(PNEU_CLOSE, true);
+			hal->pneumaticOperation(PNEU_B, true);
 			delay(1000);
 
-			hal->pneumaticOperation(PNEU_OPEN, false);
+			hal->pneumaticOperation(PNEU_A, false);
 			delay(1000);
-			hal->pneumaticOperation(PNEU_CLOSE, false);
+			hal->pneumaticOperation(PNEU_B, false);
 			delay(1000);
 		}
 

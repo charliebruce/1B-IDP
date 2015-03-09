@@ -252,9 +252,13 @@ void HAL::ledTest(void) {
 	for(int i = 0; i<30; i++) {
 		INFO("[HAL] LED Test: Setting all LEDs on.");
 		ledSet(LED_LEFT, true);
+		delay(1000);
 		ledSet(LED_MIDD, true);
+		delay(1000);
 		ledSet(LED_RGHT, true);
+		delay(1000);
 		ledSet(LED_CLRA, true);
+		delay(1000);
 		ledSet(LED_CLRB, true);
 
 		handleErrors();
@@ -281,11 +285,11 @@ void HAL::pneumaticOperation(PNEUMATIC p, bool state) {
 	int mask = 0;
 
 	switch(p) {
-	case PNEU_OPEN:
+	case PNEU_A:
 		//Port 0 B4
 		mask = (1 << 4);
 		break;
-	case PNEU_CLOSE:
+	case PNEU_B:
 		//Port 0 B5
 		mask = (1 << 5);
 		break;
