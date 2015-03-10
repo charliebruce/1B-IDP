@@ -242,7 +242,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.7; // ((float) errs / 30.0);
+			mtrL = 0.5; // ((float) errs / 30.0);
 			mtrR = 1.0;
 			errs++;
 		}
@@ -250,7 +250,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			mtrL = 1.0;
-			mtrR = 0.7; // ((float) errs / 30.0);
+			mtrR = 0.5; // ((float) errs / 30.0);
 			errs++;
 		}
 
