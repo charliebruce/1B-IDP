@@ -158,7 +158,7 @@ void Navigation::travelToCP(COLLECTION_POINT cp, HAL* h) {
 }
 
 void Navigation::travelToDP(DROPOFF_POINT dp, HAL* h) {
-	DEBUG("[NAV] Travelling to "<<(dp + 1)); //DP_1 == 0
+	DEBUG("[NAV] Travelling to "<<dp);
 	calculateRouteToNode(nodeForDP(dp));
 	travelRoute(h);
 }
