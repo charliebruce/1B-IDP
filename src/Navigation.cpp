@@ -140,15 +140,17 @@ void Navigation::goHome(HAL* hal) {
 	calculateRouteToNode(NODE_START);
 	travelRoute(hal);
 	DEBUG("[NAV] Orienting in the E-W direction...");
-	if((forwards == EAST) || (forwards == WEST))
+	if((forwards == EAST) || (forwards == WEST)) {
+		INFO("[NAV] Made it home - no need to turn.");
 		return;
+	}
 	junctionTurn(false, hal); //False: Clockwise (right) turn
 	if(forwards == NORTH)
 		forwards = EAST; //Clockwise turn from NORTH
 	else
 		forwards = WEST; //Clockwise turn from SOUTH	
 	
-	DEBUG("[NAV] Home!");
+	INFO("[NAV] Home after turning!");
 }
 
 void Navigation::travelToCP(COLLECTION_POINT cp, HAL* h) {
