@@ -76,7 +76,7 @@ void delay(int ms);
 
 
 //This should make enums of the eggtype print nicely - hopefully it works!
-inline std::ostream& operator<<  (std::ostream& os, EGGTYPE var) {
+inline std::ostream& operator<< (std::ostream& os, EGGTYPE& var) {
 
 	switch(var) {
 	case EGG_INDETERMINATE:
