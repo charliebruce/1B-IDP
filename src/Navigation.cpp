@@ -142,8 +142,12 @@ void Navigation::goHome(HAL* hal) {
 	DEBUG("[NAV] Orienting in the E-W direction...");
 	if((forwards == EAST) || (forwards == WEST))
 		return;
-	junctionTurn(false, hal);
-	(ABS_DIRECTION) forwards = (((int)forwards)+1) % 4; //Clockwise turn is the same as incrementing the compass direction, modulo 4, if NORTH = 0
+	junctionTurn(false, hal); //False: Clockwise (right) turn
+	if(forwards == NORTH)
+		forwards = EAST; //Clockwise turn from NORTH
+	else
+		forwards = WEST; //Clockwise turn from SOUTH	
+	
 	DEBUG("[NAV] Home!");
 }
 
