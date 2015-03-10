@@ -74,6 +74,24 @@ inline std::ostream& operator<< (std::ostream& os, NODEINDEX& var) {
 		return os << "CP3";
 	case NODE_CP4:
 		return os << "CP4";
+
+	case NODE_7:
+		return os << "East of Start Box";
+	case NODE_8:
+		return os << "West of Start Box";
+	case NODE_9:
+		return os << "North of Start Box";
+	case NODE_6:
+		return os << "South of Start Box";
+
+	case NODE_2:
+		return os << "Top of Ramp";
+	case NODE_3:
+		return os << "Bottom of Ramp";
+
+	case NODE_4:
+		return os << "South-West Corner";
+
 	case NODE_DEADEND:
 		return os << "a dead-end";
 	default:
