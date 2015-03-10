@@ -52,6 +52,36 @@ enum NODEINDEX {
 	NUM_NODES
 };
 
+
+
+
+inline std::ostream& operator<< (std::ostream& os, NODEINDEX& var) {
+
+	switch(var) {
+	case NODE_START:
+		return os << "Start";
+	case NODE_DP1:
+		return os << "DP1";
+	case NODE_DP2DP3:
+		return os << "DP2/DP3";
+	case NODE_CP0:
+		return os << "CP0";
+	case NODE_CP1:
+		return os << "CP1";
+	case NODE_CP2:
+		return os << "CP2";
+	case NODE_CP3:
+		return os << "CP3";
+	case NODE_CP4:
+		return os << "CP4";
+	case NODE_DEADEND:
+		return os << "a dead-end";
+	default:
+		return os << "some other node";
+	}
+
+}
+
 //Struct for storing data
 
 //Each node has up to 4 neighbours, in each of the 4 cardinal directions

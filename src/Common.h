@@ -94,4 +94,71 @@ inline std::ostream& operator<< (std::ostream& os, EGGTYPE& var) {
 	return os << "Unknown Egg Type!";
 }
 
+inline std::ostream& operator<< (std::ostream& os, LINECOLOUR& var) {
+
+	switch(var) {
+	case BLACK:
+		return os << "black";
+	case WHITE:
+		return os << "white";
+	}
+
+}
+
+inline std::ostream& operator<< (std::ostream& os, ABS_DIRECTION& var) {
+
+	switch(var) {
+	case NORTH:
+		return os << "North";
+	case EAST:
+		return os << "East";
+	case SOUTH:
+		return os << "South";
+	case WEST:
+		return os << "West";
+	default:
+		return os << "Invalid Direction";
+	}
+
+}
+
+inline std::ostream& operator<< (std::ostream& os, DROPOFF_POINT& var) {
+
+	switch(var) {
+	case DP_1:
+		return os << "Dropoff Point 1";
+	case DP_2:
+		return os << "Dropoff Point 2";
+	case DP_3:
+		return os << "Dropoff Point 3";
+	case DP_ANYWHERE:
+		return os << "Anywhere!";
+
+	case NUM_DP:
+	default:
+		return os << "Invalid Dropoff Point";
+	}
+}
+
+inline std::ostream& operator<< (std::ostream& os, COLLECTION_POINT& var) {
+
+	switch(var) {
+	case CP_0:
+		return os << "Collection Point 0";
+	case CP_1:
+		return os << "Collection Point 1";
+	case CP_2:
+		return os << "Collection Point 2";
+	case CP_3:
+		return os << "Collection Point 3";
+	case CP_4:
+		return os << "Collection Point 4";
+
+	case NUM_CP:
+	default:
+		return os << "Invalid Collection Point";
+	}
+}
+
+
 #endif /* COMMON_H_ */
