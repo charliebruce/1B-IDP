@@ -102,6 +102,9 @@ public:
 	//Return to start
 	void goHome(HAL* h);
 
+	void setForwardsDirection(ABS_DIRECTION dir);
+
+
 private:
 
 	//State of the collection points is stored in here

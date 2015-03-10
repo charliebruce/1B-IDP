@@ -122,20 +122,17 @@ void MissionController::RunMission(MISSION objective) {
 		//mechanism to raise the egg (stopping when the upper limit switch is pressed). The same procedure is followed in reverse
 		//to deposit the egg.
 
-		//To avoid re-orienting, we hack around that by setting our orientation manually
-		ABS_DIRECTION preserve = nav.forwards;
-		nav.forwards = SOUTH;
+		WARN("Functional Demo 3 messes with orientation: Cannot use in conjunction with other demos");
+
+		nav.setForwardsDirection(SOUTH);
 		INFO("[MC-FD3] Picking egg up.");
 		nav.collectEgg(CP_0, hal); //Does not matter what collection point, really, as long as our orientation matches approach direction
 
 		delay(3000);
 
-		nav.forwards = NORTH;
+		nav.setForwardsDirection(NORTH);
 		INFO("[MC-FD3] Dropping egg off.");
 		nav.dropoffEgg(DP_1, hal);
-
-		//Restore our old orientation
-		nav.forwards = preserve;
 
 		return;
 
@@ -170,6 +167,7 @@ void MissionController::RunMission(MISSION objective) {
 		MainMission();
 		return;
 
+	case NUM_MISSIONS:
 	default:
 		ERR("Invalid mission objective given.");
 	}

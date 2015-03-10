@@ -60,8 +60,7 @@ enum MISSION {
 	FUNCTIONAL_DEMO_2,
 	FUNCTIONAL_DEMO_3,
 	LINESENSOR_WIRING,
-	EFUNC_DEMO,
-	NUM_MISISONS
+	NUM_MISSIONS
 };
 
 //The number on the wireless dongle attached to the robot.
@@ -87,6 +86,8 @@ std::ostream& operator<<  (std::ostream& os, EGGTYPE var) {
 		return os << "Brown Egg";
 	case EGG_MULTI:
 		return os << "Creme Egg";
+	default:
+		break;
 	}
 
 	return os << "Unknown Egg Type!";

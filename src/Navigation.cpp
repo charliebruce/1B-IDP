@@ -47,6 +47,10 @@ void Navigation::addLink(NODEINDEX from, ABS_DIRECTION dir, NODEINDEX to, int le
 
 }
 
+void Navigation::setForwardsDirection(ABS_DIRECTION dir) {
+	forwards = dir;
+}
+
 Navigation::Navigation() {
 
 	DEBUG("[NAV] Creator.");
@@ -57,7 +61,7 @@ Navigation::Navigation() {
 	}
 
 	//We start pointing EAST
-	forwards = EAST;
+	setForwardsDirection(EAST);
 
 	//At the starting location
 	currentNode = NODE_START;
