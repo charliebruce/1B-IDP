@@ -142,6 +142,16 @@ void junctionTurn(bool left, HAL* h) {
 	TRACE("[LF] Ending junctionTurn");
 }
 
+float clamp(float val, float low, float high) {
+
+	if(val < low)
+		return low;
+	if(val > high)
+		return high;
+	return val;
+
+}
+
 //Follow the line we are currently on until we reach a node, pointing straight
 //Estimated Distance is to ensure that we don't massively overshoot - stops us driving off to infinity.
 void followLineToNext(int lineDistance, bool justWentStraight, bool approachingTJunctionFromSide, HAL* h) {
@@ -242,15 +252,19 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.5; // ((float) errs / 30.0);
+			DEBUG("Err r: " << errs);
+			const float damp = 20;
+			mtrL = 0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
 			mtrR = 1.0;
 			errs++;
 		}
 
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
+			DEBUG("Err l: " << errs);
+			const float damp = 20;
 			mtrL = 1.0;
-			mtrR = 0.5; // ((float) errs / 30.0);
+			mtrR = 0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
 			errs++;
 		}
 
@@ -260,7 +274,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
 		//while(watchdog.read() < time_iteration_begin + 10) ;
-		delay(20);
+		delay(10);
 
 	}
 
