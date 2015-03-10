@@ -136,7 +136,7 @@ void MissionController::RunMission(MISSION objective) {
 
 		return;
 
-	case EFUNC_DEMO:
+/*	case EFUNC_DEMO:
 		//Electrical functionality demo: Operate the actuators.
 		//PASSED
 		INFO("Electrical functionality demo. Pneumatic actuator channels will switch on and off in turn.");
@@ -154,7 +154,7 @@ void MissionController::RunMission(MISSION objective) {
 			delay(1000);
 		}
 
-		return;
+		return; */
 
 	case LINESENSOR_WIRING:
 
