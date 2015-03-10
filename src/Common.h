@@ -75,4 +75,23 @@ enum LINECOLOUR {
 void delay(int ms);
 
 
+//This should make enums of the eggtype print nicely - hopefully it works!
+inline std::ostream& operator<<  (std::ostream& os, EGGTYPE var) {
+
+	switch(var) {
+	case EGG_INDETERMINATE:
+		return os << "Indeterminate Egg";
+	case EGG_WHITE:
+		return os << "White Egg";
+	case EGG_BROWN:
+		return os << "Brown Egg";
+	case EGG_MULTI:
+		return os << "Creme Egg";
+	default:
+		break;
+	}
+
+	return os << "Unknown Egg Type!";
+}
+
 #endif /* COMMON_H_ */
