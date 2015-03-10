@@ -72,10 +72,11 @@ void MissionController::RunMission(MISSION objective) {
 
 		INFO("[MC-W1] Performing Week 1 Tests.");
 
-		hal->networkTest();
-		hal->ledTest();
-		hal->motorTest();
-		hal->sensorTest();
+		//hal->networkTest();
+		//hal->ledTest();
+		while(1)
+			hal->motorTest();
+		//hal->sensorTest();
 
 		return;
 
@@ -83,8 +84,8 @@ void MissionController::RunMission(MISSION objective) {
 
 		//•	Travel from the starting location to dropoff location D1 and return to the starting location.
 
-		INFO("[MC-FD1] Travelling to DP1.");
-		nav.travelToDP(DP_1, hal);
+		INFO("[MC-FD1] Travelling to DP2.");
+		nav.travelToDP(DP_2, hal);
 		INFO("[MC-FD1] Travelling to Start.");
 		nav.goHome(hal);
 

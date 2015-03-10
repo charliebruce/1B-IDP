@@ -20,52 +20,28 @@
 #include "Log.h"
 
 
-static const int juncDelay = 3000;
+static const int juncDelay = 1000;
 
 void uTurn(HAL* h) {
 
-	//Spin 90 degrees on the spot twice
-	//Stop when the centre sensor hits the white
-	float uSpeed = 0.5;
+	//Junction turn left
+	junctionTurn(true, h);
 
-	h->motorSet(MOTOR_LEFT, -1.0*uSpeed);
-	h->motorSet(MOTOR_RIGHT, 1.0*uSpeed);
+	//Back up until on the junction
+	//Work around CUED bug	
+	motorSet(MOTOR_LEFT, 0.0);
+	motorSet(MOTOR_RIGHT, 0.0);
+	
+	motorSet(MOTOR_LEFT, -1.0);
+	motorSet(MOTOR_RIGHT, -1.0);
 
-	TRACE("U turn: 1");
-
-	delay(200);
-	//Wait until we've seen RH sensor go white
-	while(h->lineRead().fr != WHITE)
-		;
-
-	delay(200);
-
-	TRACE("U turn: 2");
-	//We're now in the BBB region
-
-	//Rotate until we hit the centre of the next one
-	while(h->lineRead().fc != WHITE)
-		;
-
-	delay(200);
-
-	TRACE("U turn: 3");
-	//Wait until we've seen RH sensor go white again
-	while(h->lineRead().fr != WHITE)
-		;
-
-	delay(200);
-	TRACE("U turn: 4");
-	//Wait until we've lined up with the line again
-	while(h->lineRead().fc != WHITE);
-
-
-	TRACE("U turn: Fin");
-
-	h->motorSet(MOTOR_LEFT, 0.0);
-	h->motorSet(MOTOR_RIGHT, 0.0);
-
-
+	//Keep reversing until the junction
+	while(true) {
+		
+	}
+	
+	//Junction turn again
+	junctionTurn(true, h);
 }
 
 void junctionStraight(HAL* h) {
@@ -252,14 +228,14 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
 			mtrL = 1.0;
-			mtrR = 0.95;
+			mtrR = 1.0;
 			errs = 0;
 
 		}
 
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
-			mtrL = 0.5; // ((float) errs / 30.0);
+			mtrL = 0.7; // ((float) errs / 30.0);
 			mtrR = 1.0;
 			errs++;
 		}
@@ -267,7 +243,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			mtrL = 1.0;
-			mtrR = 0.5; // ((float) errs / 30.0);
+			mtrR = 0.7; // ((float) errs / 30.0);
 			errs++;
 		}
 
