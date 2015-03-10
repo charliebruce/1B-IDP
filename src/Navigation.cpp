@@ -61,10 +61,10 @@ Navigation::Navigation() {
 	}
 
 	//We start pointing EAST
-	setForwardsDirection(EAST);
+	setForwardsDirection(WEST);
 
 	//At the starting location
-	currentNode = NODE_START;
+	currentNode = NODE_2;
 
 	//No target initially
 	targetNode = NODE_START;

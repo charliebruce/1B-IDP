@@ -431,8 +431,13 @@ void HAL::motorTest(void) {
 	INFO("[HAL] Motor test - reversing.");
 
 	//Drive backwards
-	motorSet(MOTOR_LEFT, -1.0);
-	motorSet(MOTOR_RIGHT, -1.0);
+	//CUED BUG?
+	//motorSet(MOTOR_LEFT, 0.0);
+	//motorSet(MOTOR_RIGHT, 0.0);
+	delay(50);
+
+	//motorSet(MOTOR_LEFT, -1.0);
+	//motorSet(MOTOR_RIGHT, -1.0);
 
 	//After 2 more seconds
 	delay(2000);
