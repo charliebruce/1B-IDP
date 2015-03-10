@@ -105,12 +105,12 @@ void junctionTurn(bool left, HAL* h) {
 	//turn just far enough to lose the line completely (BBB)
 	//by pivoting about the correct wheel
 	if (left) {
-		h->motorSet(MOTOR_LEFT, -0.4);
+		h->motorSet(MOTOR_LEFT, -0.3);
 		h->motorSet(MOTOR_RIGHT, 1.0);
 	}
 	else {
 		h->motorSet(MOTOR_LEFT, 1.0);
-		h->motorSet(MOTOR_RIGHT, -0.4);
+		h->motorSet(MOTOR_RIGHT, -0.3);
 	}
 	while(true) {
 		LINE_SENSOR_DATA sensors = h->lineRead();

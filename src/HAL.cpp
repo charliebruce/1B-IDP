@@ -64,7 +64,7 @@ void HAL::resetRobot(void) {
 	//TODO complete this
 	//TODO experiment with ramp
 	//According to CUED it ranges from 0 (no ramping) to 254 (slow ramping)
-	rlink.command (RAMP_TIME, 2); //TODO determine dieal value - was 10
+	rlink.command (RAMP_TIME, 16); //TODO determine dieal value - was 10
 	handleErrors();
 
 	//Motors all off
