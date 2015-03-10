@@ -101,7 +101,7 @@ void MissionController::RunMission(MISSION objective) {
 			INFO("Load an egg for identifying ("<<i<<" of 3):");
 			for(int countdown = 5; countdown <= 0; countdown--) {
 				delay(1000);
-				INFO(countdown);
+				INFO(countdown<<"...");
 			}
 
 			//Identify the egg using the sensor(s)

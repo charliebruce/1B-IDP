@@ -54,7 +54,7 @@ EGGTYPE identify(HAL* hal) {
 
 	//Note that these are all incredibly distance-critical - about 5mm seemed ideal, but needs to be repeatable
 	static const int eggMedTyp = 130; //Brown seems to give middling values
-	static const int eggLowTyp = 10; //Creme egg absorbs
+	static const int eggLowTyp = 10; //Creme egg absorbs IR it seems
 	static const int eggHighTyp = 220; //White can be as high as this
 
 	static const int THR_LOW = (eggLowTyp + eggMedTyp) / 2;
@@ -65,7 +65,6 @@ EGGTYPE identify(HAL* hal) {
 
 	if(sc.intensity > THR_HIGH)
 		return EGG_WHITE;
-
 
 	return EGG_BROWN;
 

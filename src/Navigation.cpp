@@ -174,12 +174,12 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	//TODO time lift time to work out weight / "shake" up and down to time?
 	//TODO this
 
-	//Orient
+	//Orient ourselves at the CP
 
-	//Approach
+	//Approach using dead reckoning from the junction to work out distance
 
 	//Operate claw
-	h->pneumaticOperation(PNEU_A, true);
+	h->pneumaticOperation(PNEU_CLAW, true);
 
 	//Operate lift
 	h->motorSet(MOTOR_LIFT, 1.0);
@@ -206,7 +206,7 @@ void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
 	//Operate lift
 
 	//Operate claw
-	h->pneumaticOperation(PNEU_A, false);
+	h->pneumaticOperation(PNEU_CLAW, false);
 
 	//Pivot
 
