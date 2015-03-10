@@ -29,16 +29,23 @@ void uTurn(HAL* h) {
 
 	//Back up until on the junction
 	//Work around CUED bug	
-	motorSet(MOTOR_LEFT, 0.0);
-	motorSet(MOTOR_RIGHT, 0.0);
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
 	
-	motorSet(MOTOR_LEFT, -1.0);
-	motorSet(MOTOR_RIGHT, -1.0);
+	h->motorSet(MOTOR_LEFT, -1.0);
+	h->motorSet(MOTOR_RIGHT, -1.0);
 
 	//Keep reversing until the junction
 	while(true) {
+		LINE_SENSOR_DATA lsd = h->lineRead();
 		
+		if((lsd.fc == WHITE) && ((lsd.fl == WHITE) || (lsd.fr == WHITE))) //Any 2 or 3 are white
+			break;
 	}
+
+	//CUED bug
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
 	
 	//Junction turn again
 	junctionTurn(true, h);
