@@ -148,6 +148,9 @@ void MissionController::RunMission(MISSION objective) {
 				hal->pneumaticOperation(PNEU_CLAW, CLAW_CLOSED);
 				delay(3000);
 
+				if(!hal->switchRead(SWITCH_EGG))
+					WARN("No egg detected");
+
 				INFO("Identified: " << identify(hal));
 	
 				hal->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
