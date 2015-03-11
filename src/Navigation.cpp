@@ -176,12 +176,50 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	//TODO time lift time to work out weight / "shake" up and down to time?
 	//TODO this
 
-	//Orient ourselves at the CP
 
-	//Approach using dead reckoning from the junction to work out distance
+	//Orient ourselves at the CP ie face south
+
+	if(forwards == EAST) {
+		//Rotate Clockwise (ie right)
+		junctionTurn(false, h);
+	}
+	if(forwards == WEST) {
+		//Rotate Anticlockwise (ie left)
+		junctionTurn(true, h);
+	}
+	if(forwards == NORTH) {
+		//WTF?
+		ERR("We should never be collecting but facing NORTH!");
+		return;
+	}
+	//We will now be facing south, to the CP.
+	forwards = SOUTH;
+
+	//We're actually very lucky: if we are just behind CPxS, our claw lines up.
+
+	//Approach and hit CPxS
+	followLineToNext(24, false, false, h);
+
+	//We're now at CPxS - reverse slowly until we just see 2 black.
+	//In case we overshot the junction
+	reverseToJunction(h);
+	reverseJustBeyondJunction(h);
+
+	//Line up straight (ie centre ourselves on the line)
+	//Probably not necessary if wide jaws: centreOnLine(h);
 
 	//Operate claw
 	h->pneumaticOperation(PNEU_CLAW, CLAW_CLOSED);
+
+	//Wait for pneumatic action.
+	delay(3000);
+
+	//Verify a good grab
+	if(!h->switchRead(SWITCH_EGG)) {
+		ERR("Failed to grab egg! Cannot continue.");
+		return;
+	}
+
 
 	//Operate lift
 	h->motorSet(MOTOR_LIFT, 1.0);

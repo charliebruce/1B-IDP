@@ -388,6 +388,9 @@ void HAL::motorSet(MOTOR m, float rate) {
 
 	}
 
+	static float rawrates[NUM_MOTORS] = {0,0,0};
+	//if(rawrates[m] = -rate) //CUED BUG? Compensate by zeroing?
+
 	if (reverse_motor) {
 		rate = rate * -1.0;
 	}

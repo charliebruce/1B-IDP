@@ -22,31 +22,85 @@
 
 static const int juncDelay = 1000;
 
-void uTurn(HAL* h) {
-
-	//Junction turn left
-	junctionTurn(true, h);
+void reverseJustBeyondJunction(HAL* h) {
 
 	//Back up until on the junction
-	//Work around CUED bug	
+	//Work around CUED bug
 	h->motorSet(MOTOR_LEFT, 0.0);
 	h->motorSet(MOTOR_RIGHT, 0.0);
-	
+
 	h->motorSet(MOTOR_LEFT, -1.0);
 	h->motorSet(MOTOR_RIGHT, -1.0);
 
 	//Keep reversing until the junction
 	while(true) {
 		LINE_SENSOR_DATA lsd = h->lineRead();
-		
+
+		int numBlacks = 0;
+		if(lsd.fc == BLACK)
+					numBlacks++;
+
+		if(lsd.fl == BLACK)
+					numBlacks++;
+
+		if(lsd.fr == BLACK)
+					numBlacks++;
+
+		if(numBlacks >= 2) //Any 2 or more blacks mean we are beyond an X
+			break;
+
+	}
+
+	//CUED bug compensation
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
+
+}
+
+void reverseToJunction(HAL* h) {
+
+	//Back up until on the junction
+	//Work around CUED bug	
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
+
+	h->motorSet(MOTOR_LEFT, -1.0);
+	h->motorSet(MOTOR_RIGHT, -1.0);
+
+	//Keep reversing until the junction
+	while(true) {
+		LINE_SENSOR_DATA lsd = h->lineRead();
+
 		if((lsd.fc == WHITE) && ((lsd.fl == WHITE) || (lsd.fr == WHITE))) //Any 2 or 3 are white
 			break;
 	}
 
-	//CUED bug
+	//Reverse slightly more TODO THIS
+	delay(250);
+
+	//CUED bug compensation
 	h->motorSet(MOTOR_LEFT, 0.0);
 	h->motorSet(MOTOR_RIGHT, 0.0);
-	
+
+}
+
+void centreOnLine(HAL* h) {
+	//If we see BBB, bump in one direction until we see a sensor change
+
+	//If we see either edge hit, compensate in the opposing direction
+
+	//If we see BWB, we're done
+
+	//If we see 2+ W, we're stuck and can't align without reversing further. Abort.
+}
+
+void uTurn(HAL* h) {
+
+	//Junction turn left
+	junctionTurn(true, h);
+
+	//Reverse to the junction
+
 	//Junction turn again
 	junctionTurn(true, h);
 }
@@ -67,9 +121,9 @@ void junctionStraight(HAL* h) {
 		LINE_SENSOR_DATA sensors = h->lineRead();
 		//If two OR MORE are black, we must have passed the junction and be back on the line
 		if( ((sensors.fl == WHITE) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) ||
-			((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) || 
-			((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == WHITE)) ||
-			((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) )
+				((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) ||
+				((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == WHITE)) ||
+				((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) )
 		{
 			break;
 		}
@@ -85,7 +139,7 @@ void junctionStraight(HAL* h) {
 	//Finally, stop.
 	h->motorSet(MOTOR_LEFT, 0.0);
 	h->motorSet(MOTOR_RIGHT, 0.0);
-	
+
 	//For debugging, stop for some time at every straight junction.
 	delay(juncDelay);
 
@@ -128,7 +182,7 @@ void junctionTurn(bool left, HAL* h) {
 		}
 	}
 	//Done. STOP!
-	
+
 	//Preempt that and slow down by looking at the left or right sensor?
 
 	h->motorSet(MOTOR_LEFT, 0.0);
@@ -162,11 +216,11 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 	float mtrL = 1.0;
 	float mtrR = 1.0;
-	
+
 	//Stop it from sitting forever if we stop at a junction aligned well, velocity 0.0
 	h->motorSet(MOTOR_LEFT, mtrL);
 	h->motorSet(MOTOR_RIGHT, mtrR);
-	
+
 	//Assume we start lined up correctly.
 	//Also assume that the sensors are exactly 8cm in front of the wheel centreline
 
@@ -188,7 +242,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 	int errs = 0;
 
 	while(true) { //compensate for 250ms of motor lag, max 20% overshoot
-		
+
 		int time_iteration_begin = watchdog.read();
 
 		//Read the sensor state
@@ -214,10 +268,10 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			}
 			return;
 		}
-		
+
 		//we have reached a T from the side
 		if (	((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) 	||
-					((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == WHITE))	)
+				((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == WHITE))	)
 		{
 			INFO("[LF] Found a T junction.");
 			if (!approachingTJunctionFromSide) {

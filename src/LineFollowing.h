@@ -26,6 +26,15 @@ void junctionTurn(bool left, HAL* h);
 //Used to navigate to/around + junctions
 void followLineToNext(int estimatedDistance, bool justWentStraight, bool approachingTJunction, HAL* h);
 
+//Reverse to a junction
+void reverseToJunction(HAL* h);
+
+//Reverse just beyond a junction
+void reverseJustBeyondJunction(HAL* h);
+
+//Align centre sensor with the line
+void centreOnLine(HAL* h);
+
 //Flip 180
 void uTurn(HAL* h);
 
