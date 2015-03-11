@@ -147,6 +147,8 @@ void MissionController::RunMission(MISSION objective) {
 			{
 				hal->pneumaticOperation(PNEU_CLAW, true);
 				delay(5000);
+
+				INFO("Identified: " << identify(hal));
 	
 				hal->pneumaticOperation(PNEU_CLAW, false);
 				delay(5000);

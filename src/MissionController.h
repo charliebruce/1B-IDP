@@ -30,6 +30,7 @@
 #include "HAL.h"
 #include "Navigation.h"
 #include "LineFollowing.h"
+#include "ObjectRecognition.h"
 
 
 
