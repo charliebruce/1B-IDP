@@ -38,7 +38,7 @@ EGGTYPE identify(HAL* hal) {
 	hal->ledSet(LED_CLRB, false);
 
 	//Read the egg "line" sensor value in the dark (no need for delay)
-	SENSOR_DATA sc = hal->sensorRead(SENSOR_EGG_LDR);
+	SENSOR_DATA sc = hal->sensorRead(SENSOR_EGG_LF);
 
 	//TODO determine if weighing the egg using mechanical/lift timing is necessary
 
