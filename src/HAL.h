@@ -34,8 +34,8 @@ enum PNEUMATIC {
 };
 
 enum CLAW {
-	CLAW_OPEN = false,
-	CLAW_CLOSED = true
+	CLAW_OPEN = true,
+	CLAW_CLOSED = false
 };
 
 enum LED {
