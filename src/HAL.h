@@ -33,6 +33,11 @@ enum PNEUMATIC {
 	NUM_PNEUS
 };
 
+enum CLAW {
+	CLAW_OPEN = false,
+	CLAW_CLOSED = true
+};
+
 enum LED {
 	LED_LEFT = 0,
 	LED_MIDD,

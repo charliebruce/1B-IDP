@@ -181,7 +181,7 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	//Approach using dead reckoning from the junction to work out distance
 
 	//Operate claw
-	h->pneumaticOperation(PNEU_CLAW, true);
+	h->pneumaticOperation(PNEU_CLAW, CLAW_CLOSED);
 
 	//Operate lift
 	h->motorSet(MOTOR_LIFT, 1.0);
@@ -208,7 +208,7 @@ void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
 	//Operate lift
 
 	//Operate claw
-	h->pneumaticOperation(PNEU_CLAW, false);
+	h->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
 
 	//Pivot
 

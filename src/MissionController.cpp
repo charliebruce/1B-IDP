@@ -145,12 +145,12 @@ void MissionController::RunMission(MISSION objective) {
 		for(int i = 0; i< 5; i++) {
 			while(true)
 			{
-				hal->pneumaticOperation(PNEU_CLAW, true);
-				delay(5000);
+				hal->pneumaticOperation(PNEU_CLAW, CLAW_CLOSED);
+				delay(3000);
 
 				INFO("Identified: " << identify(hal));
 	
-				hal->pneumaticOperation(PNEU_CLAW, false);
+				hal->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
 				delay(5000);
 			}	
 		}
