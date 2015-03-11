@@ -28,8 +28,8 @@ enum MOTOR {
 };
 
 enum PNEUMATIC {
-	PNEU_CLAW = 0,
-	PNEU_B,
+	PNEU_NC = 0,
+	PNEU_CLAW,
 	NUM_PNEUS
 };
 

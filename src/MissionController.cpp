@@ -145,10 +145,10 @@ void MissionController::RunMission(MISSION objective) {
 		for(int i = 0; i< 5; i++) {
 			while(true)
 			{
-				hal->pneumaticOperation(PNEU_B, true);
+				hal->pneumaticOperation(PNEU_CLAW, true);
 				delay(5000);
 	
-				hal->pneumaticOperation(PNEU_B, false);
+				hal->pneumaticOperation(PNEU_CLAW, false);
 				delay(5000);
 			}	
 		}
