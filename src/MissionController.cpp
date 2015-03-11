@@ -75,8 +75,8 @@ void MissionController::RunMission(MISSION objective) {
 		//hal->networkTest();
 		//hal->ledTest();
 		while(1)
-			hal->motorTest();
-		//hal->sensorTest();
+			//hal->motorTest();
+			hal->sensorTest();
 
 		return;
 
@@ -117,7 +117,7 @@ void MissionController::RunMission(MISSION objective) {
 
 		return;
 
-	case FUNCTIONAL_DEMO_3:
+/*	case FUNCTIONAL_DEMO_3:
 
 		//•	Demonstrate the procedure of collecting and depositing an egg: operating pneumatic claw to grab the egg, operating the lift
 		//mechanism to raise the egg (stopping when the upper limit switch is pressed). The same procedure is followed in reverse
@@ -135,27 +135,25 @@ void MissionController::RunMission(MISSION objective) {
 		INFO("[MC-FD3] Dropping egg off.");
 		nav.dropoffEgg(DP_1, hal);
 
-		return;
+		return; //*/
 
-/*	case EFUNC_DEMO:
+	case FUNCTIONAL_DEMO_3:
 		//Electrical functionality demo: Operate the actuators.
 		//PASSED
 		INFO("Electrical functionality demo. Pneumatic actuator channels will switch on and off in turn.");
 
 		for(int i = 0; i< 5; i++) {
-
-			hal->pneumaticOperation(PNEU_A, true);
-			delay(1000);
-			hal->pneumaticOperation(PNEU_B, true);
-			delay(1000);
-
-			hal->pneumaticOperation(PNEU_A, false);
-			delay(1000);
-			hal->pneumaticOperation(PNEU_B, false);
-			delay(1000);
+			while(true)
+			{
+				hal->pneumaticOperation(PNEU_B, true);
+				delay(5000);
+	
+				hal->pneumaticOperation(PNEU_B, false);
+				delay(5000);
+			}	
 		}
 
-		return; */
+		return; //*/
 
 	case LINESENSOR_WIRING:
 
