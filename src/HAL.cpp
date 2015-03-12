@@ -112,7 +112,7 @@ bool HAL::switchRead(SWITCH s) {
 	case SWITCH_LIMIT_UP:
 		return (vals0 & (1 << 2));
 
-	//Error catching
+		//Error catching
 	case NUM_SWITCHES:
 	default:
 		WARN("[HAL] Incorrect use of switchRead!" << s);
@@ -169,33 +169,41 @@ void HAL::lsTest(void) {
 void HAL::carriageMove(CARRIAGE_POS desired) {
 
 	if(desired == NUM_POS)
+	{
+		WARN("Bad use of carriage.");
+		return;
+	}
 
-	//Operate lift up
-	motorSet(MOTOR_LIFT, -1.0);
+	if(desired == POS_UP) {
 
-	//Until the upper limit is hit
-	while(!switchRead(SWITCH_LIMIT_UP))
-		;
 
-	//Lower
-	delay(200);
+		//Operate lift up
+		motorSet(MOTOR_LIFT, -1.0);
+
+		//Until the upper limit is hit
+		while(!switchRead(SWITCH_LIMIT_UP))
+			;
+
+	} else {
+
+		//Operate lift down
+		motorSet(MOTOR_LIFT, 1.0);
+
+		//Until the lower limit is hit
+		while(!switchRead(SWITCH_LIMIT_DOWN))
+			;
+
+	}
+
+	//Stop the motor
 	motorSet(MOTOR_LIFT, 0.0);
-	delay(200);
-	motorSet(MOTOR_LIFT, 1.0);
 
-	//Until the lower limit is hit
-	while(!switchRead(SWITCH_LIMIT_DOWN))
-		;
-
-	//Then stop the mechanism.
-	motorSet(MOTOR_LIFT, 0.0);
-	delay(200);
 }
 
 void HAL::switchTest(void) {
 	INFO("Switches - Egg: " 	<< (switchRead(SWITCH_EGG)?"y":"n") <<
-					"\t LU:" 	<< (switchRead(SWITCH_LIMIT_UP)?"y":"n") <<
-					"\t LD:" 	<< (switchRead(SWITCH_LIMIT_DOWN)?"y":"n"));
+			"\t LU:" 	<< (switchRead(SWITCH_LIMIT_UP)?"y":"n") <<
+			"\t LD:" 	<< (switchRead(SWITCH_LIMIT_DOWN)?"y":"n"));
 }
 
 void HAL::ldrTest(void) {
