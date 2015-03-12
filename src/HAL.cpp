@@ -171,22 +171,22 @@ void HAL::carriageMove(CARRIAGE_POS desired) {
 	if(desired == NUM_POS)
 
 	//Operate lift up
-	hal->motorSet(MOTOR_LIFT, -1.0);
+	motorSet(MOTOR_LIFT, -1.0);
 
 	//Until the upper limit is hit
-	while(!hal->switchRead(SWITCH_LIMIT_UP))
+	while(!switchRead(SWITCH_LIMIT_UP))
 		;
 
 	//Lower
-	hal->motorSet(MOTOR_LIFT, 0.0);
-	hal->motorSet(MOTOR_LIFT, 1.0);
+	motorSet(MOTOR_LIFT, 0.0);
+	motorSet(MOTOR_LIFT, 1.0);
 
 	//Until the lower limit is hit
-	while(!hal->switchRead(SWITCH_LIMIT_DOWN))
+	while(!switchRead(SWITCH_LIMIT_DOWN))
 		;
 
 	//Then stop the mechanism.
-	hal->motorSet(MOTOR_LIFT, 0.0);
+	motorSet(MOTOR_LIFT, 0.0);
 }
 
 void HAL::switchTest(void) {
