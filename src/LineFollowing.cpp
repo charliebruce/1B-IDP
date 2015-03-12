@@ -299,14 +299,14 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			if(errs > 0) {
 				//We are angled too far left now, drag slightly on the right wheel
 				//Magic constant should reduce this issue
-				mtrR = mtrR * 0.75;
+				mtrR = mtrR * 0.65;
 				errs--;
 			}
 
 			if(errs < 0) {
 				//We are angled too far right now, drag slightly on the left wheel
 				//Magic constant should reduce this issue
-				mtrL = mtrL * 0.75;
+				mtrL = mtrL * 0.65;
 				errs++;
 			}
 
@@ -331,8 +331,19 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			errs--;
 		}
 
-		h->motorSet(MOTOR_LEFT, mtrL);
-		h->motorSet(MOTOR_RIGHT, mtrR);
+
+		//Prevent repeated motor updates - speeeeed.		
+		static float mtrLOld = 0.0;
+		static float mtrROld = 0.0;
+		
+		if(mtrL != mtrLOld) {
+			mtrLOld = mtrL;
+			h->motorSet(MOTOR_LEFT, mtrL);
+		}
+		if(mtrR != mtrROld) {
+			mtrROld = mtrR;
+			h->motorSet(MOTOR_RIGHT, mtrR);
+		}
 
 		//TODO A small time delay here to reduce jitter?
 		//Delay for 10ms
