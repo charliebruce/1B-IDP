@@ -79,7 +79,7 @@ void MissionController::RunMission(MISSION objective) {
 		signalEggType(EGG_WHITE, hal);
 		delay(3000);
 		INFO("Pattern for a Brown egg:")
-		signalEggType(EGG_WHITE, hal);
+		signalEggType(EGG_BROWN, hal);
 		delay(3000);
 		//hal->networkTest();
 		//hal->ledTest();

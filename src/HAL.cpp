@@ -258,16 +258,19 @@ void HAL::ledSet(LED led, bool on) {
 		//Left LED is on pin B4, port 1
 		mask = (1 << 4);
 		port = &port1;
+		invert = true;
 		break;
 	case LED_MIDD:
 		//Middle LED is on B5, port 1
 		mask = (1 << 5);
 		port = &port1;
+		invert = true;
 		break;
 	case LED_RGHT:
 		//Middle LED is on B6, port 1
 		mask = (1 << 6);
 		port = &port1;
+		invert = true;
 		break;
 	case LED_CLRA:
 		//Colour A LED is on pin 6, port 0
