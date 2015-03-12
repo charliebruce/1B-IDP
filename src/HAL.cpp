@@ -72,6 +72,13 @@ void HAL::resetRobot(void) {
 	motorSet(MOTOR_RIGHT, 0.0);
 	motorSet(MOTOR_LIFT, 0.0);
 
+	//LEDs all off
+	ledSet(LED_LEFT, false);
+	ledSet(LED_RGHT, false);
+	ledSet(LED_MIDD, false);
+	ledSet(LED_CLRA, false);
+	ledSet(LED_CLRB, false);
+
 	//Sensors, etc
 	//TODO this
 }
