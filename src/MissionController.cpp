@@ -74,9 +74,32 @@ void MissionController::RunMission(MISSION objective) {
 
 		//hal->networkTest();
 		//hal->ledTest();
-		while(1)
+		//while(1)
 			//hal->motorTest();
-			hal->sensorTest();
+			//hal->sensorTest();
+
+		//Cycle the middle platform up and down
+
+
+		for(int i = 0; i< 3; i++) {
+			//Operate lift up
+			hal->motorSet(MOTOR_LIFT, 1.0);
+
+			while(!hal->switchRead(SWITCH_LIMIT_UP))
+				;
+
+			hal->motorSet(MOTOR_LIFT, 0.0);
+
+			hal->motorSet(MOTOR_LIFT, -1.0);
+
+			while(!hal->switchRead(SWITCH_LIMIT_DOWN))
+				;
+
+
+			hal->motorSet(MOTOR_LIFT, 0.0);
+
+
+		}
 
 		return;
 
