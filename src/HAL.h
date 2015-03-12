@@ -60,6 +60,12 @@ enum SWITCH {
 	NUM_SWITCHES
 };
 
+enum CARRIAGE_POS {
+	POS_UP,
+	POS_DOWN,
+	NUM_POS
+};
+
 struct LINE_SENSOR_DATA {
 	bool fl; //Front left
 	bool fc; //Front centre
@@ -108,6 +114,9 @@ public:
 
 	//Operate the pneumatics
 	void pneumaticOperation(PNEUMATIC p, bool state);
+
+	//Move the middle layer
+	void carriageMove(CARRIAGE_POS desired);
 
 	//Simple unit tests to ensure that sub-systems are functioning correctly
 	void networkTest(void);

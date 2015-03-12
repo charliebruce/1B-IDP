@@ -195,12 +195,14 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	//We will now be facing south, to the CP.
 	forwards = SOUTH;
 
+	//Safety: Ensure that our claw is open.
+	h->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
+
 	//We're actually very lucky: if we are just behind CPxS, our claw lines up.
 
 	//Approach and hit CPxS
 	followLineToNext(24, false, false, h);
 
-	//We're now at CPxS - reverse slowly until we just see 2 black.
 	//In case we overshot the junction
 	reverseToJunction(h);
 	reverseJustBeyondJunction(h);

@@ -166,6 +166,29 @@ void HAL::lsTest(void) {
 
 }
 
+void HAL::carriageMove(CARRIAGE_POS desired) {
+
+	if(desired == NUM_POS)
+
+	//Operate lift up
+	hal->motorSet(MOTOR_LIFT, -1.0);
+
+	//Until the upper limit is hit
+	while(!hal->switchRead(SWITCH_LIMIT_UP))
+		;
+
+	//Lower
+	hal->motorSet(MOTOR_LIFT, 0.0);
+	hal->motorSet(MOTOR_LIFT, 1.0);
+
+	//Until the lower limit is hit
+	while(!hal->switchRead(SWITCH_LIMIT_DOWN))
+		;
+
+	//Then stop the mechanism.
+	hal->motorSet(MOTOR_LIFT, 0.0);
+}
+
 void HAL::switchTest(void) {
 	INFO("Switches - Egg: " 	<< (switchRead(SWITCH_EGG)?"y":"n") <<
 					"\t LU:" 	<< (switchRead(SWITCH_LIMIT_UP)?"y":"n") <<
@@ -210,7 +233,7 @@ void HAL::ledSet(LED led, bool on) {
 	int mask = 0;
 	int* port = &port0;
 
-	bool invert = true; //If a HIGH pin turns the light OFF, this should be TRUE.
+	bool invert = false; //If a HIGH pin turns the light OFF, this should be TRUE.
 
 	switch(led) {
 	case LED_LEFT:

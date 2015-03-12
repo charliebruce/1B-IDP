@@ -82,23 +82,11 @@ void MissionController::RunMission(MISSION objective) {
 
 
 		for(int i = 0; i< 3; i++) {
-			//Operate lift up
-			hal->motorSet(MOTOR_LIFT, 1.0);
 
-			while(!hal->switchRead(SWITCH_LIMIT_UP))
-				;
-
-			hal->motorSet(MOTOR_LIFT, 0.0);
-
-			hal->motorSet(MOTOR_LIFT, -1.0);
-
-			while(!hal->switchRead(SWITCH_LIMIT_DOWN))
-				;
-
-
-			hal->motorSet(MOTOR_LIFT, 0.0);
-
-
+			hal->carriageMove(POS_UP);
+			delay(1000);
+			hal->carriageMove(POS_DOWN);
+			delay(1000);
 		}
 
 		return;
@@ -235,7 +223,7 @@ void MissionController::MainMission(void) {
 			//If it will take longer to complete the final egg than the time we have remaining,
 			//we should sacrifice the final egg and return to the start
 			if((SAFETY_MARGIN + estimatedTimeToComplete) > (TIMELIMIT - missionTimer.read()))
-				break; //out of the main while loop: has no effect on the if statements.
+				break; //out of the main while loop - will cause us to return home.
 
 		}
 
