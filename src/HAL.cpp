@@ -178,7 +178,9 @@ void HAL::carriageMove(CARRIAGE_POS desired) {
 		;
 
 	//Lower
+	delay(200);
 	motorSet(MOTOR_LIFT, 0.0);
+	delay(200);
 	motorSet(MOTOR_LIFT, 1.0);
 
 	//Until the lower limit is hit
@@ -187,6 +189,7 @@ void HAL::carriageMove(CARRIAGE_POS desired) {
 
 	//Then stop the mechanism.
 	motorSet(MOTOR_LIFT, 0.0);
+	delay(200);
 }
 
 void HAL::switchTest(void) {
