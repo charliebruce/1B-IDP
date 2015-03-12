@@ -181,30 +181,30 @@ void HAL::carriageMove(CARRIAGE_POS desired) {
 		return;
 	}
 
-	if(desired == POS_UP) {
+	if(desired == POS_DOWN) {
 
 
-		//Operate lift up
+		//Operate lift DOWN
 		motorSet(MOTOR_LIFT, -1.0);
 
-		//Until the upper limit is hit
+		//Until the LOWER limit is hit TODO FIXME ENUM IS WRONG NAME
 		while(!switchRead(SWITCH_LIMIT_UP))
 			;
 
-		//Stop the motor, little current to hold it up
-		motorSet(MOTOR_LIFT, 0.2);
+		//Stop the motor, little current to hold it up?
+		motorSet(MOTOR_LIFT, 0.0);
 
 	} else {
 
-		//Operate lift down
+		//Operate lift UP
 		motorSet(MOTOR_LIFT, 1.0);
 
-		//Until the lower limit is hit
+		//Until the UPPER limit is hit
 		while(!switchRead(SWITCH_LIMIT_DOWN))
 			;
 
 		//Stop the motor
-		motorSet(MOTOR_LIFT, 0.0);
+		motorSet(MOTOR_LIFT, 0.4);
 
 	}
 
