@@ -76,7 +76,7 @@ void reverseToJunction(HAL* h) {
 	}
 
 	//Reverse slightly more TODO THIS
-	delay(250);
+	//delay(250);
 
 	//CUED bug compensation
 	h->motorSet(MOTOR_LEFT, 0.0);
@@ -100,6 +100,7 @@ void uTurn(HAL* h) {
 	junctionTurn(true, h);
 
 	//Reverse to the junction
+	reverseToJunction(h);
 
 	//Junction turn again
 	junctionTurn(true, h);
@@ -307,8 +308,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if (sensors.fl == WHITE) {
 			//We need to turn left slightly: slow the left wheel down
 			DEBUG("Err r: " << errs);
-			const float damp = 20;
-			mtrL = 0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
+			const float damp = 100;
+			mtrL = 0.4; //0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
 			mtrR = 1.0;
 			errs++;
 		}
@@ -316,9 +317,9 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		if (sensors.fr == WHITE) {
 			//We need to turn right slightly: slow the right wheel down
 			DEBUG("Err l: " << errs);
-			const float damp = 20;
+			const float damp = 100;
 			mtrL = 1.0;
-			mtrR = 0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
+			mtrR = 0.4; //0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
 			errs++;
 		}
 
