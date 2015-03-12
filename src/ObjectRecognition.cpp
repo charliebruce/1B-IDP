@@ -50,21 +50,21 @@ EGGTYPE identify(HAL* hal) {
 
 
 
-	//Simple threshold based detection on Line Sensor:
+	//Simple threshold based detection on 2nd reading
 
 	//Note that these are all incredibly distance-critical - about 5mm seemed ideal, but needs to be repeatable
-	static const int eggMedTyp = 130; //Brown seems to give middling values
-	static const int eggLowTyp = 10; //Creme egg absorbs IR it seems
-	static const int eggHighTyp = 220; //White can be as high as this
+	static const int eggMedTyp = 64; //Brown seems to give middling values
+	static const int eggLowTyp = 50; //Creme egg absorbs IR it seems
+	static const int eggHighTyp = 85; //White can be as high as this
 
 	static const int THR_LOW = (eggLowTyp + eggMedTyp) / 2;
 	static const int THR_HIGH = (eggMedTyp + eggHighTyp) / 2;
 
-	if(sc.intensity < THR_LOW)
-		return EGG_MULTI;
-
-	if(sc.intensity > THR_HIGH)
+	if(sb.intensity < THR_LOW)
 		return EGG_WHITE;
+
+	if(sb.intensity > THR_HIGH)
+		return EGG_MULTI;
 
 	return EGG_BROWN;
 
