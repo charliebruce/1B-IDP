@@ -93,6 +93,7 @@ void MissionController::RunMission(MISSION objective) {
 		for(int i = 0; i< 5; i++) {
 
 			hal->carriageMove(POS_UP);
+			delay(3000);
 			hal->carriageMove(POS_DOWN);
 
 		}

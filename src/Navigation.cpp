@@ -173,11 +173,8 @@ void Navigation::travelToStart(HAL* h) {
 
 void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	WARN("[NAV] Not yet implemented egg pickup.");
-	//TODO time lift time to work out weight / "shake" up and down to time?
-	//TODO this
 
-
-	//Orient ourselves at the CP ie face south
+	//Orient ourselves at the CP ie always face south
 
 	if(forwards == EAST) {
 		//Rotate Clockwise (ie right)
@@ -195,8 +192,9 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	//We will now be facing south, to the CP.
 	forwards = SOUTH;
 
-	//Safety: Ensure that our claw is open.
+	//Safety: Ensure that our claw is open and in the up position.
 	h->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
+	h->carriageMove(POS_UP);
 
 	//We're actually very lucky: if we are just behind CPxS, our claw lines up.
 
@@ -218,41 +216,53 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 
 	//Verify a good grab
 	if(!h->switchRead(SWITCH_EGG)) {
-		ERR("Failed to grab egg! Cannot continue.");
-		return;
+		ERR("Failed to grab egg! Bad egg!");
+		//return;
 	}
 
-
-	//Operate lift
-	h->motorSet(MOTOR_LIFT, 1.0);
-
-	while(!h->switchRead(SWITCH_LIMIT_UP))
-		;
-
-	h->motorSet(MOTOR_LIFT, 0.0);
+	reverseToJunction(h);
+	reverseJustBeyondJunction(h);
+	reverseToJunction(h);
 
 
-	//Pivot
+	//We find ourselves back on the CPx node, facing south, as expected.
 
-	//Find node
 }
 
 void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
 	WARN("[NAV] Not yet implemented egg dropoff.");
 	//TODO this
 
-	//Orient
+	//Orient in the correct direction
+	ABS_DIRECTION toFace = WEST;
+	switch(dp) {
+	case DP_1:
+		toFace = NORTH;
+		break;
+	case DP_2:
+		toFace = SOUTH;
+		break;
+	case DP_3:
+		toFace = WEST;
+		break;
+	}
 
-	//Approach
+	if(forwards != toFace) {
+		//We need to rotate to face the CP
+		//TODO this
+	}
 
-	//Operate lift
+	//Approach the DP
+
+	//Operate lift to lower position
+	h->carriageMove(POS_DOWN);
 
 	//Operate claw
 	h->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
 
-	//Pivot
+	//Reverse to junction
+	reverseToJunction(h);
 
-	//Find node
 }
 
 static const int HIGHWEIGHT = 100000;
@@ -298,7 +308,7 @@ int Navigation::calculateRouteToNode(NODEINDEX givenTarget) {
 
 				TRACE("[NAV] Considering "<<i<<"'s neighbour in the "<<dir <<" direction. Has weight "<<nodes[neighbour].weight);
 
-				//If the neighbour in that direction is reachable (weight realistix)
+				//If the neighbour in that direction is reachable (weight realistic)
 				if(nodes[neighbour].weight < HIGHWEIGHT) {
 
 					TRACE("[NAV] That neighbour is weighted!");

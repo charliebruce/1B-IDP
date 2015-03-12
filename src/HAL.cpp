@@ -191,6 +191,9 @@ void HAL::carriageMove(CARRIAGE_POS desired) {
 		while(!switchRead(SWITCH_LIMIT_UP))
 			;
 
+		//Stop the motor, little current to hold it up
+		motorSet(MOTOR_LIFT, 0.2);
+
 	} else {
 
 		//Operate lift down
@@ -200,10 +203,11 @@ void HAL::carriageMove(CARRIAGE_POS desired) {
 		while(!switchRead(SWITCH_LIMIT_DOWN))
 			;
 
+		//Stop the motor
+		motorSet(MOTOR_LIFT, 0.0);
+
 	}
 
-	//Stop the motor
-	motorSet(MOTOR_LIFT, 0.0);
 
 }
 
