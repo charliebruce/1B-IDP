@@ -81,12 +81,11 @@ void MissionController::RunMission(MISSION objective) {
 		//Cycle the middle platform up and down
 
 
-		for(int i = 0; i< 1; i++) {
+		for(int i = 0; i< 5; i++) {
 
 			hal->carriageMove(POS_UP);
-			delay(5000);
 			hal->carriageMove(POS_DOWN);
-			delay(5000);
+
 		}
 
 		return;
