@@ -121,7 +121,7 @@ void junctionStraight(HAL* h) {
 		//Read the sensors
 		LINE_SENSOR_DATA sensors = h->lineRead();
 		//If two OR MORE are black, we must have passed the junction and be back on the line
-		if( ((sensors.fl == WHITE) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) ||
+		if( 	((sensors.fl == WHITE) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) ||
 				((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) ||
 				((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == WHITE)) ||
 				((sensors.fl == BLACK) && (sensors.fc == BLACK) && (sensors.fr == BLACK)) )
@@ -129,7 +129,6 @@ void junctionStraight(HAL* h) {
 			break;
 		}
 	}
-
 
 	//Line ourselves back up straight with the line (BWB).
 	//sensors = hal->lineRead()
@@ -240,7 +239,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 	const int velocityReciprocal = 100; //in milliseconds per centimeter TODO improve this estimate
 
-	int errs = 0;
+	//Positive error = too far right
+	static int errs = 0; //Maintain this variable between runs.
 
 	while(true) { //compensate for 250ms of motor lag, max 20% overshoot
 
@@ -249,18 +249,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 		//Read the sensor state
 		LINE_SENSOR_DATA sensors = h->lineRead();
 
-		//DEBUG("We see "<<sensors.fl <<", "<<sensors.fc <<", "<<sensors.fr);
-
-
-		//If we lose the white line on our rear sensor there is a BIG PROBLEM!
-		if(sensors.rc != WHITE) {
-			//TODO implement recovery strategy, downgrade this to a warning
-			//ERR("[LF] Loss of line on rear sensor! Unable to correct. Continuing, but maybe into the abyss!");
-			//return;
-		}
-
 		//If junctions are regularly detected falsely, sensor spacing needs to be increased.
-
 		if ((sensors.fl == WHITE) && (sensors.fc == WHITE) && (sensors.fr == WHITE)){
 			INFO("[LF] Found an X junction.");
 			if (approachingTJunctionFromSide) {
@@ -299,9 +288,28 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 
 		if ((sensors.fl == BLACK) && (sensors.fc == WHITE) && (sensors.fr == BLACK)) {
 			//We are on track: full speed ahead!
-			mtrL = 1.0;
-			mtrR = 1.0;
-			errs = 0;
+			mtrL = 0.9;
+			mtrR = 0.9;
+
+			//errs = 0;
+
+			//Deal with over-compensation...
+
+			//If we had previously erred right
+			if(errs > 0) {
+				//We are angled too far left now, drag slightly on the right wheel
+				//Magic constant should reduce this issue
+				mtrR = mtrR * 0.75;
+				errs--;
+			}
+
+			if(errs < 0) {
+				//We are angled too far right now, drag slightly on the left wheel
+				//Magic constant should reduce this issue
+				mtrL = mtrL * 0.75;
+				errs++;
+			}
+
 
 		}
 
@@ -309,7 +317,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			//We need to turn left slightly: slow the left wheel down
 			DEBUG("Err r: " << errs);
 			const float damp = 100;
-			mtrL = 0.4; //0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
+			mtrL = 0.5; //0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
 			mtrR = 1.0;
 			errs++;
 		}
@@ -319,8 +327,8 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			DEBUG("Err l: " << errs);
 			const float damp = 100;
 			mtrL = 1.0;
-			mtrR = 0.4; //0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
-			errs++;
+			mtrR = 0.5; //0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
+			errs--;
 		}
 
 		h->motorSet(MOTOR_LEFT, mtrL);
