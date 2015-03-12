@@ -72,6 +72,15 @@ void MissionController::RunMission(MISSION objective) {
 
 		INFO("[MC-W1] Performing Week 1 Tests.");
 
+		INFO("Pattern for a Creme egg:")
+		signalEggType(EGG_MULTI, hal);
+		delay(3000);
+		INFO("Pattern for a White egg:")
+		signalEggType(EGG_WHITE, hal);
+		delay(3000);
+		INFO("Pattern for a Brown egg:")
+		signalEggType(EGG_WHITE, hal);
+		delay(3000);
 		//hal->networkTest();
 		//hal->ledTest();
 		//while(1)

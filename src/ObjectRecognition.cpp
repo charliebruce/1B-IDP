@@ -45,11 +45,6 @@ EGGTYPE identify(HAL* hal) {
 	//Based on the values of sa, sb, sc infer the type of egg
 	DEBUG("[REC] Values: " << sa.intensity <<", "<< sb.intensity <<", "<<sc.intensity);
 
-
-	//TODO implement a better detection scheme
-
-
-
 	//Simple threshold based detection on 2nd reading
 
 	//Note that these are all incredibly distance-critical - about 5mm seemed ideal, but needs to be repeatable
