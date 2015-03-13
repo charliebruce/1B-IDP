@@ -163,7 +163,7 @@ void MissionController::RunMission(MISSION objective) {
 		//PASSED
 		INFO("Electrical functionality demo. Pneumatic actuator channels will switch on and off in turn.");
 
-		for(int i = 0; i< 5; i++) {
+		for(int i = 0; i < 5; i++) {
 			while(true)
 			{
 				hal->pneumaticOperation(PNEU_CLAW, CLAW_CLOSED);
@@ -184,7 +184,7 @@ void MissionController::RunMission(MISSION objective) {
 	case LINESENSOR_WIRING:
 
 		while(true)
-			hal->lsTest(); //never returns
+			hal->lsTest();
 
 		return; //Never reached.
 

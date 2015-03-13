@@ -7,7 +7,7 @@
 
 #include "HAL.h"
 
-#define LOGLEVEL LL_DEBUG
+#define LOGLEVEL LL_INFO
 
 #include "Log.h"
 

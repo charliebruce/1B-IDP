@@ -149,7 +149,7 @@ void Navigation::goHome(HAL* hal) {
 		forwards = EAST; //Clockwise turn from NORTH
 	else
 		forwards = WEST; //Clockwise turn from SOUTH	
-	
+
 	INFO("[NAV] Home after turning!");
 }
 
@@ -172,7 +172,7 @@ void Navigation::travelToStart(HAL* h) {
 }
 
 void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
-	WARN("[NAV] Not yet implemented egg pickup.");
+	WARN("[NAV] Not yet tested egg pickup.");
 
 	//Orient ourselves at the CP ie always face south
 
@@ -206,7 +206,7 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	reverseJustBeyondJunction(h);
 
 	//Line up straight (ie centre ourselves on the line)
-	//Probably not necessary if wide jaws: centreOnLine(h);
+	//Probably not necessary if we have wide jaws: centreOnLine(h);
 
 	//Operate claw
 	h->pneumaticOperation(PNEU_CLAW, CLAW_CLOSED);
@@ -230,35 +230,53 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 }
 
 void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
-	WARN("[NAV] Not yet implemented egg dropoff.");
-	//TODO this
+	INFO("[NAV] Depositing egg in " << dp);
 
 	//Orient in the correct direction
-	ABS_DIRECTION toFace = WEST;
+	ABS_DIRECTION nextdir = WEST;
 	switch(dp) {
 	case DP_1:
-		toFace = NORTH;
+		nextdir = NORTH;
 		break;
 	case DP_2:
-		toFace = SOUTH;
+		nextdir = SOUTH;
 		break;
 	case DP_3:
-		toFace = WEST;
+		nextdir = WEST;
 		break;
+	case NUM_DP:
+	default:
+		WARN("[NAV] Incorrect use of dropoff!");
 	}
 
-	if(forwards != toFace) {
-		//We need to rotate to face the CP
-		//TODO this
+	if(forwards != nextdir) {
+		//Work out if we want to perform a left or a right turn. This assumes that the orientations are defined clockwise as seen from above looking down
+		bool left = true;
+		if (((forwards + 1) % 4) == nextdir){
+			left = false;
+		} else {
+			left = true;
+		}
+
+		DEBUG("[NAV] Current orientation is "<<forwards<<" but we need " << nextdir << " - we need to rotate "<<(left?"left":"right"));
+
+		//Perform the rotation and update the orientation
+		junctionTurn(left, h);
+		forwards = nextdir;
+
 	}
 
 	//Approach the DP
+	junctionStraight(h);
 
 	//Operate lift to lower position
 	h->carriageMove(POS_DOWN);
 
 	//Operate claw
 	h->pneumaticOperation(PNEU_CLAW, CLAW_OPEN);
+
+	//Lift again
+	h->carriageMove(POS_UP);
 
 	//Reverse to junction
 	reverseToJunction(h);

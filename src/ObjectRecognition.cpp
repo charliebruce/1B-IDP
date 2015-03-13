@@ -8,6 +8,8 @@
 
 #include "ObjectRecognition.h"
 
+#define LOGLEVEL LL_INFO
+
 #include "Log.h"
 
 
@@ -46,8 +48,7 @@ EGGTYPE identify(HAL* hal) {
 	DEBUG("[REC] Values: " << sa.intensity <<", "<< sb.intensity <<", "<<sc.intensity);
 
 	//Simple threshold based detection on 2nd reading
-
-	//Note that these are all incredibly distance-critical - about 5mm seemed ideal, but needs to be repeatable
+	//That gave the biggest swing. 100% reliable over a sample of 6 eggs.
 	static const int eggMedTyp = 64; //Brown seems to give middling values
 	static const int eggLowTyp = 50; //Creme egg absorbs IR it seems
 	static const int eggHighTyp = 85; //White can be as high as this

@@ -20,7 +20,7 @@
 #include "Log.h"
 
 
-static const int juncDelay = 1000;
+static const int juncDelay = 500;
 
 void reverseJustBeyondJunction(HAL* h) {
 
@@ -85,6 +85,9 @@ void reverseToJunction(HAL* h) {
 }
 
 void centreOnLine(HAL* h) {
+
+	ERR("[LF] Centre on Line not implemented!");
+
 	//If we see BBB, bump in one direction until we see a sensor change
 
 	//If we see either edge hit, compensate in the opposing direction
@@ -92,6 +95,7 @@ void centreOnLine(HAL* h) {
 	//If we see BWB, we're done
 
 	//If we see 2+ W, we're stuck and can't align without reversing further. Abort.
+
 }
 
 void uTurn(HAL* h) {
