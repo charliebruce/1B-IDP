@@ -228,7 +228,15 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	}
 
 	//reverseToJunction(h);
-	reverseJustBeyondJunction(h);
+	//reverseJustBeyondJunction(h);
+	
+	//Bump back a sec.
+	h->motorSet(MOTOR_LEFT, -1.0);
+	h->motorSet(MOTOR_RIGHT, -1.0);
+	delay(1000);
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
+
 	reverseToJunction(h);
 
 
