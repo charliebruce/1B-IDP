@@ -303,14 +303,14 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			if(errs > 0) {
 				//We are angled too far left now, drag slightly on the right wheel
 				//Magic constant should reduce this issue
-				mtrR = mtrR * 0.65;
+				mtrR = mtrR * 0.55;
 				errs--;
 			}
 
 			if(errs < 0) {
 				//We are angled too far right now, drag slightly on the left wheel
 				//Magic constant should reduce this issue
-				mtrL = mtrL * 0.65;
+				mtrL = mtrL * 0.55;
 				errs++;
 			}
 
@@ -321,7 +321,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			//We need to turn left slightly: slow the left wheel down
 			DEBUG("Err r: " << errs);
 			const float damp = 100;
-			mtrL = 0.5; //0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
+			mtrL = 0.35; //0.725 * (1 - (1.0/damp) * clamp(((float) errs / damp), 0.0, damp));
 			mtrR = 1.0;
 			errs++;
 		}
@@ -331,7 +331,7 @@ void followLineToNext(int lineDistance, bool justWentStraight, bool approachingT
 			DEBUG("Err l: " << errs);
 			const float damp = 100;
 			mtrL = 1.0;
-			mtrR = 0.5; //0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
+			mtrR = 0.35; //0.725 * (1 - (1.0/damp) * clamp( ((float) errs / damp), 0.0, damp));
 			errs--;
 		}
 

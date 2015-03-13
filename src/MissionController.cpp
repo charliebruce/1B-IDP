@@ -71,6 +71,16 @@ void MissionController::RunMission(MISSION objective) {
 	case WEEK1_TESTS:
 
 		INFO("[MC-W1] Performing Week 1 Tests.");
+		
+		INFO("LED Left (red): ");
+		hal->ledSet(LED_LEFT, true);
+		delay(4500);
+		hal->ledSet(LED_LEFT, false);
+		INFO("LED Midd (white): ");
+		hal->ledSet(LED_MIDD, true);
+		delay(4500);
+		hal->ledSet(LED_MIDD, false);
+		delay(4500);
 
 		INFO("Pattern for a Creme egg:")
 		signalEggType(EGG_MULTI, hal);

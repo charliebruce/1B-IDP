@@ -202,8 +202,8 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 	followLineToNext(24, false, false, h);
 
 	//In case we overshot the junction
-	reverseToJunction(h);
-	reverseJustBeyondJunction(h);
+	//Not necessary to reverseToJunction(h);
+	//Not necessary to reverseJustBeyondJunction(h);
 
 	//Line up straight (ie centre ourselves on the line)
 	//Probably not necessary if we have wide jaws: centreOnLine(h);
@@ -216,7 +216,7 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 
 	//Verify a good grab
 	if(!h->switchRead(SWITCH_EGG)) {
-		ERR("Failed to grab egg! Bad egg!");
+		ERR("Failed to grab egg! Bad egg! AAAAAAAAAH!");
 		//return;
 	}
 
