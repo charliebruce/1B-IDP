@@ -7,7 +7,7 @@
 
 #include "Navigation.h"
 
-#define LOGLEVEL LL_DEBUG
+#define LOGLEVEL LL_INFO
 
 #include "Log.h"
 
@@ -59,6 +59,13 @@ Navigation::Navigation() {
 	for(int i = 0; i<NUM_CP; i++) {
 		cpHasEgg[i] = true;
 	}
+
+	//If we have an issue, and have to reset after delivering an egg, set the relevant line(s) here and remake quickly
+	//cpHasEgg[0] = false;
+	//cpHasEgg[1] = false;
+	//cpHasEgg[2] = false;
+	//cpHasEgg[3] = false;
+	//cpHasEgg[4] = false;
 
 	//We start pointing EAST
 	setForwardsDirection(EAST);
@@ -220,7 +227,7 @@ void Navigation::collectEgg(COLLECTION_POINT cp, HAL* h) {
 		//return;
 	}
 
-	reverseToJunction(h);
+	//reverseToJunction(h);
 	reverseJustBeyondJunction(h);
 	reverseToJunction(h);
 
@@ -268,6 +275,13 @@ void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
 
 	//Approach the DP
 	junctionStraight(h);
+	
+	//Bump forward half a second
+	h->motorSet(MOTOR_LEFT, 0.7);
+	h->motorSet(MOTOR_RIGHT, 0.7);
+	delay(700);
+	h->motorSet(MOTOR_LEFT, 0.0);
+	h->motorSet(MOTOR_RIGHT, 0.0);
 
 	//Operate lift to lower position
 	h->carriageMove(POS_DOWN);
@@ -280,6 +294,9 @@ void Navigation::dropoffEgg(DROPOFF_POINT dp, HAL* h) {
 
 	//Reverse to junction
 	reverseToJunction(h);
+
+	//Stop the hold current
+	h->carriageMove(POS_DOWN);
 
 }
 

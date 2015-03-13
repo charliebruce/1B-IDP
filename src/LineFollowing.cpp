@@ -15,7 +15,7 @@
 
 #include "LineFollowing.h"
 
-#define LOGLEVEL LL_TRACE
+#define LOGLEVEL LL_INFO
 
 #include "Log.h"
 

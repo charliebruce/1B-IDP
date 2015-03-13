@@ -71,6 +71,12 @@ void MissionController::RunMission(MISSION objective) {
 	case WEEK1_TESTS:
 
 		INFO("[MC-W1] Performing Week 1 Tests.");
+
+		//Test U Turn
+		uTurn(hal);
+
+
+
 		
 		INFO("LED Left (red): ");
 		hal->ledSet(LED_LEFT, true);
