@@ -8,7 +8,7 @@
 
 #include "ObjectRecognition.h"
 
-#define LOGLEVEL LL_INFO
+#define LOGLEVEL LL_DEBUG
 
 #include "Log.h"
 
@@ -55,6 +55,10 @@ EGGTYPE identify(HAL* hal) {
 
 	static const int THR_LOW = (eggLowTyp + eggMedTyp) / 2;
 	static const int THR_HIGH = (eggMedTyp + eggHighTyp) / 2;
+	
+	//Ultra reflective egg
+	if(sc.intensity > 240)
+		return EGG_WHITE;
 
 	if(sb.intensity < THR_LOW)
 		return EGG_WHITE;
